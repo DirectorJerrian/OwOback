@@ -1,11 +1,27 @@
-### Java Spring template project
+# 软工3代码
 
-This project is based on a GitLab [Project Template](https://docs.gitlab.com/ee/gitlab-basics/create-project.html).
+## 项目结构
 
-Improvements can be proposed in the [original project](https://gitlab.com/gitlab-org/project-templates/spring).
+### 前端
 
-### CI/CD with Auto DevOps
+三幻神
 
-This template is compatible with [Auto DevOps](https://docs.gitlab.com/ee/topics/autodevops/).
+### 后端
 
-If Auto DevOps is not already enabled for this project, you can [turn it on](https://docs.gitlab.com/ee/topics/autodevops/#enabling-auto-devops) in the project settings.
+项目放在coin文件夹中
+
+#### bl
+
+业务层
+
+#### blimpl
+
+业务层接口
+
+#### controller
+
+控制器
+
+#### data
+
+数据结构
