@@ -11,3 +11,7 @@ CREATE TABLE `user` (
   `email` varchar(32) DEFAULT NULL ,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+INSERT INTO `user` (`id`,`username`,`password`,`email`) VALUES
+(1,'motherfucker','123123','123@qq.com'),
+(2,'motherfucker2','123321','123321@qq.com')
