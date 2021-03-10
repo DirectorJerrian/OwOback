@@ -1,5 +1,9 @@
 package com.example.coin.controller;
 
+import com.example.coin.po.User;
+import com.example.coin.service.UserService;
+import com.example.coin.serviceImpl.UserServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,6 +11,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class UserController {
+    @Autowired
+    UserServiceImpl userService;
+
     @RequestMapping("/hello")
     @ResponseBody
     public String hello() {
@@ -17,4 +24,12 @@ public class UserController {
     public String home() {
         return "home";
     }
+
+    @RequestMapping("/user")
+    @ResponseBody
+    public User user() {
+        return userService.getUserInfo(1);
+    }
+
+
 }
