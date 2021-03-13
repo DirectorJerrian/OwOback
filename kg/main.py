@@ -1,8 +1,8 @@
 import re
-import entity
-import relation
+import kg.entity
+import kg.relation
 import json
-import clear
+import kg.clear
 import json
 
 #选择语言
@@ -13,7 +13,7 @@ with open("test01.txt", 'r',encoding='UTF-8') as f:    #打开文件
 #根据语言去除乱码
 if language=="zh":
     #中文文本去除乱码
-    sentence=clear.split_by_sign(data)
+    sentence=kg.clear.split_by_sign(data)
     sentence=[x for x in sentence if len(x)>15]
     # data=data.replace("\u3000","")
     # data=data.replace(" ","")
@@ -23,7 +23,7 @@ if language=="zh":
     # sentence=[x for x in sentence if x!='' ]
 else:
     #英文文本去除乱码
-    new_data=clear.clean_text(data)
+    new_data=kg.clear.clean_text(data)
     sentence=new_data.split(".")
     sentence = [x for x in sentence if len(x) > 5]
 
@@ -38,8 +38,8 @@ relation_pairs=[]
 
 #读取实体和关系
 for string in sentence:
-    entity_pairs.append(entity.get_entities(string,language))
-    relation_pairs.append(relation.get_relation(string, language))
+    entity_pairs.append(kg.entity.get_entities(string,language))
+    relation_pairs.append(kg.relation.get_relation(string, language))
 
 i=0
 length=len(entity_pairs)
