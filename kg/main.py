@@ -59,26 +59,26 @@ for i in range(length):
 all_entities=list(set(all_entities))
 
 #所有实体存储在all_entities中，三元组中的关系存储在relation_pairs中，对象存储在entity_pairs中
-result="{data:["
-for i in range(len(all_entities)):
-    result=result+"{name:\'"+all_entities[i]+"\',des:\'nodedes"+str(i)+"\',symbolSize:50,category:1,}"
-    if i!=len(all_entities)-1:
-        result+=","
-result+="],links:["
-for i in range(length):
-    result = result + "{source:\'" + entity_pairs[i][0] + "\',target:\'" + entity_pairs[i][1]
-    result= result + "\',name:\'" + relation_pairs[i] + "\',des:\'link" + str(i) + "des\'}"
-    if i!=length-1:
-        result+=","
-result+="]}"
-print(result)
-# info1={}
-# data=json.loads(json.dumps(info1))
+#舍弃的规范处理
+# result="{data:["
 # for i in range(len(all_entities)):
-#     info={}
-#     temp=json.loads(json.dumps(info))
-#     temp["name"]=all_entities[i]
-#     temp["des"]="nodedes"+str(i)
-#     temp["symbolSize"]=50
-#     temp["category"]=1
-#     print(temp)
+#     result=result+"{name:\'"+all_entities[i]+"\',des:\'nodedes"+str(i)+"\',symbolSize:50,category:1,}"
+#     if i!=len(all_entities)-1:
+#         result+=","
+# result+="],links:["
+# for i in range(length):
+#     result = result + "{source:\'" + entity_pairs[i][0] + "\',target:\'" + entity_pairs[i][1]
+#     result= result + "\',name:\'" + relation_pairs[i] + "\',des:\'link" + str(i) + "des\'}"
+#     if i!=length-1:
+#         result+=","
+# result+="]}"
+# print(result)
+
+result="node\n"
+for i in range(len(all_entities)):
+    result=result+"name:"+all_entities[i]+" des:\'nodedes"+str(i)+" symbolSize:50 category:1\n"
+result+="links\n"
+for i in range(length):
+    result = result + "source:" + entity_pairs[i][0] + " target:" + entity_pairs[i][1]
+    result= result + " name:" + relation_pairs[i] + " des:link" + str(i) + "des\n"
+print(result)
