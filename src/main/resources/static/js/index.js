@@ -49,6 +49,12 @@ var links= [{
 }];
 //种类，存访各个种类的名字，与实体中的种类一一对应；
 var categories = [];
+//设置种类名
+for (var i = 0; i < 2; i++) {
+    categories[i] = {
+        name: '类目' + i
+    };
+}
 //图的配置
 option = {
     // 图的标题
@@ -147,7 +153,7 @@ const myChart = echarts.init(document.getElementById(chartElementId));
 function replaceNodeName(beforeName,afterName){
     //设定的名字是否已经存在于实体当中
     if(isNodeExist(afterName)){
-        alert("该名字已经存在");
+        chartEdit.nameExistAlarm();
     }
     //寻找目标实体修改名字
     for(var i=0;i<data.length;i++){
@@ -182,6 +188,30 @@ function isNodeExist(name) {
     return false;
 
 }
+function isLinkExist(name) {
+    for(var i=0;i<links.length;i++){
+        if(links[i].name===name){
+            return true;
+        }
+    }
+    return false;
+}
+//寻找该node名字的下标
+function findNodeIndex(name){
+    for(var i=0;i<data.length;i++){
+        if(data[i].name===name){
+            return i;
+        }
+    }
+}
+//寻找该link名字的下标
+function findLinkIndex(name){
+    for(var i=0;i<links.length;i++){
+        if(links[i].name===name){
+            return i;
+        }
+    }
+}
 //图标展示，将实体和链接重新赋值并展示
 function showChart(){
     option.series[0].data=data;
@@ -190,20 +220,119 @@ function showChart(){
 }
 //点击事件
 myChart.on('click',function (param) {
-    console.log(param);
-    var beforeName=param.name;
-    replaceNodeName(beforeName,'clicked');
-    showChart();
-})
 
+    console.log(param);
+
+    if(param.dataType=='edge'){
+        chartEdit.chosenType='link';
+        chartEdit.linkForm=param.data;
+        chartEdit.linkName=param.data.name;
+        chartEdit.linkDes=param.data.des;
+        chartEdit.linkSource=param.data.source;
+        chartEdit.linkTarget=param.data.target;
+
+    }else if(param.dataType=='node'){
+        chartEdit.chosenType='node';
+        chartEdit.nodeForm=param.data;
+        chartEdit.nodeName=param.data.name;
+        chartEdit.nodeDes=param.data.des;
+        chartEdit.nodeSymbolSize=param.data.symbolSize;
+        chartEdit.nodeCategory=categories[param.data.category].name;
+    }
+    chartEdit.dialogVisible=true;
+})
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+//图谱改变函数(包括实体和关系的删除和修改),改变后重新展示图谱
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+//////////////////////////////////////////////////////
+//删除实体
+function deleteNode(name){
+    //删除data中的实体
+    var nodeIndex=findNodeIndex(name);
+    data.splice(nodeIndex,1);
+    //删除links中包含此实体的关系
+    var newLinks=[];
+    for(var i=0;i<links.length;i++){
+        if(links[i].source!==name && links[i].target!==name){
+            newLinks.push(links[i]);
+        }
+    }
+    links=newLinks;
+    showChart();
+    chartEdit.successNotice();
+    return true;
+
+}
+//更改实体信息
+function changeNode(name,nodeForm) {
+    var nodeIndex=findNodeIndex(name);
+    if(data[nodeIndex].name===nodeForm.name && data[nodeIndex].category===nodeForm.category && data[nodeIndex].des===nodeForm.des && data[nodeIndex].symbolSize===nodeForm.symbolSize){
+        chartEdit.messageNotice("未作任何修改");
+        return false;
+    }
+    //实体名字重复，但可以和自己一样
+    var isOverlap=false;
+    for(var i=0;i<data.length;i++){
+        if(i===nodeIndex) continue;
+        else if(data[i].name===nodeForm.name){
+            isOverlap=true;
+            break;
+        }
+    }
+    if(isOverlap){
+        chartEdit.failureAlarm("实体名称重复，请重新修改！");
+        return false;
+    }
+    data[nodeIndex].name=nodeForm.name;
+    data[nodeIndex].des=nodeForm.des;
+    data[nodeIndex].symbolSize=parseInt(nodeForm.symbolSize);
+    //这边要做额外修改，先不动
+    data[nodeIndex].category=parseInt(nodeForm.category);
+    //将关系中的实体同样做修改
+    for(var i=0;i<links.length;i++){
+        if(links[i].source===name)links[i].source=nodeForm.name;
+        if(links[i].target===name)links[i].target=nodeForm.name;
+    }
+    showChart();
+    chartEdit.successNotice();
+    return true;
+}
+//创建实体
+function createNode(nodeForm) {
+//TODO
+}
+//删除关系
+function deleteLink(name) {
+    var linkIndex=findLinkIndex(name);
+    links.splice(linkIndex,1);
+    showChart();
+    chartEdit.successNotice();
+    return true;
+}
+//更改关系信息
+function changeLink(name,linkForm){
+    var linkIndex=findLinkIndex(name);
+    if(links[linkIndex].name===linkForm.name && links[linkIndex].des===linkForm.des){
+        chartEdit.messageNotice("未作任何修改");
+        return false;
+    }
+    links[linkIndex].name=linkForm.name;
+    links[linkIndex].des=linkForm.des;
+    showChart();
+    chartEdit.successNotice();
+    return true;
+}
+//创建关系
+function createLink(){
+//TODO
+}
 //
 //
 //////////////////////////////////////////////////////////////此段代码用于测试，真实实例中，需要根据实体数据赋予种类名字
-for (var i = 0; i < 2; i++) {
-    categories[i] = {
-        name: '类目' + i
-    };
-}
 console.log(123);
 option.series[0].data=data;
 option.series[0].links=links;
