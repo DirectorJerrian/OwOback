@@ -1,6 +1,6 @@
 spring:
   thymeleaf:
-    prefix: classpath:/web/
+    prefix: classpath:/static/html/
     suffix: .html
     mode: HTML5
     encoding: UTF-8
