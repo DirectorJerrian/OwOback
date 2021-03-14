@@ -37,9 +37,6 @@ public class WebController {
         return "index";
     }
 
-    @RequestMapping("/")
-    public User user() {
-        return userService.getUserInfo(1);
-    }
+
 
 }

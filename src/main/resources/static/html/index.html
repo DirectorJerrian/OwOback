@@ -51,10 +51,16 @@
                 <el-menu-item index="2-2" disabled>关系信息搜索</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
-        <el-menu-item index="3" disabled>
-            <i class="el-icon-document"></i>
-            <span slot="title">图谱信息</span>
-        </el-menu-item>
+        <el-submenu index="3" >
+            <template slot="title">
+                <i class="el-icon-location"></i>
+                <span slot="title">图谱</span>
+            </template>
+            <el-menu-item-group>
+                <el-menu-item index="3-1" @click="saveChartClick()">图谱保存</el-menu-item>
+                <el-menu-item index="3-2" disabled>图谱信息</el-menu-item>
+            </el-menu-item-group>
+        </el-submenu>
         <el-menu-item index="4" disabled>
             <i class="el-icon-setting"></i>
             <span slot="title">扩展功能</span>
@@ -155,6 +161,7 @@
 </style>
 <!-- 链接关键文件-->
 <script src="js/index.js"></script>
+<script src="js/api.js"></script>
 <script>
     var head=new Vue({
         el:'#head',
@@ -185,6 +192,9 @@
             linkClick(){
                 elementCreate.chosenType='link'
                 elementCreate.dialogVisible=true;
+            },
+            saveChartClick(){
+                saveChart();
             }
         }
 
