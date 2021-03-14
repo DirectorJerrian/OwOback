@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <title>OwO Login</title>
+    <meta content="author: 181250192 赵睿豪" name="description">
+    <link href="../logo.ico" rel="shortcut icon">
+    <link href="../css/OwORegisterStyle.css" rel="stylesheet">
+</head>
+<body>
+<div class="Page"><!-- to limit the minimum width-->
+    <div class="headerBackground">
+        <div class="header">
+            <a href="home.html"><h1 class="logo"><img alt="logo加载失败" src="../logo.png"></h1></a>
+            <h1 class="title">用&nbsp&nbsp&nbsp&nbsp户&nbsp&nbsp&nbsp&nbsp登&nbsp&nbsp&nbsp&nbsp录</h1>
+        </div>
+    </div>
+    <a href="home.html"><h1 class="home"><img alt="home加载失败" height="auto" src="../home.png" width="60px"></h1></a>
+    <!-- body -->
+    <div class="centerArea">
+        <div class="centerBox">
+            <div class="boxItem">
+                <form>
+                    <table class="loginTable">
+                        <tbody>
+                        <tr>
+                            <td align="right" class="lineOne" valign="top" width="300px"><label class="bothTable"
+                                                                                                for="t02Account">
+                                账号：</label></td>
+                            <td class="lineOne">
+                                <div class="myText"><input class="myTextInput" id="t02Account" maxlength="30"
+                                                           name="account" placeholder="请输入邮箱"
+                                                           required type="text"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right" valign="top"><label class="bothTable" for="t02Psw"> 密码：</label>
+                            </td>
+                            <td>
+                                <div class="myText">
+                                    <input class="myTextInput" id="t02Psw" maxlength="16" name="password"
+                                           placeholder="请输入密码" required type="password">
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <a class="myButton1" id="clickToLogin"><span>登录</span></a>
+                    <a class="myButton1 myButton3" href="Register.html" target="_blank"><span>注册</span></a>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!--/body -->
+</div>
+</body>
+<script src="../js/user.js" type="text/javascript"></script>
+<script src="https://cdn.bootcss.com/jquery/3.4.1/jquery.js"></script>
+<script src="../js/login.js" type="text/javascript"></script>
+</html>
