@@ -3,7 +3,6 @@ from spacy.matcher.matcher import Matcher
 
 #抽提句子关系，，V
 def get_relation(sent,language):
-
     if language=="zh":
         nlp = spacy.load('zh_core_web_sm')
     else:
