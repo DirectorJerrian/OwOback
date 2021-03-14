@@ -225,7 +225,10 @@ myChart.on('click',function (param) {
 
     if(param.dataType=='edge'){
         chartEdit.chosenType='link';
-        chartEdit.linkForm=param.data;
+        chartEdit.linkForm.name=param.data.name;
+        chartEdit.linkForm.des=param.data.des;
+        chartEdit.linkForm.source=param.data.source;
+        chartEdit.linkForm.target=param.data.target;
         chartEdit.linkName=param.data.name;
         chartEdit.linkDes=param.data.des;
         chartEdit.linkSource=param.data.source;
@@ -233,7 +236,10 @@ myChart.on('click',function (param) {
 
     }else if(param.dataType=='node'){
         chartEdit.chosenType='node';
-        chartEdit.nodeForm=param.data;
+        chartEdit.nodeForm.name=param.data.name;
+        chartEdit.nodeForm.des=param.data.des;
+        chartEdit.nodeForm.symbolSize=param.data.symbolSize;
+        chartEdit.nodeForm.category=param.data.category;
         chartEdit.nodeName=param.data.name;
         chartEdit.nodeDes=param.data.des;
         chartEdit.nodeSymbolSize=param.data.symbolSize;
