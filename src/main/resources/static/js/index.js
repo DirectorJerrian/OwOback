@@ -309,7 +309,25 @@ function changeNode(name,nodeForm) {
 }
 //创建实体
 function createNode(nodeForm) {
-//TODO
+    var name=nodeForm.name;
+    var des=nodeForm.des;
+    var symbolSize=parseInt(nodeForm.symbolSize);
+    var category=parseInt(nodeForm.category);
+    if(isNodeExist(name)){
+        elementCreate.failureAlarm("实体名称重复，请重新命名！")
+        return false;
+    }
+    var node={
+        name:name,
+        des:des,
+        symbolSize:symbolSize,
+        category:category
+    }
+    data.push(node);
+    console.log(data);
+    showChart();
+    elementCreate.successNotice();
+    return true;
 }
 //删除关系
 function deleteLink(name) {
@@ -333,8 +351,38 @@ function changeLink(name,linkForm){
     return true;
 }
 //创建关系
-function createLink(){
-//TODO
+function createLink(linkForm){
+    console.log(linkForm);
+    var name=linkForm.name;
+    var des=linkForm.des;
+    var source=linkForm.source;
+    var target=linkForm.target;
+    var nodeNotExistMessage='';
+    if(!isNodeExist(source)){
+        nodeNotExistMessage+="起点实体不存在!\n";
+    }
+    if(!isNodeExist(target)){
+        nodeNotExistMessage+='目标实体不存在!';
+    }
+    if(nodeNotExistMessage!==''){
+        elementCreate.failureAlarm(nodeNotExistMessage);
+        return false;
+    }
+    if(isLinkExist(source,target)){
+        elementCreate.failureAlarm("关系已经存在");
+        return false;
+    }
+    var link={
+        name:name,
+        des:des,
+        source:source,
+        target:target
+
+    }
+    links.push(link);
+    showChart();
+    elementCreate.successNotice();
+    return true;
 }
 //
 //
