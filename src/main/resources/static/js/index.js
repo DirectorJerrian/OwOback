@@ -225,7 +225,10 @@ myChart.on('click',function (param) {
 
     if(param.dataType=='edge'){
         chartEdit.chosenType='link';
-        chartEdit.linkForm=param.data;
+        chartEdit.linkForm.name=param.data.name;
+        chartEdit.linkForm.des=param.data.des;
+        chartEdit.linkForm.source=param.data.source;
+        chartEdit.linkForm.target=param.data.target;
         chartEdit.linkName=param.data.name;
         chartEdit.linkDes=param.data.des;
         chartEdit.linkSource=param.data.source;
@@ -233,7 +236,10 @@ myChart.on('click',function (param) {
 
     }else if(param.dataType=='node'){
         chartEdit.chosenType='node';
-        chartEdit.nodeForm=param.data;
+        chartEdit.nodeForm.name=param.data.name;
+        chartEdit.nodeForm.des=param.data.des;
+        chartEdit.nodeForm.symbolSize=param.data.symbolSize;
+        chartEdit.nodeForm.category=param.data.category;
         chartEdit.nodeName=param.data.name;
         chartEdit.nodeDes=param.data.des;
         chartEdit.nodeSymbolSize=param.data.symbolSize;
@@ -303,7 +309,25 @@ function changeNode(name,nodeForm) {
 }
 //创建实体
 function createNode(nodeForm) {
-//TODO
+    var name=nodeForm.name;
+    var des=nodeForm.des;
+    var symbolSize=parseInt(nodeForm.symbolSize);
+    var category=parseInt(nodeForm.category);
+    if(isNodeExist(name)){
+        elementCreate.failureAlarm("实体名称重复，请重新命名！")
+        return false;
+    }
+    var node={
+        name:name,
+        des:des,
+        symbolSize:symbolSize,
+        category:category
+    }
+    data.push(node);
+    console.log(data);
+    showChart();
+    elementCreate.successNotice();
+    return true;
 }
 //删除关系
 function deleteLink(name) {
@@ -327,8 +351,38 @@ function changeLink(name,linkForm){
     return true;
 }
 //创建关系
-function createLink(){
-//TODO
+function createLink(linkForm){
+    console.log(linkForm);
+    var name=linkForm.name;
+    var des=linkForm.des;
+    var source=linkForm.source;
+    var target=linkForm.target;
+    var nodeNotExistMessage='';
+    if(!isNodeExist(source)){
+        nodeNotExistMessage+="起点实体不存在!\n";
+    }
+    if(!isNodeExist(target)){
+        nodeNotExistMessage+='目标实体不存在!';
+    }
+    if(nodeNotExistMessage!==''){
+        elementCreate.failureAlarm(nodeNotExistMessage);
+        return false;
+    }
+    if(isLinkExist(source,target)){
+        elementCreate.failureAlarm("关系已经存在");
+        return false;
+    }
+    var link={
+        name:name,
+        des:des,
+        source:source,
+        target:target
+
+    }
+    links.push(link);
+    showChart();
+    elementCreate.successNotice();
+    return true;
 }
 //
 //
