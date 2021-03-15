@@ -15,41 +15,7 @@ var newCode=function () {
     }
 };
 var jsName=regName.value,jsMail=regMail.value,jsCode=regCode.value,jsPassword=regPassword.value,jsPassword2=regPassword2.value;
-const addAccount=function(usn,eml,psw) {
-    $.ajax({
-        type:"post",
-        url:"http://localhost/api/user/register",
-        data:JSON.stringify({
-            name:usn,
-            mail:eml,
-            password:psw,
-        }),
-        success:function(data){
-            console.log(data);
-            if (data==="end") {
-                setCookie(usn, eml);
-                setTimeout("location.href=\"home.html\";", "100");
-            }
-        }
-    });
-};
-const sendCode=function(eml,cdk) {
-    $.ajax({
-        type:"post",
-        url:"http://localhost/api/user/code",
-        data:{
-            "email":eml,
-            "code":cdk
-        },
-        success:function(data){
-            if (data==="success") {
-                alert("验证码已发送，请检查邮箱！");
-            }else {
-                alert("验证码发送失败，请检查网络情况！");
-            }
-        }
-    });
-};
+
 const registerClicked=function () {
     jsName=regName.value,jsMail=regMail.value,jsCode=regCode.value,jsPassword=regPassword.value,jsPassword2=regPassword2.value;
     var pureNum = new RegExp("^[0-9]*$");
@@ -70,7 +36,7 @@ const registerClicked=function () {
     }else if(jsPassword!==jsPassword2){
         alert("两次密码不一致！");
     }else{
-        addAccount(jsName,jsMail,jsPassword);
+        addAccountAPI(jsName,jsMail,jsPassword);
     }
 };
 const codeClicked=function () {
@@ -81,7 +47,7 @@ const codeClicked=function () {
         alert("请输入正确的邮箱！");
     }else{
         newCode();
-        sendCode(jsMail,rightCode);
+        sendCodeAPI(jsMail,rightCode);
     }
 };
 if (regButton.addEventListener)
