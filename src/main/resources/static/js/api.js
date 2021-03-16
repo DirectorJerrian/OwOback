@@ -63,17 +63,17 @@ const verifyAccount=function(eml,psw) {
         url:"/api/user/login",
         contentType: "application/json;charset=utf-8",
         data:JSON.stringify({
-            mail:eml,
+            email:eml,
             password:psw,
         }),
         dataType: "json",
         success:function(response){
             console.log(response.msg);
-            if (response.msg!=="") {
-                setCookie(response.msg, eml);
+            if (response.msg!=="login failure") {
+                setCookie(response.msg, eml,600000);
                 setTimeout("location.href=\"index\";", 100);
             }else{
-                alert("登录失败，请检查账号密码或重新点击登录！")
+                alert("登录失败，请检查账号密码或重新登录！")
             }
         }
     });

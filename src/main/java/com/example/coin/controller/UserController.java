@@ -2,6 +2,7 @@ package com.example.coin.controller;
 
 import com.example.coin.serviceImpl.UserServiceImpl;
 import com.example.coin.vo.CodeVO;
+import com.example.coin.vo.LoginVO;
 import com.example.coin.vo.ResponseVO;
 import com.example.coin.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class UserController {
 
     @PostMapping("/login")
     @ResponseBody
-    public ResponseVO login() {
-        return userService.verifyPwd(new CodeVO());
+    public ResponseVO login(@RequestBody LoginVO loginVO) {
+        return userService.verifyPwd(loginVO);
     }
 }

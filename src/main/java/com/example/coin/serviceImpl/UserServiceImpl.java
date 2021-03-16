@@ -5,19 +5,16 @@ import com.example.coin.data.UserMapper;
 import com.example.coin.po.User;
 import com.example.coin.service.UserService;
 import com.example.coin.vo.CodeVO;
+import com.example.coin.vo.LoginVO;
 import com.example.coin.vo.ResponseVO;
 import com.example.coin.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.mail.MessagingException;
 import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.util.Date;
 import java.util.Properties;
 
@@ -28,11 +25,11 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserMapper userMapper;
 
-    public User getUserInfo(String email){
+    public User getUserInfo(String email) {
         return userMapper.getUserInfo(email);
     }
 
-    public ResponseVO sendCode(CodeVO codeVO){
+    public ResponseVO sendCode(CodeVO codeVO) {
         try {
             System.out.println("1");
             Properties props = new Properties();                // 参数配置
@@ -59,26 +56,38 @@ public class UserServiceImpl implements UserService {
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
             System.out.println("1");
-        }catch(Exception e){
+        } catch (Exception e) {
             return ResponseVO.success("failure");
         }
         return ResponseVO.success("success");
     }
 
-    public ResponseVO addAccount(UserVO userVO){
-        User user= UserConverter.INSTANCE.v2p(userVO);
-        User test=getUserInfo(user.getEmail());
-        if (test!=null){
-            return ResponseVO.failure("Account exist");
-        }
-        try{
+    public ResponseVO addAccount(UserVO userVO) {
+        User user = UserConverter.INSTANCE.v2p(userVO);
+        try {
+            User test = getUserInfo(user.getEmail());
+            if (test != null) {
+                return ResponseVO.failure("Account exist");
+            }
             userMapper.addUser(user);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.failure("register failure");
         }
         return ResponseVO.success("register success");
     }
 
-    public ResponseVO verifyPwd(CodeVO codeVO){return ResponseVO.success("");};
+    public ResponseVO verifyPwd(LoginVO loginVO) {
+        try {
+            User test = getUserInfo(loginVO.getEmail());
+            if (!test.getPassword().equals(loginVO.getPassword())){
+                return ResponseVO.failure("login failure");
+            }else {
+                return ResponseVO.success(test.getUsername());
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseVO.failure("login failure");
+        }
+    }
 }

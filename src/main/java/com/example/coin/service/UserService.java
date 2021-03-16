@@ -3,6 +3,7 @@ package com.example.coin.service;
 import com.example.coin.data.UserMapper;
 import com.example.coin.po.User;
 import com.example.coin.vo.CodeVO;
+import com.example.coin.vo.LoginVO;
 import com.example.coin.vo.ResponseVO;
 import com.example.coin.vo.UserVO;
 import com.sun.org.apache.bcel.internal.classfile.Code;
@@ -17,5 +18,5 @@ public interface UserService {
     User getUserInfo(String email);
     ResponseVO sendCode(CodeVO codeVO);
     ResponseVO addAccount(UserVO userVO);
-    ResponseVO verifyPwd(CodeVO codeVO);
+    ResponseVO verifyPwd(LoginVO loginVO);
 }
