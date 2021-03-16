@@ -1,9 +1,12 @@
 package com.example.coin.serviceImpl;
 
+import com.example.coin.Converter.UserConverter;
 import com.example.coin.data.UserMapper;
 import com.example.coin.po.User;
 import com.example.coin.service.UserService;
 import com.example.coin.vo.CodeVO;
+import com.example.coin.vo.ResponseVO;
+import com.example.coin.vo.UserVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,12 +32,12 @@ public class UserServiceImpl implements UserService {
         return userMapper.getUserInfo(id);
     }
 
-    public String sendCode(CodeVO codeVO){
+    public ResponseVO sendCode(CodeVO codeVO){
         try {
             System.out.println("1");
             Properties props = new Properties();                // 参数配置
             props.setProperty("mail.transport.protocol", "smtp");   // 协议
-            props.setProperty("mail.smtp.host", "qq.126.com");   // SMTP服务器地址
+            props.setProperty("mail.smtp.host", "smtp.qq.com");   // SMTP服务器地址
             props.setProperty("mail.smtp.auth", "true");            // 需要请求认证
             Session session = Session.getInstance(props);        // 创建会话对象
             session.setDebug(true);
@@ -57,8 +60,21 @@ public class UserServiceImpl implements UserService {
             transport.close();
             System.out.println("1");
         }catch(Exception e){
-            return "failure";
+            return ResponseVO.success("failure");
         }
-        return "success";
+        return ResponseVO.success("success");
     }
+
+    public ResponseVO addAccount(UserVO userVO){
+        User user= UserConverter.INSTANCE.v2p(userVO);
+        try{
+            userMapper.addUser(user);
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseVO.failure("register failure");
+        }
+        return ResponseVO.success("register success");
+    }
+
+    public ResponseVO verifyPwd(CodeVO codeVO){return ResponseVO.success("");};
 }

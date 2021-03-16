@@ -13,5 +13,9 @@
     <select id="getUserInfo" resultMap="User">
         select * from user where id=#{id}
     </select>
+    <insert id="addUser" parameterType="com.example.coin.po.User" useGeneratedKeys="true" keyProperty="id">
+        insert into user(username, password, email)
+               values(#{username}, #{password}, #{email})
+    </insert>
 
 </mapper>

@@ -12,21 +12,22 @@ function saveChartAPI(nodeList,linkList) {
 }
 
 const addAccountAPI=function(usn, eml, psw) {
+    console.log({usn,eml,psw})
     $.ajax({
         type:"post",
         url:"/api/user/register",
         contentType: "application/json;charset=utf-8",
         dataType: "json",
         data:JSON.stringify({
-            name:usn,
-            mail:eml,
+            username:usn,
+            email:eml,
             password:psw,
         }),
         success:function(response){
             console.log(response.msg);
             if (response.msg==="end") {
                 setCookie(usn, eml);
-                setTimeout("location.href=\"home.html\";", 100);
+                setTimeout("location.href=\"login.html\";", 100);
             }
         }
     });
@@ -37,10 +38,10 @@ const sendCodeAPI=function(eml, cdk) {
         type:"post",
         url:"/api/user/code",
         contentType: "application/json;charset=utf-8",
-        data:{
-            "email":eml,
-            "code":cdk
-        },
+        data:JSON.stringify({
+            email:eml,
+            code:cdk,
+        }),
         dataType: "json",
         success:function(response){
             if (response.msg==="success") {
@@ -66,7 +67,7 @@ const verifyAccount=function(eml,psw) {
             console.log(response.msg);
             if (response.msg!=="") {
                 setCookie(response.msg, eml);
-                setTimeout("location.href=\"home.html\";", 100);
+                setTimeout("location.href=\"index.html\";", 100);
             }else{
                 alert("登录失败，请检查账号密码或重新点击登录！")
             }
