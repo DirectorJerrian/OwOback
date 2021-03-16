@@ -57,8 +57,9 @@
                 <span slot="title">图谱</span>
             </template>
             <el-menu-item-group>
-                <el-menu-item index="3-1" @click="saveChartClick()">图谱保存</el-menu-item>
-                <el-menu-item index="3-2" disabled>图谱信息</el-menu-item>
+                <el-menu-item index="3-1" @click="saveChartClick()">保存到我的图谱</el-menu-item>
+                <el-menu-item index="3-2" @click="chartXMLDownloadClick()">图谱XML导出</el-menu-item>
+                <el-menu-item index="3-3" @click="chartImgDownloadClick()">图谱图片导出</el-menu-item>
             </el-menu-item-group>
         </el-submenu>
         <el-menu-item index="4" disabled>
@@ -195,7 +196,20 @@
             },
             saveChartClick(){
                 saveChart();
-            }
+            },
+            chartXMLDownloadClick(){
+                chartXMLDownload();
+            },
+            chartImgDownloadClick(){
+                ChartImgDownload();
+            },
+            successNotice(msg) {
+                this.$notify({
+                    title: '成功',
+                    message: msg,
+                    type: 'success'
+                });
+            },
         }
 
     });

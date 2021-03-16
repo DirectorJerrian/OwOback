@@ -77,11 +77,11 @@ option = {
             },
             // 还原
             restore: {
-                show: true
+                show: false
             },
             // 保存为图片
             saveAsImage: {
-                show: true
+                show: false
             }
         }
     },
@@ -396,7 +396,64 @@ myChart.setOption(option);
 //数据交互函数//////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
 //////////////////////////////////////////////////////////////
-//////////////////////////////////////////////////////////////
 function saveChart() {
     saveChartAPI(data,links);
+}
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//文件导出函数//////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//xml文件导出
+function charToXMLText(){
+    var res='<?xml version="1.0" encoding="utf-8" standalone="no"?>';
+    res+="<chart>";
+    ////////////////////
+    //添加实体
+    res+="<data>";
+    for(var i=0;i<data.length;i++){
+        res+="<node>";
+        res+="<name>"+data[i].name+"</name>";
+        res+="<des>"+data[i].des+"</des>";
+        res+="<symbolSize>"+data[i].symbolSize+"</symbolSize>";
+        res+="<category>"+data[i].category+"</category>";
+        res+="</node>";
+    }
+    res+="</data>";
+    ///////////////////
+    res+="<links>";
+    for(var i=0;i<links.length;i++){
+        res+="<link>";
+        res+="<source>"+links[i].source+"</source>";
+        res+="<target>"+links[i].target+"</target>";
+        res+="<name>"+links[i].name+"</name>>";
+        res+="<des>"+links[i].des+"</des>";
+        res+="</link>";
+    }
+    res+="</links>";
+    //添加关系
+    //////////////////
+    res+="</chart>";
+    return res;
+}
+function chartXMLDownload(){
+    const XMLText=charToXMLText();
+    const ele = document.createElement('a');// 创建下载链接
+    ele.download ="MyChart.xml"
+    ele.style.display = 'none';// 隐藏的可下载链接
+    const blob = new Blob([XMLText]);
+    ele.href = URL.createObjectURL(blob);
+    document.body.appendChild(ele);
+    ele.click();
+    document.body.removeChild(ele);
+}
+//图片导出
+function ChartImgDownload(){
+    var canvas = $("#"+"chart").find("canvas").first()[0];
+    var ctx = canvas.getContext('2d');
+    var url=canvas.toDataURL();
+    var link = document.createElement('a');
+    link.href = url;
+    link.download = "MyChart.png";
+    link.click();
 }

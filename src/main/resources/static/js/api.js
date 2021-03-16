@@ -6,7 +6,9 @@ function saveChartAPI(nodeList,linkList) {
         dataType: "json",
         data: JSON.stringify({nodeList:nodeList,linkList:linkList}),
          success: function (response) {
-            console.log(response.msg);
+            if(response.res==="success"){
+                menu.successNotice(response.msg);
+            }
         },
     });
 }
