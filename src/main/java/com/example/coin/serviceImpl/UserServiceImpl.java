@@ -28,8 +28,8 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserMapper userMapper;
 
-    public User getUserInfo(int id){
-        return userMapper.getUserInfo(id);
+    public User getUserInfo(String email){
+        return userMapper.getUserInfo(email);
     }
 
     public ResponseVO sendCode(CodeVO codeVO){
@@ -67,6 +67,10 @@ public class UserServiceImpl implements UserService {
 
     public ResponseVO addAccount(UserVO userVO){
         User user= UserConverter.INSTANCE.v2p(userVO);
+        User test=getUserInfo(user.getEmail());
+        if (test!=null){
+            return ResponseVO.failure("Account exist");
+        }
         try{
             userMapper.addUser(user);
         }catch (Exception e){

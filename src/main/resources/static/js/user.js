@@ -1,6 +1,9 @@
-function setCookie(name, email) {
+function setCookie(name, email, time) {
     let cookie = "name" + "=" + name + ";";
     cookie = cookie + "email" + "=" + email+ ";";
+    let exp = new Date();
+    exp.setTime(exp.getTime() + time);
+    cookie = cookie + ";expires=" + exp.toGMTString() + ";path=/";
     document.cookie = cookie;
 }
 function getCookie(cname) {
@@ -15,5 +18,5 @@ function getCookie(cname) {
     return "";
 }
 function clearCookie() {
-    setCookie("illegal","illegal@a.com")
+    setCookie("illegal","illegal@a.com",0)
 }

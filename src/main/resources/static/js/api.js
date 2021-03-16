@@ -25,9 +25,13 @@ const addAccountAPI=function(usn, eml, psw) {
         }),
         success:function(response){
             console.log(response.msg);
-            if (response.msg==="end") {
-                setCookie(usn, eml);
-                setTimeout("location.href=\"login.html\";", 100);
+            if (response.msg==="register success") {
+                setCookie(usn, eml,600000);
+                setTimeout("location.href=\"index\";", 100);
+            }else if (response.msg==="Account exist"){
+                alert("该邮箱已被使用！")
+            }else{
+                alert("注册失败！请检查网络！")
             }
         }
     });
@@ -67,7 +71,7 @@ const verifyAccount=function(eml,psw) {
             console.log(response.msg);
             if (response.msg!=="") {
                 setCookie(response.msg, eml);
-                setTimeout("location.href=\"index.html\";", 100);
+                setTimeout("location.href=\"index\";", 100);
             }else{
                 alert("登录失败，请检查账号密码或重新点击登录！")
             }
