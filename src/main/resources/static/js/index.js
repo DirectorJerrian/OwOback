@@ -137,6 +137,8 @@ option = {
         categories: categories,
     }]
 };
+//图是否固定
+var isFixed=false;
 //表所放在网页中的地址
 const chartElementId='chart';
 //用于保存图的数据对象
@@ -218,6 +220,24 @@ function showChart(){
     option.series[0].links=links;
     myChart.setOption(option);
 }
+//固定知识图谱
+function fixChart(){
+    isFixed=true;
+    var option=myChart.getOption();
+    for(var i=0;i<data.length;i++){
+        option.series[0].data[i].fixed=true;
+    }
+    myChart.setOption(option);
+}
+//灵活知识图谱
+function flexibleChart(){
+    isFixed=false;
+    var option=myChart.getOption();
+    for(var i=0;i<data.length;i++){
+        option.series[0].data[i].fixed=false;
+    }
+    myChart.setOption(option);
+}
 //点击事件
 myChart.on('click',function (param) {
 
@@ -247,6 +267,14 @@ myChart.on('click',function (param) {
     }
     chartEdit.dialogVisible=true;
 })
+//拖拽处理
+myChart.on('mouseup',function(params){
+    var option=myChart.getOption();
+    option.series[0].data[params.dataIndex].x=params.event.offsetX;
+    option.series[0].data[params.dataIndex].y=params.event.offsetY;
+    option.series[0].data[params.dataIndex].fixed=isFixed;
+    myChart.setOption(option);
+});
 //////////////////////////////////////////////////////
 //////////////////////////////////////////////////////
 //////////////////////////////////////////////////////
