@@ -17,6 +17,7 @@ public class ChartController {
     @Autowired
     ChartServiceImpl chartService;
 
+
     @RequestMapping(value = "/saveChart",method = RequestMethod.POST)
     @ResponseBody
     public ResponseVO saveChart(@RequestBody ChartVO chartVO){
