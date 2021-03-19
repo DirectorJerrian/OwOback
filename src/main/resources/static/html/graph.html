@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ECharts 关系图</title>
+    <script src="../js/jquery-3.5.1.js"></script>
+    <!-- 引入echarts框架 -->
+    <script src="../js/echarts.min.js"></script>
+    <!-- 引入element-ui -->
+    <link rel="stylesheet" type="text/css" href="../css/elementUi.css">
+    <link rel="stylesheet" type="text/css" href="../css/index.css">
+    <script src="../js/vue.js"></script>
+    <script src="../js/elementUi.js"></script>
+
+    <!-- 设置编码-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+</head>
+<body>
+<div id="head">
+    <el-menu
+            :default-active="activeIndex"
+            class="el-menu-demo"
+            mode="horizontal"
+            @select="handleSelect"
+            background-color="#545c64"
+            text-color="#fff"
+            active-text-color="#ffd04b">
+        <el-menu-item index="1">知识图谱处理</el-menu-item>
+        <el-menu-item index="2" disabled>我的知识图谱</el-menu-item>
+        <el-menu-item index="3" disabled>我的信息</el-menu-item>
+    </el-menu>
+</div>
+<div id="menu">
+    <el-menu default-active="1-4-1" class="el-menu-vertical-demo" >
+        <el-submenu index="1">
+            <template slot="title">
+                <i class="el-icon-location"></i>
+                <span slot="title">实体</span>
+            </template>
+            <el-menu-item-group>
+                <el-menu-item index="1-1" @click="nodeClick()">增加实体</el-menu-item>
+                <el-menu-item index="1-2" disabled>实体信息搜索</el-menu-item>
+            </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="2">
+            <template slot="title">
+                <i class="el-icon-location"></i>
+                <span slot="title">关系</span>
+            </template>
+            <el-menu-item-group>
+                <el-menu-item index="2-1" @click="linkClick()">增加关系</el-menu-item>
+                <el-menu-item index="2-2" disabled>关系信息搜索</el-menu-item>
+            </el-menu-item-group>
+        </el-submenu>
+        <el-submenu index="3" >
+            <template slot="title">
+                <i class="el-icon-location"></i>
+                <span slot="title">图谱</span>
+            </template>
+            <el-menu-item-group>
+                <el-menu-item index="3-1" @click="saveChartClick()">保存到我的图谱</el-menu-item>
+                <el-menu-item index="3-2" @click="chartXMLDownloadClick()">图谱XML导出</el-menu-item>
+                <el-menu-item index="3-3" @click="chartImgDownloadClick()">图谱图片导出</el-menu-item>
+                <el-menu-item index="3-4" @click="fixChartClick()">图谱固定</el-menu-item>
+                <el-menu-item index="3-5" @click="flexibleChartClick()">解除图谱固定</el-menu-item>
+            </el-menu-item-group>
+        </el-submenu>
+        <el-menu-item index="4" disabled>
+            <i class="el-icon-setting"></i>
+            <span slot="title">扩展功能</span>
+        </el-menu-item>
+    </el-menu>
+
+</div>
+<div id="chart"></div>
+<div id="chartEdit">
+    <el-dialog
+            :title="this.getDialogTitle()"
+            :visible.sync="dialogVisible"
+            width="30%"
+    >
+        <el-form ref="form" :model="nodeForm" label-width="80px" v-if="this.isNode()">
+            <el-form-item label="实体名称" >
+                <el-input v-model="nodeForm.name" :placeholder="nodeName"></el-input>
+            </el-form-item>
+            <el-form-item label="实体描述" >
+                <el-input v-model="nodeForm.des" :placeholder="nodeDes"></el-input>
+            </el-form-item>
+            <el-form-item label="实体大小" >
+                <el-slider v-model="nodeForm.symbolSize"></el-slider>
+                <!--                    <el-input v-model="nodeForm.symbolSize" :placeholder="nodeSymbolSize"></el-input>-->
+            </el-form-item>
+            <el-form-item label="实体种类" >
+                <el-input v-model="nodeForm.category" :placeholder="nodeCategory"></el-input>
+            </el-form-item>
+        </el-form>
+        <el-form ref="form" :model="linkForm" label-width="80px" v-if="!this.isNode()">
+            <el-form-item label="关系名称" >
+                <el-input v-model="linkForm.name" :placeholder="linkName"></el-input>
+            </el-form-item>
+            <el-form-item label="起点实体" >
+                <el-input v-model="linkForm.source" :placeholder="linkSource" disabled></el-input>
+            </el-form-item>
+            <el-form-item label="终点实体" >
+                <el-input v-model="linkForm.target" :placeholder="linkTarget" disabled></el-input>
+            </el-form-item>
+            <el-form-item label="关系描述" >
+                <el-input v-model="linkForm.des" :placeholder="linkDes"></el-input>
+            </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取消</el-button>
+                <el-button type="primary" @click="change_handleClose">修改</el-button>
+                <el-button type="danger" @click="delete_handleClose">删除</el-button>
+            </span>
+    </el-dialog>
+</div>
+<div id="elementCreate">
+    <el-dialog
+            :title="this.getDialogTitle()"
+            :visible.sync="dialogVisible"
+            width="30%"
+    >
+        <el-form ref="form" :model="nodeForm" label-width="80px" v-if="this.isNode()">
+            <el-form-item label="实体名称" >
+                <el-input v-model="nodeForm.name" :placeholder="nodeName"></el-input>
+            </el-form-item>
+            <el-form-item label="实体描述" >
+                <el-input v-model="nodeForm.des" :placeholder="nodeDes"></el-input>
+            </el-form-item>
+            <el-form-item label="实体大小" >
+                <el-slider v-model="nodeForm.symbolSize"></el-slider>
+                <!--                    <el-input v-model="nodeForm.symbolSize" :placeholder="nodeSymbolSize"></el-input>-->
+            </el-form-item>
+            <el-form-item label="实体种类" >
+                <el-input v-model="nodeForm.category" :placeholder="nodeCategory"></el-input>
+            </el-form-item>
+        </el-form>
+        <el-form ref="form" :model="linkForm" label-width="80px" v-if="!this.isNode()">
+            <el-form-item label="关系名称" >
+                <el-input v-model="linkForm.name" :placeholder="linkName"></el-input>
+            </el-form-item>
+            <el-form-item label="起点实体" >
+                <el-input v-model="linkForm.source" :placeholder="linkSource"></el-input>
+            </el-form-item>
+            <el-form-item label="终点实体" >
+                <el-input v-model="linkForm.target" :placeholder="linkTarget"></el-input>
+            </el-form-item>
+            <el-form-item label="关系描述" >
+                <el-input v-model="linkForm.des" :placeholder="linkDes"></el-input>
+            </el-form-item>
+        </el-form>
+        <span slot="footer" class="dialog-footer">
+                <el-button @click="dialogVisible = false">取消</el-button>
+                <el-button type="primary" @click="create_handleClose()">增加</el-button>
+            </span>
+    </el-dialog>
+</div>
+</body>
+<style>
+    .el-menu-vertical-demo:not(.el-menu--collapse) {
+        width: 200px;
+        min-height: 400px;
+    }
+</style>
+<!-- 链接关键文件-->
+<script src="js/index.js"></script>
+<script src="js/api.js"></script>
+<script>
+    var head=new Vue({
+        el:'#head',
+        data:function() {
+            return {
+                activeIndex: '1',
+
+            };
+        },
+        methods: {
+            handleSelect(key, keyPath) {
+                console.log(key, keyPath);
+            }
+        }
+    });
+    var menu=new Vue({
+        el:'#menu',
+        data() {
+            return {
+                isCollapse: true
+            };
+        },
+        methods: {
+            nodeClick(){
+                elementCreate.chosenType='node'
+                elementCreate.dialogVisible=true;
+            },
+            linkClick(){
+                elementCreate.chosenType='link'
+                elementCreate.dialogVisible=true;
+            },
+            saveChartClick(){
+                saveChart();
+            },
+            chartXMLDownloadClick(){
+                chartXMLDownload();
+            },
+            chartImgDownloadClick(){
+                ChartImgDownload();
+            },
+            fixChartClick(){
+                fixChart();
+            },
+            flexibleChartClick(){
+                flexibleChart();
+            },
+            successNotice(msg) {
+                this.$notify({
+                    title: '成功',
+                    message: msg,
+                    type: 'success'
+                });
+            },
+        }
+
+    });
+    var chartEdit=new Vue({
+        el:'#chartEdit',
+        data:function() {
+            return {
+                dialogVisible: false,
+                chosenType:'',
+                nodeName:'',
+                nodeDes:'',
+                nodeSymbolSize:'',
+                nodeCategory:'',
+                linkName:'',
+                linkDes:'',
+                linkSource:'',
+                linkTarget:'',
+                nodeForm:{
+                    name:'',
+                    des:'',
+                    symbolSize:'',
+                    category:'',
+                },
+                linkForm:{
+                    name:'',
+                    des:'',
+                    source:'',
+                    target:'',
+                }
+
+
+            };
+        },
+        methods: {
+            isNode(){
+                if(this.chosenType==='node') return true;
+                else return false;
+            },
+            getDialogTitle(){
+                if(this.chosenType==='node') return "实体编辑";
+                else return "关系编辑";
+            },
+            change_handleClose(done) {
+                this.$confirm('确认更改？')
+                    .then(_ => {
+                        var isFinish=false;
+                        if(this.isNode()){
+                            isFinish=changeNode(this.nodeName,this.nodeForm);
+                        }else{
+                            isFinish=changeLink(this.linkName,this.linkForm);
+                        }
+                        if(isFinish) this.dialogVisible=false;
+                    })
+                    .catch(_ => {
+
+                    });
+            },
+            delete_handleClose(done) {
+                this.$confirm('确认删除？')
+                    .then(_ => {
+                        var isFinish=false;
+                        if(this.isNode()){
+                            isFinish=deleteNode(this.nodeName);
+                        }else{
+                            isFinish=deleteLink(this.linkName);
+                        }
+                        if(isFinish) this.dialogVisible=false;
+
+                    })
+                    .catch(_ => {
+
+                    });
+            },
+            failureAlarm(info) {
+                this.$notify({
+                    title: '警告',
+                    message: info,
+                    type: 'warning'
+                });
+            },
+            successNotice() {
+                this.$notify({
+                    title: '成功',
+                    message: '修改成功！',
+                    type: 'success'
+                });
+            },
+            messageNotice(info) {
+                this.$notify.info({
+                    title: '消息',
+                    message: info,
+                });
+            },
+
+        }
+    })
+    var elementCreate=new Vue({
+        el:'#elementCreate',
+        data:function() {
+            return {
+                dialogVisible: false,
+                chosenType:'',
+                nodeName:'',
+                nodeDes:'',
+                nodeSymbolSize:'',
+                nodeCategory:'',
+                linkName:'',
+                linkDes:'',
+                linkSource:'',
+                linkTarget:'',
+                nodeForm:{
+                    name:'',
+                    des:'',
+                    symbolSize:'',
+                    category:'',
+                },
+                linkForm:{
+                    name:'',
+                    des:'',
+                    source:'',
+                    target:'',
+                }
+
+
+            };
+        },
+        methods: {
+            isNode(){
+                if(this.chosenType==='node') return true;
+                else return false;
+            },
+            getDialogTitle(){
+                if(this.chosenType==='node') return "实体增加";
+                else return "关系增加";
+            },
+            create_handleClose(done) {
+                this.$confirm('确认增加？')
+                    .then(_ => {
+                        var isFinish=false;
+                        if(this.isNode()){
+                            isFinish=createNode(this.nodeForm);
+                        }else{
+                            isFinish=createLink(this.linkForm);
+                        }
+                        if(isFinish) {
+                            this.nodeForm.name='';
+                            this.nodeForm.category='';
+                            this.nodeForm.symbolSize=0;
+                            this.nodeForm.des='';
+                            this.linkForm.name='';
+                            this.linkForm.target='';
+                            this.linkForm.source='';
+                            this.linkForm.des='';
+                            this.dialogVisible=false;
+                        }
+                    })
+                    .catch(_ => {
+
+                    });
+            },
+            failureAlarm(info) {
+                this.$notify({
+                    title: '警告',
+                    message: info,
+                    type: 'warning'
+                });
+            },
+            successNotice() {
+                this.$notify({
+                    title: '成功',
+                    message: '增加成功！',
+                    type: 'success'
+                });
+            },
+            messageNotice(info) {
+                this.$notify.info({
+                    title: '消息',
+                    message: info,
+                });
+            },
+
+        }
+    })
+</script>
+</html>
+

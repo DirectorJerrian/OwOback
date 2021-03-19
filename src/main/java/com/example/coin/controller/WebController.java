@@ -1,6 +1,5 @@
 package com.example.coin.controller;
 
-import com.example.coin.po.User;
 import com.example.coin.serviceImpl.UserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,17 +23,17 @@ public class WebController {
 
     @RequestMapping("/register")
     public String registerPage() {
-        return "Register";
+        return "register";
     }
 
     @RequestMapping("/login")
     public String loginPage() {
-        return "Login";
+        return "index";
     }
 
     @RequestMapping("/index")
     public String index() {
-        return "index";
+        return "graph";
     }
 
 
