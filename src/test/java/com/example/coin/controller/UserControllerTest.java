@@ -32,8 +32,8 @@ public class UserControllerTest {
         codeVO.setCode("testCode");
         codeVO.setEmail("181250192@smail.nju.edu.cn");
 
-        loginVO.setEmail("test@gmail.com");
-        loginVO.setPassword("123456");
+        loginVO.setEmail("123@qq.com");
+        loginVO.setPassword("123123");
     }
 
     @Test
