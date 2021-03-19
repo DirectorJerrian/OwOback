@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
             transport.close();
             System.out.println("1");
         } catch (Exception e) {
-            return ResponseVO.success("failure");
+            return ResponseVO.failure("failure");
         }
         return ResponseVO.success("success");
     }

@@ -20,7 +20,7 @@ public class UserController {
     @PostMapping("/code")
     @ResponseBody
     public ResponseVO code(@RequestBody CodeVO codeVO) {
-        System.out.println(codeVO.getCode());
+        if (codeVO!=null){System.out.println(codeVO.getCode());}
         return userService.sendCode(codeVO);
     }
 
