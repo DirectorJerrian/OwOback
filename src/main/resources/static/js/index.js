@@ -1,52 +1,116 @@
 //实体数据
 var data=[{
-    name: 'node01',
+    name: '足球运动员',
     des: 'nodedes01',
-    symbolSize: 70,
-    category: 0,
+    symbolSize: 50,
+    category: 1,
 }, {
-    name: 'node02',
+    name: '皇家马德里',
     des: 'nodedes02',
     symbolSize: 50,
     category: 1,
 }, {
-    name: 'node03',
+    name: '葡萄牙',
     des: 'nodedes3',
     symbolSize: 50,
     category: 1,
 }, {
-    name: 'node04',
+    name: '运动员',
     des: 'nodedes04',
     symbolSize: 50,
     category: 1,
 }, {
-    name: 'node05',
+    name: 'C罗',
     des: 'nodedes05',
     symbolSize: 50,
+    category: 0,
+}, {
+    name: '人物',
+    des: 'nodedes06',
+    symbolSize: 50,
     category: 1,
-}];
+}, {
+    name: '金球奖',
+    des: 'nodedes07',
+    symbolSize: 50,
+    category: 0,
+}, {
+    name: '奖项',
+    des: 'nodedes08',
+    symbolSize: 50,
+    category: 1,
+}, {
+    name: '《法国足球》',
+    des: 'nodedes09',
+    symbolSize: 50,
+    category: 1,
+}, {
+    name: '影响力大的足球奖项评选之一',
+    des: 'nodedes10',
+    symbolSize: 50,
+    category: 1,
+}
+
+];
 //关系数据
 var links= [{
-    source: 'node01',
-    target: 'node02',
-    name: 'link01',
+    source: '足球运动员',
+    target: '运动员',
+    name: 'sybclass of',
     des: 'link01des'
 }, {
-    source: 'node01',
-    target: 'node03',
-    name: 'link02',
+    source: 'C罗',
+    target: '足球运动员',
+    name: 'instance of',
     des: 'link02des'
 }, {
-    source: 'node01',
-    target: 'node04',
-    name: 'link03',
+    source: 'C罗',
+    target: '皇家马德里',
+    name: '效力球队',
     des: 'link03des'
 }, {
-    source: 'node01',
-    target: 'node05',
-    name: 'link04',
+    source: 'C罗',
+    target: '葡萄牙',
+    name: '国籍',
+    des: 'link04des'
+}, {
+    source: 'C罗',
+    target: '运动员',
+    name: 'instance of',
     des: 'link05des'
-}];
+}, {
+    source: '运动员',
+    target: '人物',
+    name: 'subclass of',
+    des: 'link06des'
+}, {
+    source: 'C罗',
+    target: '人物',
+    name: 'instance of',
+    des: 'link07des'
+}, {
+    source: 'C罗',
+    target: '金球奖',
+    name: '获得奖项',
+    des: 'link08des'
+}, {
+    source: '金球奖',
+    target: '奖项',
+    name: 'instance of',
+    des: 'link09des'
+}, {
+    source: '金球奖',
+    target: '《法国足球》',
+    name: '举办单位',
+    des: 'link10des'
+}, {
+    source: '金球奖',
+    target: '影响力大的足球奖项评选之一',
+    name: '地位',
+    des: 'link11des'
+}
+
+];
 //种类，存访各个种类的名字，与实体中的种类一一对应；
 var categories = [];
 //设置种类名
