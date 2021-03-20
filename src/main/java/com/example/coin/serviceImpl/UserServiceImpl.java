@@ -30,8 +30,11 @@ public class UserServiceImpl implements UserService {
     }
 
     public ResponseVO sendCode(CodeVO codeVO) {
+        if (codeVO==null){
+            return ResponseVO.failure("source is null");
+        }
         try {
-            System.out.println("1");
+            //System.out.println("1");
             Properties props = new Properties();                // 参数配置
             props.setProperty("mail.transport.protocol", "smtp");   // 协议
             props.setProperty("mail.smtp.host", "smtp.qq.com");   // SMTP服务器地址
@@ -63,6 +66,9 @@ public class UserServiceImpl implements UserService {
     }
 
     public ResponseVO addAccount(UserVO userVO) {
+        if (userVO==null){
+            return ResponseVO.failure("source is null");
+        }
         User user = UserConverter.INSTANCE.v2p(userVO);
         try {
             User test = getUserInfo(user.getEmail());
@@ -78,6 +84,9 @@ public class UserServiceImpl implements UserService {
     }
 
     public ResponseVO verifyPwd(LoginVO loginVO) {
+        if (loginVO==null){
+            return ResponseVO.failure("source is null");
+        }
         try {
             User test = getUserInfo(loginVO.getEmail());
             if (!test.getPassword().equals(loginVO.getPassword())){

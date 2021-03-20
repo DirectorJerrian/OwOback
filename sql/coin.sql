@@ -13,5 +13,5 @@ CREATE TABLE `user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 INSERT INTO `user` (`id`,`username`,`password`,`email`) VALUES
-(1,'motherfucker','123123','123@qq.com'),
+(1,'Test','123123','123@qq.com'),
 (2,'motherfucker2','123321','123321@qq.com')

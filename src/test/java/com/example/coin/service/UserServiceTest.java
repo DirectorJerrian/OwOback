@@ -1,4 +1,4 @@
-package com.example.coin.controller;
+package com.example.coin.service;
 
 import com.example.coin.vo.*;
 import org.junit.Assert;
@@ -11,34 +11,45 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class UserControllerTest {
+public class UserServiceTest {
     @Autowired
-    UserController userController;
+    UserService userService;
 
-    static UserVO userVO;
+    static UserVO userVO1;
+    static UserVO userVO2;
     static CodeVO codeVO;
-    static LoginVO loginVO;
+    static LoginVO loginVO1;
+    static LoginVO loginVO2;
 
     @BeforeClass
     public static void init() {
-        userVO = new UserVO();
+        userVO1 = new UserVO();
+        userVO2 = new UserVO();
         codeVO = new CodeVO();
-        loginVO = new LoginVO();
+        loginVO1 = new LoginVO();
+        loginVO2 = new LoginVO();
 
-        userVO.setEmail("test@gmail.com");
-        userVO.setPassword("123456");
-        userVO.setUsername("registerTest");
+        userVO1.setEmail("test2@gmail.com");
+        userVO1.setPassword("123456");
+        userVO1.setUsername("registerTest");
+
+        userVO2.setEmail("123@qq.com");
+        userVO2.setPassword("123456");
+        userVO2.setUsername("registerTest");
 
         codeVO.setCode("testCode");
         codeVO.setEmail("181250192@smail.nju.edu.cn");
 
-        loginVO.setEmail("123@qq.com");
-        loginVO.setPassword("123123");
+        loginVO1.setEmail("123@qq.com");
+        loginVO1.setPassword("123123");
+
+        loginVO2.setEmail("123@qq.com");
+        loginVO2.setPassword("123456");
     }
 
     @Test
     public void registerTest1() {
-        ResponseVO responseVO = userController.register(userVO);
+        ResponseVO responseVO = userService.addAccount(userVO1);
         String res = responseVO.getRes();
         String msg = responseVO.getMsg();
         Assert.assertEquals("success", res);
@@ -47,16 +58,16 @@ public class UserControllerTest {
 
     @Test
     public void registerTest2() {
-        ResponseVO responseVO = userController.register(null);
+        ResponseVO responseVO = userService.addAccount(userVO2);
         String res = responseVO.getRes();
         String msg = responseVO.getMsg();
         Assert.assertEquals("failure", res);
-        Assert.assertEquals("source is null", msg);
+        Assert.assertEquals("Account exist", msg);
     }
 
     @Test
     public void codeTest1() {
-        ResponseVO responseVO = userController.code(codeVO);
+        ResponseVO responseVO = userService.sendCode(codeVO);
         String res = responseVO.getRes();
         String msg = responseVO.getMsg();
         Assert.assertEquals("success", res);
@@ -65,7 +76,7 @@ public class UserControllerTest {
 
     @Test
     public void codeTest2() {
-        ResponseVO responseVO = userController.code(null);
+        ResponseVO responseVO = userService.sendCode(null);
         String res = responseVO.getRes();
         String msg = responseVO.getMsg();
         Assert.assertEquals("failure", res);
@@ -74,7 +85,7 @@ public class UserControllerTest {
 
     @Test
     public void loginTest1() {
-        ResponseVO responseVO = userController.login(loginVO);
+        ResponseVO responseVO = userService.verifyPwd(loginVO1);
         String res = responseVO.getRes();
         String msg = responseVO.getMsg();
         Assert.assertEquals("success", res);
@@ -83,10 +94,10 @@ public class UserControllerTest {
 
     @Test
     public void loginTest2() {
-        ResponseVO responseVO = userController.login(null);
+        ResponseVO responseVO = userService.verifyPwd(loginVO2);
         String res = responseVO.getRes();
         String msg = responseVO.getMsg();
         Assert.assertEquals("failure", res);
-        Assert.assertEquals("source is null", msg);
+        Assert.assertEquals("login failure", msg);
     }
 }
