@@ -39,6 +39,10 @@ public class UserServiceImpl implements UserService {
             props.setProperty("mail.transport.protocol", "smtp");   // 协议
             props.setProperty("mail.smtp.host", "smtp.qq.com");   // SMTP服务器地址
             props.setProperty("mail.smtp.auth", "true");            // 需要请求认证
+			props.setProperty("mail.smtp.port", "465");  
+			props.setProperty("mail.debug","true");  
+			props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+			props.put("mail.smtp.socketFactory.port", "465");
             Session session = Session.getInstance(props);        // 创建会话对象
             session.setDebug(true);
             MimeMessage message = new MimeMessage(session);     // 创建邮件对象
