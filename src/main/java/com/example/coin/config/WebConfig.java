@@ -21,14 +21,14 @@ public class WebConfig extends WebMvcConfigurerAdapter {
     }
 
     private static String[] originsVal = new String[]{
-            "localhost:6000",
-            "127.0.0.1:6000",
-            "localhost:6001",
-            "127.0.0.1:6001",
+            "localhost:80",
+            "127.0.0.1:80",
+            "localhost:81",
+            "127.0.0.1:81",
             "127.0.0.1",
             "localhost",
             "172.19.144.143",
-            "172.19.144.143:6000"
+            "172.19.144.143:80"
     };
 
     @Bean
