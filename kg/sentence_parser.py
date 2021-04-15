@@ -6,7 +6,7 @@ from pyltp import Segmentor, Postagger, Parser, NamedEntityRecognizer, SementicR
 class LtpParser:
     def __init__(self):
         #该地址需要自行设置，指向ltp数据包
-        LTP_DIR = "../../ltp_data_v3.4.0"
+        LTP_DIR = "./../ltp_data_v3.4.0"
         self.segmentor = Segmentor()
         self.segmentor.load(os.path.join(LTP_DIR, "cws.model"))
 
