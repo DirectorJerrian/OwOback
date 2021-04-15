@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 # coding: utf-8
-import os
+import io
 import sys
+
+sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8')
+sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
 from triple_extraction import *
 if __name__ == '__main__':
     data=sys.argv[1]
