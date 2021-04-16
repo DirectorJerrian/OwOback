@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserMapper {
     int addUser(User user);
+    User getUserInfoById(int id);
     User getUserInfo(String email);
 }

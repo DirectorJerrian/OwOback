@@ -1,5 +1,6 @@
 package com.example.coin.controller;
 
+import com.example.coin.po.User;
 import com.example.coin.serviceImpl.UserServiceImpl;
 import com.example.coin.vo.CodeVO;
 import com.example.coin.vo.LoginVO;
@@ -34,5 +35,15 @@ public class UserController {
     @ResponseBody
     public ResponseVO login(@RequestBody LoginVO loginVO) {
         return userService.verifyPwd(loginVO);
+    }
+
+    @GetMapping("/{id}/getUserInfo")
+    @ResponseBody
+    public ResponseVO getUserInfo(@PathVariable int id) {
+        User user = userService.getUserInfo(id);
+        if(user==null){
+            return ResponseVO.failure("用户信息错误");
+        }
+        return ResponseVO.success(user);
     }
 }

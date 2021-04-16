@@ -25,6 +25,10 @@ public class UserServiceImpl implements UserService {
     @Autowired
     UserMapper userMapper;
 
+    public User getUserInfo(int id) {
+        return userMapper.getUserInfoById(id);
+    }
+
     public User getUserInfo(String email) {
         return userMapper.getUserInfo(email);
     }
@@ -92,11 +96,11 @@ public class UserServiceImpl implements UserService {
             return ResponseVO.failure("source is null");
         }
         try {
-            User test = getUserInfo(loginVO.getEmail());
-            if (!test.getPassword().equals(loginVO.getPassword())){
+            User user = getUserInfo(loginVO.getEmail());
+            if (!user.getPassword().equals(loginVO.getPassword())){
                 return ResponseVO.failure("login failure");
             }else {
-                return ResponseVO.success(test.getUsername());
+                return ResponseVO.success(user);
             }
         }catch (Exception e){
             e.printStackTrace();
