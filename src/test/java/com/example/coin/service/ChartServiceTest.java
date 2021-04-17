@@ -2,6 +2,7 @@ package com.example.coin.service;
 
 import com.example.coin.data.ChartMapper;
 import com.example.coin.po.Chart;
+import com.example.coin.serviceImpl.ChartServiceImpl;
 import com.example.coin.vo.ChartVO;
 import com.example.coin.vo.ResponseVO;
 import org.junit.Assert;
@@ -11,9 +12,11 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.LinkedList;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -21,7 +24,7 @@ public class ChartServiceTest {
     private static String SAVE_CHART_SUCCESS="成功保存该知识图谱";
     private static String SAVE_CHART_NULL_FAILURE="知识图谱信息错误，无法保存";
     @InjectMocks
-    ChartService chartService;
+    ChartServiceImpl chartServiceImpl;
     @Mock
     ChartMapper chartMapper;
 
@@ -49,7 +52,7 @@ public class ChartServiceTest {
 
     @Test
     public void saveChartTest2(){
-        ResponseVO responseVO=chartService.saveChart(0,null);
+        ResponseVO responseVO= chartServiceImpl.saveChart(0,null);
         String res=responseVO.getRes();
         String msg=responseVO.getMsg();
         Assert.assertEquals(res,"failure");
@@ -58,9 +61,24 @@ public class ChartServiceTest {
     }
 
     @Test
-    public void saveChartTest1(){
+    public void getAllChartsTest1(){
+        List<Chart> chartList=new LinkedList<>();
         Chart chart=new Chart();
-        Mockito.when(chartMapper.addChart(Mockito.any(Chart.class))).thenReturn(null);
-//        ResponseVO responseVO=chartService.saveChart();
+        chart.setJsonURL("1234");
+        chart.setUserId(0);
+        chart.setXmlURL("1234");
+        chartList.add(chart);
+        Mockito.when(chartMapper.getAllCharts()).thenReturn(chartList);
+        List<ChartVO> chartVOList= chartServiceImpl.getAllCharts();
+        Assert.assertEquals(chartVOList.get(0).getJsonURL(),"1234");
+        Assert.assertEquals(chartVOList.get(0).getXmlURL(),"1234");
+        Assert.assertEquals(chartVOList.get(0).getUserId(),0);
+    }
+
+    @Test
+    public void getAllChartsTest2(){
+        Mockito.when(chartMapper.getAllCharts()).thenReturn(null);
+        List<ChartVO> chartVOList= chartServiceImpl.getAllCharts();
+        Assert.assertEquals(chartVOList,null);
     }
 }
