@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.coin.data.ChartMapper">
+    <resultMap id="Chart" type="com.example.coin.po.Chart">
+        <id column="id" property="id"></id>
+        <result column="userId" property="userId"></result>
+        <result column="jsonURL" property="jsonURL"></result>
+        <result column="xmlURL" property="xmlURL"></result>
+    </resultMap>
+    <select id="getAllCharts" resultMap="Chart">
+        select * from chart
+    </select>
+    <select id="getUserCharts" resultMap="Chart">
+        select * from chart where userId=#{userId}
+    </select>
+    <insert id="addChart" parameterType="com.example.coin.po.Chart" useGeneratedKeys="true" keyProperty="id">
+        insert into chart(userId,jsonURL,xmlURL)
+        values(#{userId},#{jsonURL},#{xmlURL})
+    </insert>
+    <select id="getChartById" resultMap="Chart">
+        select * from chart where id=#{id}
+    </select>
+</mapper>
