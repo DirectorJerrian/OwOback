@@ -45,8 +45,7 @@
 //                        node.addProperty("symbol","rectangle");
 //                    else
 //                        node.addProperty("symbol","diamond");
-//                    String ran_symbolSize=r.nextInt(30)+"";
-//                    node.addProperty("symbolSize",ran_symbolSize);
+//                    node.addProperty("symbolSize",30);
 //                    node.addProperty("type","highlight");
 //                    JsonObject color=new JsonObject();
 //                    node.add("itemStyle",color);

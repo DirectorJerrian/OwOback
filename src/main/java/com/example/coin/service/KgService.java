@@ -1,5 +1,8 @@
 package com.example.coin.service;
 
+import com.example.coin.vo.DataVO;
+import com.example.coin.vo.ResponseVO;
+
 public interface KgService {
-    String getTriple(String file);
+    ResponseVO getTriple(DataVO dataVO);
 }
