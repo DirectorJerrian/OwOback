@@ -19,13 +19,13 @@ CREATE TABLE `chart` (
     `userId` int NOT NULL ,
     `jsonURL` varchar(255) DEFAULT NULL ,
     `xmlURL` varchar(255) DEFAULT NULL ,
-    PRIMARY KEY ('id')
+    PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 INSERT INTO `user` (`id`,`username`,`password`,`email`) VALUES
 (1,'Test','123123','123@qq.com'),
-(2,'motherfucker2','123321','123321@qq.com')
+(2,'motherfucker2','123321','123321@qq.com');
 
-INSERT INTO 'chart' ('id','userId','jsonURL','xmlURL') VALUES
+INSERT INTO `chart` (`id`,`userId`,`jsonURL`,`xmlURL`) VALUES
 (1,1,'http://software-engineering-iii.oss-cn-hangzhou.aliyuncs.com/chartJson/chart%20with%20positon.json','http://software-engineering-iii.oss-cn-hangzhou.aliyuncs.com/chartXml/chart%20with%20position.xml'),
 (2,1,'http://software-engineering-iii.oss-cn-hangzhou.aliyuncs.com/chartJson/chart%20no%20postion.json','http://software-engineering-iii.oss-cn-hangzhou.aliyuncs.com/chartXml/chart%20no%20position.xml')
