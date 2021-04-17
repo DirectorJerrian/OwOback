@@ -14,11 +14,11 @@ CREATE TABLE `user` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
-CREATE TABLE 'chart' (
-    'id' int NOT NULL AUTO_INCREMENT,
-    'userId' int NOT NULL ,
-    'jsonURL' varchar(255) DEFAULT NULL ,
-    'xmlURL' varchar(255) DEFAULT NULL ,
+CREATE TABLE `chart` (
+    `id` int NOT NULL AUTO_INCREMENT,
+    `userId` int NOT NULL ,
+    `jsonURL` varchar(255) DEFAULT NULL ,
+    `xmlURL` varchar(255) DEFAULT NULL ,
     PRIMARY KEY ('id')
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
