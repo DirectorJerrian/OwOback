@@ -16,20 +16,19 @@ public class UserControllerTest {
     UserController userController;
 
     static UserVO userVO;
-    static CodeVO codeVO;
+    static String code;
     static LoginVO loginVO;
 
     @BeforeClass
     public static void init() {
         userVO = new UserVO();
-        codeVO = new CodeVO();
         loginVO = new LoginVO();
 
         userVO.setEmail("test@gmail.com");
         userVO.setPassword("123456");
         userVO.setUsername("registerTest");
 
-        codeVO.setEmail("181250192@smail.nju.edu.cn");
+        code="181250192@smail.nju.edu.cn";
 
         loginVO.setEmail("123@qq.com");
         loginVO.setPassword("123123");
@@ -55,7 +54,7 @@ public class UserControllerTest {
 
     @Test
     public void codeTest1() {
-        ResponseVO responseVO = userController.code(codeVO);
+        ResponseVO responseVO = userController.code(code);
         String res = responseVO.getRes();
         String msg = responseVO.getMsg();
         Assert.assertEquals("success", res);

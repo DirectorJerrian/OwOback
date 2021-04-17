@@ -16,7 +16,7 @@ import java.io.UnsupportedEncodingException;
 public interface UserService {
     User getUserInfo(int id);
     User getUserInfo(String email);
-    ResponseVO sendCode(CodeVO codeVO);
+    ResponseVO sendCode(String email);
     ResponseVO addAccount(UserVO userVO);
     ResponseVO verifyPwd(LoginVO loginVO);
 }

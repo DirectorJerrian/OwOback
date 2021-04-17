@@ -18,10 +18,10 @@ public class UserController {
     UserServiceImpl userService;
 
 
-    @PostMapping("/code")
+    @GetMapping("/{email}//code")
     @ResponseBody
-    public ResponseVO code(@RequestBody CodeVO codeVO) {
-        return userService.sendCode(codeVO);
+    public ResponseVO code(@PathVariable String email) {
+        return userService.sendCode(email);
     }
 
     @PostMapping("/register")

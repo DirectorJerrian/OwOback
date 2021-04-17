@@ -17,7 +17,7 @@ public class UserServiceTest {
 
     static UserVO userVO1;
     static UserVO userVO2;
-    static CodeVO codeVO;
+    static String code;
     static LoginVO loginVO1;
     static LoginVO loginVO2;
 
@@ -25,7 +25,6 @@ public class UserServiceTest {
     public static void init() {
         userVO1 = new UserVO();
         userVO2 = new UserVO();
-        codeVO = new CodeVO();
         loginVO1 = new LoginVO();
         loginVO2 = new LoginVO();
 
@@ -37,7 +36,7 @@ public class UserServiceTest {
         userVO2.setPassword("123456");
         userVO2.setUsername("registerTest");
 
-        codeVO.setEmail("181250192@smail.nju.edu.cn");
+        code="181250192@smail.nju.edu.cn";
 
         loginVO1.setEmail("123@qq.com");
         loginVO1.setPassword("123123");
@@ -66,7 +65,7 @@ public class UserServiceTest {
 
     @Test
     public void codeTest1() {
-        ResponseVO responseVO = userService.sendCode(codeVO);
+        ResponseVO responseVO = userService.sendCode(code);
         String res = responseVO.getRes();
         String msg = responseVO.getMsg();
         Assert.assertEquals("success", res);

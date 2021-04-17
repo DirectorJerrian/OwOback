@@ -34,8 +34,8 @@ public class UserServiceImpl implements UserService {
         return userMapper.getUserInfo(email);
     }
 
-    public ResponseVO sendCode(CodeVO codeVO) {
-        if (codeVO==null){
+    public ResponseVO sendCode(String email) {
+        if (email==null){
             return ResponseVO.failure("source is null");
         }
         Code code=new Code();
@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
             // From
             message.setFrom(new InternetAddress("462211353@qq.com", "OwO", "UTF-8"));
             // To
-            message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(codeVO.getEmail(), "OwO 新用户", "UTF-8"));
+            message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(email, "OwO 新用户", "UTF-8"));
             // 主题
             message.setSubject("OwO 注册验证码", "UTF-8");
             // 正文
