@@ -37,7 +37,6 @@ public class UserServiceTest {
         userVO2.setPassword("123456");
         userVO2.setUsername("registerTest");
 
-        codeVO.setCode("testCode");
         codeVO.setEmail("181250192@smail.nju.edu.cn");
 
         loginVO1.setEmail("123@qq.com");

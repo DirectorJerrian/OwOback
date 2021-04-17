@@ -2,6 +2,7 @@ package com.example.coin.serviceImpl;
 
 import com.example.coin.Converter.UserConverter;
 import com.example.coin.data.UserMapper;
+import com.example.coin.po.Code;
 import com.example.coin.po.User;
 import com.example.coin.service.UserService;
 import com.example.coin.vo.CodeVO;
@@ -37,7 +38,15 @@ public class UserServiceImpl implements UserService {
         if (codeVO==null){
             return ResponseVO.failure("source is null");
         }
+        Code code=new Code();
         try {
+            StringBuilder newCode= new StringBuilder();
+            String all="0123456789abcdefghijklmnopqrstuvwxyz0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+            for (int i=0;i<6;i++){
+                int num=(int)(Math.random()*82);
+                newCode.append(all.charAt(num));
+            }
+            code.setCode(newCode.toString());
             //System.out.println("1");
             Properties props = new Properties();                // 参数配置
             props.setProperty("mail.transport.protocol", "smtp");   // 协议
@@ -60,7 +69,7 @@ public class UserServiceImpl implements UserService {
             message.setContent("\n\n" +
                     "            <p>欢迎来到 OwO</p>\n" +
                     "            <p>您的网站账户注册验证码是：</p>\n" +
-                    "        <span style=\"font-size: 24px; color: red\">" + codeVO.getCode() + "</span>", "text/html;charset=UTF-8");
+                    "        <span style=\"font-size: 24px; color: red\">" + newCode + "</span>", "text/html;charset=UTF-8");
             message.setSentDate(new Date());
             Transport transport = session.getTransport();
             transport.connect("462211353@qq.com", "ogvxvcgzwucccagd");
@@ -70,7 +79,7 @@ public class UserServiceImpl implements UserService {
         } catch (Exception e) {
             return ResponseVO.failure("failure");
         }
-        return ResponseVO.success("success");
+        return ResponseVO.success(code);
     }
 
     public ResponseVO addAccount(UserVO userVO) {
