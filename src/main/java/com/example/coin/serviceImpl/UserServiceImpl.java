@@ -90,14 +90,14 @@ public class UserServiceImpl implements UserService {
         try {
             User test = getUserInfo(user.getEmail());
             if (test != null) {
-                return ResponseVO.failure("Account exist");
+                return ResponseVO.failure("该邮箱已被使用！");
             }
             userMapper.addUser(user);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseVO.failure("register failure");
         }
-        return ResponseVO.success("register success");
+        return ResponseVO.success(user);
     }
 
     public ResponseVO verifyPwd(LoginVO loginVO) {

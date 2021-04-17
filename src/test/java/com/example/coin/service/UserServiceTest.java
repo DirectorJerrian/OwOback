@@ -60,7 +60,7 @@ public class UserServiceTest {
         String res = responseVO.getRes();
         String msg = responseVO.getMsg();
         Assert.assertEquals("failure", res);
-        Assert.assertEquals("Account exist", msg);
+        Assert.assertEquals("该邮箱已被使用！", msg);
     }
 
     @Test

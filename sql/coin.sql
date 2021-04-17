@@ -3,6 +3,7 @@ CREATE DATABASE /*!32312 IF NOT EXISTS*/`coin` /*!40100 DEFAULT CHARACTER SET ut
 USE `coin`;
 
 DROP TABLE IF EXISTS `user`;
+DROP TABLE IF EXISTS `chart`;
 
 CREATE TABLE `user` (
   `id` int NOT NULL AUTO_INCREMENT,
@@ -10,6 +11,14 @@ CREATE TABLE `user` (
   `password` varchar(32) DEFAULT NULL ,
   `email` varchar(32) DEFAULT NULL ,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+CREATE TABLE 'chart' (
+    'id' int NOT NULL AUTO_INCREMENT,
+    'user_id' int NOT NULL ,
+    'jsonURL' varchar(255) DEFAULT NULL ,
+    'xmlURL' varchar(255) DEFAULT NULL ,
+    PRIMARY KEY ('id')
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 INSERT INTO `user` (`id`,`username`,`password`,`email`) VALUES
