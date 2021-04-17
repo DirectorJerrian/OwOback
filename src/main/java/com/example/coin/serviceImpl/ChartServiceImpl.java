@@ -1,29 +1,60 @@
 package com.example.coin.serviceImpl;
 
+import com.example.coin.Converter.ChartConverter;
+import com.example.coin.data.ChartMapper;
+import com.example.coin.po.Chart;
 import com.example.coin.service.ChartService;
 import com.example.coin.vo.ChartVO;
-import com.example.coin.vo.LinkVO;
-import com.example.coin.vo.NodeVO;
 import com.example.coin.vo.ResponseVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 @Service
 public class ChartServiceImpl implements ChartService {
-    private static String SAVE_CHART_SUCCESS="成功保存该知识图谱";
-    private static String SAVE_CHART_NULL_FAILURE="知识图谱信息错误，无法保存";
-    public ResponseVO saveChart(ChartVO chartVO){
-        if(chartVO==null)return ResponseVO.failure(SAVE_CHART_NULL_FAILURE);
-        else if(chartVO.getLinkList()==null || chartVO.getNodeList()==null){
-            return ResponseVO.failure(SAVE_CHART_NULL_FAILURE);
+    @Autowired
+    ChartMapper chartMapper;
+
+    @Override
+    public ResponseVO saveChart(int id, MultipartFile file) {
+        if (file == null) {
+            return ResponseVO.failure("source is null");
         }
-//        System.out.print(chartVO.getLinkList().get(0).getName());
-//        System.out.print(chartVO.getLinkList().get(1).getName());
-//        System.out.print(chartVO.getLinkList().get(2).getName());
-//        System.out.print(chartVO.getLinkList().get(3).getName());
-        //TODO
-        //保存到数据库
-        return ResponseVO.success(SAVE_CHART_SUCCESS);
+        ChartVO chartVO=new ChartVO();
+        Chart chart = ChartConverter.INSTANCE.v2p(chartVO);
+        try {
+            chartMapper.addChart(chart);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.failure("图谱保存失败");
+        }
+        return ResponseVO.success(chartVO);
+    }
+
+    @Override
+    public List<ChartVO> getAllCharts() {
+        try {
+            return ChartConverter.INSTANCE.p2v(chartMapper.getAllCharts());
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
+    public List<ChartVO> getUserCharts(int userId) {
+        return null;
+    }
+
+    @Override
+    public ChartVO getChartById(int id) {
+        return null;
+    }
+
+    @Override
+    public ResponseVO deleteChart(int id) {
+        return null;
     }
 }

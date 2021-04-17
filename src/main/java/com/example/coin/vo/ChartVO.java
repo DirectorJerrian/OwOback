@@ -1,25 +1,32 @@
 package com.example.coin.vo;
 
-import java.util.List;
-
 public class ChartVO {
-    List<NodeVO> nodeList;
-    List<LinkVO> linkList;
-    public List<NodeVO> getNodeList() {
-        return nodeList;
+
+    int userId;
+    String jsonURL;
+    String xmlURL;
+
+    public int getUserId() {
+        return userId;
     }
 
-    public void setNodeList(List<NodeVO> nodeList) {
-        this.nodeList = nodeList;
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
-    public List<LinkVO> getLinkList() {
-        return linkList;
+    public String getJsonURL() {
+        return jsonURL;
     }
 
-    public void setLinkList(List<LinkVO> linkList) {
-        this.linkList = linkList;
+    public void setJsonURL(String jsonURL) {
+        this.jsonURL = jsonURL;
     }
 
+    public String getXmlURL() {
+        return xmlURL;
+    }
 
+    public void setXmlURL(String xmlURL) {
+        this.xmlURL = xmlURL;
+    }
 }
