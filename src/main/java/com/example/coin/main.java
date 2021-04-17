@@ -1,6 +1,7 @@
 //package com.example.coin;
 //
 //import java.io.*;
+//import java.util.Random;
 //
 //import com.example.coin.service.KgService;
 //import com.google.gson.JsonArray;
@@ -24,6 +25,7 @@
 //            proc = Runtime.getRuntime().exec("python36 ./kg/main.py "+str2);
 //            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 //            String line = null;
+//            Random r=new Random(1);
 //            while ((line = in.readLine()) != null) {
 //                if (line.equals("links")){
 //                    change=true;
@@ -34,16 +36,25 @@
 //                    JsonObject node=new JsonObject();
 //                    node.addProperty("name",line);
 //                    node.addProperty("des","nodedes"+numOfNodes);
-//                    node.addProperty("symbol","circle");
-//                    node.addProperty("symbolSize","70");
+//                    int ran_symbol=r.nextInt(100);
+//                    if (ran_symbol<25)
+//                        node.addProperty("symbol","circle");
+//                    else if (ran_symbol<50)
+//                        node.addProperty("symbol","triangle");
+//                    else if (ran_symbol<75)
+//                        node.addProperty("symbol","rectangle");
+//                    else
+//                        node.addProperty("symbol","diamond");
+//                    String ran_symbolSize=r.nextInt(30)+"";
+//                    node.addProperty("symbolSize",ran_symbolSize);
 //                    node.addProperty("type","highlight");
 //                    JsonObject color=new JsonObject();
-//                    color.addProperty("color","#5470c6");
 //                    node.add("itemStyle",color);
 //                    JsonObject frontSize=new JsonObject();
 //                    frontSize.addProperty("frontSize",12);
 //                    node.add("label",frontSize);
-//                    node.addProperty("category",0);
+//                    int ran_Category=r.nextInt(10);
+//                    node.addProperty("category",ran_Category);
 //
 //                    nodes.add(node);
 //                }
