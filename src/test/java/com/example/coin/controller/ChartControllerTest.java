@@ -32,7 +32,7 @@ public class ChartControllerTest {
     ChartServiceImpl chartServiceImpl;
 
 
-     static ChartVO chartVO;
+    static ChartVO chartVO;
 
     @BeforeClass
     public static void setChart(){
@@ -83,7 +83,6 @@ public class ChartControllerTest {
         ResponseVO responseVO=chartController.getUserCharts(1);
         Assert.assertEquals(responseVO.getRes(),"success");
         Assert.assertEquals(responseVO.getObj(),chartVOList);
-
     }
 
     @Test
@@ -191,6 +190,4 @@ public class ChartControllerTest {
         ResponseVO responseVO=chartController.deleteChart(-1);
         Assert.assertEquals(responseVO.getRes(),"success");
     }
-
-
 }
