@@ -11,9 +11,9 @@ public class KgController {
     @Autowired
     KgServiceImpl kgService;
 
-    @GetMapping(value = "/{data}/getKg")
+    @PostMapping(value = "/getKg")
     @ResponseBody
-    public JsonVO getKg(@PathVariable String data){
+    public String getKg(@RequestBody String data){
         return kgService.getTriple(data);
     }
 

@@ -22,7 +22,7 @@
 //        JsonArray nodes=new JsonArray();
 //        JsonArray links=new JsonArray();
 //        try {
-//            proc = Runtime.getRuntime().exec("python36 ./kg/main.py "+str2);
+//            proc = Runtime.getRuntime().exec("python36 ./kg/main.py "+str1);
 //            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 //            String line = null;
 //            Random r=new Random(1);
