@@ -3,6 +3,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import com.example.coin.service.KgService;
+import com.example.coin.vo.DataVO;
+import com.example.coin.vo.ResponseVO;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -10,7 +12,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class KgServiceImpl implements KgService {
-    public String getTriple(String file) {
+    public ResponseVO getTriple(DataVO dataVO) {
+        String file=dataVO.getDataString();
         Gson gson=new Gson();
         Process proc;
         boolean change=false;
@@ -69,6 +72,7 @@ public class KgServiceImpl implements KgService {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return gson.toJson(jsonContainer);
+        String result=gson.toJson(jsonContainer);
+        return ResponseVO.success(result);
     }
 }
