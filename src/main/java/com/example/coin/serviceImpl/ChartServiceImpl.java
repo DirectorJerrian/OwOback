@@ -72,13 +72,13 @@ public class ChartServiceImpl implements ChartService {
             chartVO.setImgName(imgFileOriginalName);
             chartVO.setImgURL(imgUrl);
             try {
-                Chart chart=new Chart();
-                chart.setUserId(chartVO.getUserId());
-                chart.setImgURL(chartVO.getImgURL());
-                chart.setJsonURL(chartVO.getJsonURL());
-                chart.setImgName(chartVO.getImgName());
-                chart.setJsonName(chartVO.getJsonName());
-//                Chart chart = ChartConverter.INSTANCE.v2p(chartVO);
+//                Chart chart=new Chart();
+//                chart.setUserId(chartVO.getUserId());
+//                chart.setImgURL(chartVO.getImgURL());
+//                chart.setJsonURL(chartVO.getJsonURL());
+//                chart.setImgName(chartVO.getImgName());
+//                chart.setJsonName(chartVO.getJsonName());
+                Chart chart = ChartConverter.INSTANCE.v2p(chartVO);
                 chartMapper.addChart(chart);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -104,19 +104,18 @@ public class ChartServiceImpl implements ChartService {
     @Override
     public List<ChartVO> getUserCharts(int userId) {
         try {
-            List<Chart> chartList;
-            chartList=chartMapper.getUserCharts(userId);
-            List<ChartVO> chartVOList=new LinkedList<>();
-            for(int i=0;i<chartList.size();i++){
-                ChartVO chartVO=new ChartVO();
-                chartVO.setUserId(chartList.get(i).getUserId());
-                chartVO.setJsonURL(chartList.get(i).getJsonURL());
-                chartVO.setImgURL(chartList.get(i).getImgURL());
-                chartVO.setImgName(chartList.get(i).getImgName());
-                chartVO.setJsonName(chartList.get(i).getJsonName());
-                chartVOList.add(chartVO);
-            }
-            return chartVOList;
+            List<Chart> chartList=chartMapper.getUserCharts(userId);
+
+//            for(int i=0;i<chartList.size();i++){
+//                ChartVO chartVO=new ChartVO();
+//                chartVO.setUserId(chartList.get(i).getUserId());
+//                chartVO.setJsonURL(chartList.get(i).getJsonURL());
+//                chartVO.setImgURL(chartList.get(i).getImgURL());
+//                chartVO.setImgName(chartList.get(i).getImgName());
+//                chartVO.setJsonName(chartList.get(i).getJsonName());
+//                chartVOList.add(chartVO);
+//            }
+            return ChartConverter.INSTANCE.p2v(chartList);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
