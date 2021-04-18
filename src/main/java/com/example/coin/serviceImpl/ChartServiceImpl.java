@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -96,7 +97,24 @@ public class ChartServiceImpl implements ChartService {
 
     @Override
     public List<ChartVO> getUserCharts(int userId) {
-        return null;
+        try {
+            List<Chart> chartList;
+            chartList=chartMapper.getUserCharts(userId);
+            List<ChartVO> chartVOList=new LinkedList<>();
+            for(int i=0;i<chartList.size();i++){
+                ChartVO chartVO=new ChartVO();
+                chartVO.setUserId(chartList.get(i).getUserId());
+                chartVO.setJsonURL(chartList.get(i).getJsonURL());
+                chartVO.setImgURL(chartList.get(i).getImgURL());
+                chartVO.setImgName(chartList.get(i).getImgName());
+                chartVO.setJsonName(chartList.get(i).getJsonName());
+                chartVOList.add(chartVO);
+            }
+            return chartVOList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
