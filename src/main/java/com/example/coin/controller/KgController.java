@@ -1,7 +1,8 @@
 package com.example.coin.controller;
 
 import com.example.coin.serviceImpl.KgServiceImpl;
-import com.example.coin.vo.JsonVO;
+import com.example.coin.vo.DataVO;
+import com.example.coin.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,10 +12,10 @@ public class KgController {
     @Autowired
     KgServiceImpl kgService;
 
-    @GetMapping(value = "/{data}/getKg")
+    @PostMapping(value = "/getKg")
     @ResponseBody
-    public JsonVO getKg(@PathVariable String data){
-        return kgService.getTriple(data);
+    public ResponseVO getKg(@RequestBody DataVO dataVO){
+        return kgService.getTriple(dataVO);
     }
 
 }

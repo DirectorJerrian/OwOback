@@ -1,9 +1,8 @@
 package com.example.coin.service;
 
-import com.example.coin.vo.JsonVO;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
+import com.example.coin.vo.DataVO;
+import com.example.coin.vo.ResponseVO;
 
 public interface KgService {
-    JsonVO getTriple(String file);
+    ResponseVO getTriple(DataVO dataVO);
 }
