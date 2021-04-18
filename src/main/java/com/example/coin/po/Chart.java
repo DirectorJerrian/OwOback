@@ -4,7 +4,7 @@ public class Chart {
     int id;
     int userId;
     String jsonURL;
-    String xmlURL;
+    String imgURL;
     Boolean variable;
 
     public int getId() {
@@ -31,12 +31,12 @@ public class Chart {
         this.jsonURL = jsonURL;
     }
 
-    public String getXmlURL() {
-        return xmlURL;
+    public String getImgURL() {
+        return imgURL;
     }
 
-    public void setXmlURL(String xmlURL) {
-        this.xmlURL = xmlURL;
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
     }
 
     public Boolean getVariable() {
