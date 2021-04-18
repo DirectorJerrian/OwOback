@@ -3,7 +3,9 @@ package com.example.coin.po;
 public class Chart {
     int id;
     int userId;
+    String jsonName;
     String jsonURL;
+    String imgName;
     String imgURL;
     Boolean variable;
 
@@ -45,5 +47,21 @@ public class Chart {
 
     public void setVariable(Boolean variable) {
         this.variable = variable;
+    }
+
+    public String getJsonName() {
+        return jsonName;
+    }
+
+    public void setJsonName(String jsonName) {
+        this.jsonName = jsonName;
+    }
+
+    public String getImgName() {
+        return imgName;
+    }
+
+    public void setImgName(String imgName) {
+        this.imgName = imgName;
     }
 }

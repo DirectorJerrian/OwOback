@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,12 +44,12 @@ public class ChartServiceImpl implements ChartService {
             InputStream imgInputStream = files[1].getInputStream();
 
             //获取文件名称
-            String jsonFileName = files[0].getOriginalFilename();
-            String imgFileName = files[1].getOriginalFilename();
+            String jsonFileOriginalName = files[0].getOriginalFilename();
+            String imgFileOriginalName = files[1].getOriginalFilename();
             //1.由于文件名重复会覆盖，生成随机文件名
             String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-            jsonFileName = uuid + jsonFileName;
-            imgFileName = uuid + imgFileName;
+            String jsonFileName = uuid + jsonFileOriginalName;
+            String imgFileName = uuid + imgFileOriginalName;
             //2.把文件按照类型+日期分类
             String datePath = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
             jsonFileName = "chartJson/" + datePath + "/" + jsonFileName+".json";
@@ -66,10 +67,18 @@ public class ChartServiceImpl implements ChartService {
             String imgUrl = "https://" + bucketName + "." + endpoint + "/" + imgFileName;
             ChartVO chartVO = new ChartVO();
             chartVO.setUserId(id);
+            chartVO.setJsonName(jsonFileOriginalName);
             chartVO.setJsonURL(jsonUrl);
+            chartVO.setImgName(imgFileOriginalName);
             chartVO.setImgURL(imgUrl);
             try {
-                Chart chart = ChartConverter.INSTANCE.v2p(chartVO);
+                Chart chart=new Chart();
+                chart.setUserId(chartVO.getUserId());
+                chart.setImgURL(chartVO.getImgURL());
+                chart.setJsonURL(chartVO.getJsonURL());
+                chart.setImgName(chartVO.getImgName());
+                chart.setJsonName(chartVO.getJsonName());
+//                Chart chart = ChartConverter.INSTANCE.v2p(chartVO);
                 chartMapper.addChart(chart);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -94,7 +103,24 @@ public class ChartServiceImpl implements ChartService {
 
     @Override
     public List<ChartVO> getUserCharts(int userId) {
-        return null;
+        try {
+            List<Chart> chartList;
+            chartList=chartMapper.getUserCharts(userId);
+            List<ChartVO> chartVOList=new LinkedList<>();
+            for(int i=0;i<chartList.size();i++){
+                ChartVO chartVO=new ChartVO();
+                chartVO.setUserId(chartList.get(i).getUserId());
+                chartVO.setJsonURL(chartList.get(i).getJsonURL());
+                chartVO.setImgURL(chartList.get(i).getImgURL());
+                chartVO.setImgName(chartList.get(i).getImgName());
+                chartVO.setJsonName(chartList.get(i).getJsonName());
+                chartVOList.add(chartVO);
+            }
+            return chartVOList;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override

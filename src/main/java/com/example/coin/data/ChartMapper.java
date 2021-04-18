@@ -13,7 +13,7 @@ public interface ChartMapper {
 
     List<Chart> getAllCharts();
 
-    List<Chart> getUserCharts();
+    List<Chart> getUserCharts(@Param("userId") int userId);
 
     int addChart(Chart chart);
 
