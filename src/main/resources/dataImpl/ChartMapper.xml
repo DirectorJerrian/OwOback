@@ -5,7 +5,7 @@
         <id column="id" property="id"/>
         <result column="userId" property="userId"/>
         <result column="jsonURL" property="jsonURL"/>
-        <result column="xmlURL" property="xmlURL"/>
+        <result column="imgURL" property="imgURL"/>
         <result column="variable" property="variable"/>
     </resultMap>
     <select id="getAllCharts" resultMap="Chart">
@@ -15,8 +15,8 @@
         select * from chart where userId=#{userId} and variable!=0
     </select>
     <insert id="addChart" parameterType="com.example.coin.po.Chart" useGeneratedKeys="true" keyProperty="id">
-        insert into chart(userId,jsonURL,xmlURL)
-        values(#{userId},#{jsonURL},#{xmlURL})
+        insert into chart(userId,jsonURL,imgURL)
+        values(#{userId},#{jsonURL},#{imgURL})
     </insert>
     <select id="getChartById" resultMap="Chart">
         select * from chart where id=#{id}

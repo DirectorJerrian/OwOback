@@ -4,7 +4,7 @@ public class ChartVO {
 
     int userId;
     String jsonURL;
-    String xmlURL;
+    String imgURL;
 
     public int getUserId() {
         return userId;
@@ -22,11 +22,11 @@ public class ChartVO {
         this.jsonURL = jsonURL;
     }
 
-    public String getXmlURL() {
-        return xmlURL;
+    public String getImgURL() {
+        return imgURL;
     }
 
-    public void setXmlURL(String xmlURL) {
-        this.xmlURL = xmlURL;
+    public void setImgURL(String imgURL) {
+        this.imgURL = imgURL;
     }
 }
