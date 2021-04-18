@@ -39,33 +39,6 @@ public class ChartControllerTest {
         chartVO=new ChartVO();
     }
 
-//    public static NodeVO createNode(String name,String des,int symbolSize,int category){
-//        NodeVO nodeVO=new NodeVO();
-//        nodeVO.setName(name);
-//        nodeVO.setDes(des);
-//        nodeVO.setSymbolSize(symbolSize);
-//        nodeVO.setCategory(category);
-//        return nodeVO;
-//    }
-//    public static LinkVO createLink(String name,String des,String source,String target){
-//        LinkVO linkVO=new LinkVO();
-//        linkVO.setName(name);
-//        linkVO.setDes(des);
-//        linkVO.setSource(source);
-//        linkVO.setTarget(target);
-//        return linkVO;
-//    }
-
-//    @Test
-//    public void saveChartTest1(){
-//        ResponseVO responseVO=chartController.saveChart(chartVO,0);
-//        String res=responseVO.getRes();
-//        String msg=responseVO.getMsg();
-//        Assert.assertEquals(res,"success");
-//        Assert.assertEquals(msg,SAVE_CHART_SUCCESS);
-//
-//    }
-
     @Test
     public void saveChartTest2(){
         ResponseVO responseVO=chartController.saveChart(null,0);
@@ -91,7 +64,7 @@ public class ChartControllerTest {
         ChartVO chartVO=new ChartVO();
         chartVO.setJsonURL("1234");
         chartVO.setUserId(0);
-        chartVO.setXmlURL("1234");
+        chartVO.setImgURL("1234");
         chartVOList.add(chartVO);
         Mockito.when(chartServiceImpl.getUserCharts(Mockito.anyInt())).thenReturn(chartVOList);
         ResponseVO responseVO=chartController.getUserCharts(1);
@@ -99,7 +72,7 @@ public class ChartControllerTest {
         Assert.assertEquals(responseVO.getObj(),chartVOList);
         List<ChartVO> target=(List<ChartVO>)responseVO.getObj();
         Assert.assertEquals(target.get(0).getJsonURL(),"1234");
-        Assert.assertEquals(target.get(0).getXmlURL(),"1234");
+        Assert.assertEquals(target.get(0).getImgURL(),"1234");
         Assert.assertEquals(target.get(0).getUserId(),0);
     }
 
@@ -128,7 +101,7 @@ public class ChartControllerTest {
         ChartVO chartVO=new ChartVO();
         chartVO.setJsonURL("1234");
         chartVO.setUserId(0);
-        chartVO.setXmlURL("1234");
+        chartVO.setImgURL("1234");
         chartVOList.add(chartVO);
         Mockito.when(chartServiceImpl.getAllCharts()).thenReturn(chartVOList);
         ResponseVO responseVO=chartController.getAllCharts();
@@ -136,7 +109,7 @@ public class ChartControllerTest {
         Assert.assertEquals(responseVO.getObj(),chartVOList);
         List<ChartVO> target=(List<ChartVO>)responseVO.getObj();
         Assert.assertEquals(target.get(0).getJsonURL(),"1234");
-        Assert.assertEquals(target.get(0).getXmlURL(),"1234");
+        Assert.assertEquals(target.get(0).getImgURL(),"1234");
         Assert.assertEquals(target.get(0).getUserId(),0);
     }
 
@@ -154,14 +127,14 @@ public class ChartControllerTest {
         ChartVO chartVO=new ChartVO();
         chartVO.setJsonURL("1234");
         chartVO.setUserId(0);
-        chartVO.setXmlURL("1234");
+        chartVO.setImgURL("1234");
         Mockito.when(chartServiceImpl.getChartById(Mockito.anyInt())).thenReturn(chartVO);
         ResponseVO responseVO=chartController.getChart(1);
         Assert.assertEquals(responseVO.getRes(),"success");
         Assert.assertEquals(responseVO.getObj(),chartVO);
         ChartVO target=(ChartVO)responseVO.getObj();
         Assert.assertEquals(target.getJsonURL(),"1234");
-        Assert.assertEquals(target.getXmlURL(),"1234");
+        Assert.assertEquals(target.getImgURL(),"1234");
         Assert.assertEquals(target.getUserId(),0);
     }
 

@@ -66,12 +66,12 @@ public class ChartServiceTest {
         Chart chart=new Chart();
         chart.setJsonURL("1234");
         chart.setUserId(0);
-        chart.setXmlURL("1234");
+        chart.setImgURL("1234");
         chartList.add(chart);
         Mockito.when(chartMapper.getAllCharts()).thenReturn(chartList);
         List<ChartVO> chartVOList= chartServiceImpl.getAllCharts();
         Assert.assertEquals(chartVOList.get(0).getJsonURL(),"1234");
-        Assert.assertEquals(chartVOList.get(0).getXmlURL(),"1234");
+        Assert.assertEquals(chartVOList.get(0).getImgURL(),"1234");
         Assert.assertEquals(chartVOList.get(0).getUserId(),0);
     }
 

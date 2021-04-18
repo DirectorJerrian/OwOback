@@ -75,7 +75,6 @@ public class UserServiceImpl implements UserService {
             transport.connect("462211353@qq.com", "ogvxvcgzwucccagd");
             transport.sendMessage(message, message.getAllRecipients());
             transport.close();
-            System.out.println("1");
         } catch (Exception e) {
             return ResponseVO.failure("failure");
         }

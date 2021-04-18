@@ -17,7 +17,7 @@ public class UserServiceTest {
 
     static UserVO userVO1;
     static UserVO userVO2;
-    static String code;
+    static String email;
     static LoginVO loginVO1;
     static LoginVO loginVO2;
 
@@ -36,7 +36,7 @@ public class UserServiceTest {
         userVO2.setPassword("123456");
         userVO2.setUsername("registerTest");
 
-        code="181250192@smail.nju.edu.cn";
+        email="181250192@smail.nju.edu.cn";
 
         loginVO1.setEmail("123@qq.com");
         loginVO1.setPassword("123123");
@@ -49,9 +49,9 @@ public class UserServiceTest {
     public void registerTest1() {
         ResponseVO responseVO = userService.addAccount(userVO1);
         String res = responseVO.getRes();
-        String msg = responseVO.getMsg();
+        String objEmail = ((UserVO) responseVO.getObj()).getEmail();
         Assert.assertEquals("success", res);
-        Assert.assertEquals("register success", msg);
+        Assert.assertEquals(userVO1.getEmail(), objEmail);
     }
 
     @Test
@@ -65,11 +65,9 @@ public class UserServiceTest {
 
     @Test
     public void codeTest1() {
-        ResponseVO responseVO = userService.sendCode(code);
+        ResponseVO responseVO = userService.sendCode(email);
         String res = responseVO.getRes();
-        String msg = responseVO.getMsg();
         Assert.assertEquals("success", res);
-        Assert.assertEquals("success", msg);
     }
 
     @Test
@@ -85,9 +83,9 @@ public class UserServiceTest {
     public void loginTest1() {
         ResponseVO responseVO = userService.verifyPwd(loginVO1);
         String res = responseVO.getRes();
-        String msg = responseVO.getMsg();
+        String objEmail = ((LoginVO) responseVO.getObj()).getEmail();
         Assert.assertEquals("success", res);
-        Assert.assertEquals("Test", msg);
+        Assert.assertEquals(loginVO1.getEmail(), objEmail);
     }
 
     @Test
