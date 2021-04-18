@@ -33,22 +33,7 @@ public class ChartServiceTest {
     @BeforeClass
     public static void setChart(){
         chartVO=new ChartVO();
-//        List<NodeVO> nodeVOList=new LinkedList<>();
-//        List<LinkVO> linkVOList=new LinkedList<>();
-//        nodeVOList.add(createNode("01","123",50,0));
-//        nodeVOList.add(createNode("02","123",50,0));
-//        linkVOList.add(createLink("12","123","01","02"));
     }
-
-//    @Test
-//    public void saveChartTest1(){
-//        ResponseVO responseVO=chartService.saveChart(0,chartVO);
-//        String res=responseVO.getRes();
-//        String msg=responseVO.getMsg();
-//        Assert.assertEquals(res,"success");
-//        Assert.assertEquals(msg,SAVE_CHART_SUCCESS);
-//
-//    }
 
     @Test
     public void saveChartTest2(){

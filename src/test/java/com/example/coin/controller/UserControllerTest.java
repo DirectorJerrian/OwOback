@@ -1,5 +1,6 @@
 package com.example.coin.controller;
 
+import com.example.coin.po.User;
 import com.example.coin.vo.*;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -38,7 +39,7 @@ public class UserControllerTest {
     public void registerTest1() {
         ResponseVO responseVO = userController.register(userVO);
         String res = responseVO.getRes();
-        String objEmail = ((UserVO) responseVO.getObj()).getEmail();
+        String objEmail = ((User) responseVO.getObj()).getEmail();
         Assert.assertEquals("success", res);
         Assert.assertEquals(userVO.getEmail(), objEmail);
     }
@@ -72,7 +73,7 @@ public class UserControllerTest {
     public void loginTest1() {
         ResponseVO responseVO = userController.login(loginVO);
         String res = responseVO.getRes();
-        String objEmail = ((LoginVO) responseVO.getObj()).getEmail();
+        String objEmail = ((User) responseVO.getObj()).getEmail();
         Assert.assertEquals("success", res);
         Assert.assertEquals(loginVO.getEmail(), objEmail);
     }

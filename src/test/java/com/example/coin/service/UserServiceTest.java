@@ -1,5 +1,6 @@
 package com.example.coin.service;
 
+import com.example.coin.po.User;
 import com.example.coin.vo.*;
 import org.junit.Assert;
 import org.junit.BeforeClass;
@@ -49,7 +50,7 @@ public class UserServiceTest {
     public void registerTest1() {
         ResponseVO responseVO = userService.addAccount(userVO1);
         String res = responseVO.getRes();
-        String objEmail = ((UserVO) responseVO.getObj()).getEmail();
+        String objEmail = ((User) responseVO.getObj()).getEmail();
         Assert.assertEquals("success", res);
         Assert.assertEquals(userVO1.getEmail(), objEmail);
     }
@@ -83,7 +84,7 @@ public class UserServiceTest {
     public void loginTest1() {
         ResponseVO responseVO = userService.verifyPwd(loginVO1);
         String res = responseVO.getRes();
-        String objEmail = ((LoginVO) responseVO.getObj()).getEmail();
+        String objEmail = ((User) responseVO.getObj()).getEmail();
         Assert.assertEquals("success", res);
         Assert.assertEquals(loginVO1.getEmail(), objEmail);
     }
