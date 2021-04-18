@@ -14,6 +14,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -39,13 +40,31 @@ public class ChartControllerTest {
         chartVO=new ChartVO();
     }
 
+
+    @Test
+    public void saveChartTest1(){
+        ChartVO chartVO=new ChartVO();
+        chartVO.setJsonURL("1234");
+        chartVO.setUserId(0);
+        chartVO.setImgURL("1234");
+        Mockito.when(chartServiceImpl.saveChart(Mockito.anyInt(),Mockito.any(MultipartFile[].class))).thenReturn(ResponseVO.success(chartVO));
+        ResponseVO responseVO=chartController.saveChart(new MultipartFile[2],0);
+        Assert.assertEquals(chartVO,responseVO.getObj());
+        Assert.assertEquals("success",responseVO.getRes());
+
+    }
+
+
     @Test
     public void saveChartTest2(){
-        ResponseVO responseVO=chartController.saveChart(null,0);
-        String res=responseVO.getRes();
-        String msg=responseVO.getMsg();
-        Assert.assertEquals(res,"failure");
-        Assert.assertEquals(msg,SAVE_CHART_NULL_FAILURE);
+        ChartVO chartVO=new ChartVO();
+        chartVO.setJsonURL("1234");
+        chartVO.setUserId(0);
+        chartVO.setJsonName("jsonFile");
+        Mockito.when(chartServiceImpl.saveChart(Mockito.anyInt(),Mockito.any(MultipartFile[].class))).thenReturn(ResponseVO.failure("source is null"));
+        ResponseVO responseVO=chartController.saveChart(new MultipartFile[1],0);
+        Assert.assertEquals(null,responseVO.getObj());
+        Assert.assertEquals("failure",responseVO.getRes());
 
     }
 
