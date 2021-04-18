@@ -36,6 +36,8 @@ public class KgServiceImpl implements KgService {
     //以下函数实际调用
     public ResponseVO getTriple(DataVO dataVO) {
         String file=dataVO.getDataString();
+        file=file.replace("\n","");
+        file=file.replace(" ","");
         Gson gson=new Gson();
         Process proc;
         boolean change=false;
