@@ -16,6 +16,7 @@ public class KgController {
     @ResponseBody
     public ResponseVO getKg(@RequestBody DataVO dataVO){
         return kgService.getTriple(dataVO);
+//        return kgService.getExample(dataVO);
     }
 
 }

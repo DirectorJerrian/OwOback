@@ -1,7 +1,5 @@
 package com.example.coin.serviceImpl;
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.Random;
 
 import com.example.coin.service.KgService;
@@ -14,6 +12,28 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class KgServiceImpl implements KgService {
+    //以下函数用来测试
+    public ResponseVO getExample(DataVO dataVO) {
+        String jsonStr = "";
+        try {
+            File jsonFile = new File("./kg/target.json");
+            FileReader fileReader = new FileReader(jsonFile);
+            Reader reader = new InputStreamReader(new FileInputStream(jsonFile), "utf-8");
+            int ch = 0;
+            StringBuffer sb = new StringBuffer();
+            while ((ch = reader.read()) != -1) {
+                sb.append((char) ch);
+            }
+            fileReader.close();
+            reader.close();
+            jsonStr = sb.toString();
+            return ResponseVO.success(jsonStr);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+    //以下函数实际调用
     public ResponseVO getTriple(DataVO dataVO) {
         String file=dataVO.getDataString();
         Gson gson=new Gson();
@@ -56,7 +76,7 @@ public class KgServiceImpl implements KgService {
                     JsonObject frontSize=new JsonObject();
                     frontSize.addProperty("frontSize",12);
                     node.add("label",frontSize);
-                    int ran_Category=r.nextInt(10);
+                    int ran_Category=r.nextInt(6);
                     node.addProperty("category",ran_Category);
 
                     nodes.add(node);

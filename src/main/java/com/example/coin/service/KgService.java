@@ -5,4 +5,6 @@ import com.example.coin.vo.ResponseVO;
 
 public interface KgService {
     ResponseVO getTriple(DataVO dataVO);
+
+    ResponseVO getExample(DataVO dataVO);
 }
