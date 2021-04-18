@@ -397,6 +397,11 @@
     "name": "subclassOf",
     "des": "link2des"
   }, {
+    "source": "颗粒物防护口罩",
+    "target": "口罩",
+    "name": "subclassOf",
+    "des": "link36des"
+  }, {
     "source": "国标口罩",
     "target": "颗粒物防护口罩",
     "name": "subclassOf",
