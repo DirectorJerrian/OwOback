@@ -43,12 +43,12 @@ public class ChartServiceImpl implements ChartService {
             InputStream imgInputStream = files[1].getInputStream();
 
             //获取文件名称
-            String jsonFileName = files[0].getOriginalFilename();
-            String imgFileName = files[1].getOriginalFilename();
+            String jsonFileOriginalName = files[0].getOriginalFilename();
+            String imgFileOriginalName = files[1].getOriginalFilename();
             //1.由于文件名重复会覆盖，生成随机文件名
             String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-            jsonFileName = uuid + jsonFileName;
-            imgFileName = uuid + imgFileName;
+            String jsonFileName = uuid + jsonFileOriginalName;
+            String imgFileName = uuid + imgFileOriginalName;
             //2.把文件按照类型+日期分类
             String datePath = new SimpleDateFormat("yyyy/MM/dd").format(new Date());
             jsonFileName = "chartJson/" + datePath + "/" + jsonFileName+".json";
@@ -66,7 +66,9 @@ public class ChartServiceImpl implements ChartService {
             String imgUrl = "https://" + bucketName + "." + endpoint + "/" + imgFileName;
             ChartVO chartVO = new ChartVO();
             chartVO.setUserId(id);
+            chartVO.setJsonName(jsonFileOriginalName);
             chartVO.setJsonURL(jsonUrl);
+            chartVO.setImgName(imgFileOriginalName);
             chartVO.setImgURL(imgUrl);
             try {
                 Chart chart = ChartConverter.INSTANCE.v2p(chartVO);

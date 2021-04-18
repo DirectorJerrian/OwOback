@@ -16,7 +16,9 @@ CREATE TABLE `user` (
 CREATE TABLE `chart` (
     `id` int NOT NULL AUTO_INCREMENT,
     `userId` int NOT NULL ,
+    `jsonName` varchar(255) DEFAULT NULL ,
     `jsonURL` varchar(255) DEFAULT NULL ,
+    `imgName` varchar(255) DEFAULT NULL ,
     `imgURL` varchar(255) DEFAULT NULL ,
     `variable` bit DEFAULT 1,
     -- 1表示可用,0表示已删除
@@ -27,5 +29,5 @@ INSERT INTO `user` (`id`,`username`,`password`,`email`) VALUES
 (1,'Test','123123','123@qq.com'),
 (2,'motherfucker2','123321','123321@qq.com');
 
-INSERT INTO `chart` (`id`,`userId`,`jsonURL`,`imgURL`,`variable`) VALUES
-(1,1,'https://software-engineering-iii.oss-cn-hangzhou.aliyuncs.com/chartJson/2021/04/18/4a92e6b8b4d84cfbbc5acbea5c73af6eblob.json','https://software-engineering-iii.oss-cn-hangzhou.aliyuncs.com/chartImg/2021/04/18/4a92e6b8b4d84cfbbc5acbea5c73af6efile.png',1)
+INSERT INTO `chart` (`id`,`userId`,`jsonName`,`jsonURL`,`imgName`,`imgURL`,`variable`) VALUES
+(1,1,'blob','https://software-engineering-iii.oss-cn-hangzhou.aliyuncs.com/chartJson/2021/04/18/4a92e6b8b4d84cfbbc5acbea5c73af6eblob.json','file','https://software-engineering-iii.oss-cn-hangzhou.aliyuncs.com/chartImg/2021/04/18/4a92e6b8b4d84cfbbc5acbea5c73af6efile.png',1)
