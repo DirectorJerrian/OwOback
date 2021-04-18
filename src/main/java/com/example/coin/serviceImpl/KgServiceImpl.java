@@ -16,7 +16,6 @@ import org.springframework.stereotype.Service;
 public class KgServiceImpl implements KgService {
     public ResponseVO getTriple(DataVO dataVO) {
         String file=dataVO.getDataString();
-        System.out.println(file);
         Gson gson=new Gson();
         Process proc;
         boolean change=false;
