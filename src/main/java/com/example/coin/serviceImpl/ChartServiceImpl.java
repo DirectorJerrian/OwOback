@@ -72,7 +72,13 @@ public class ChartServiceImpl implements ChartService {
             chartVO.setImgName(imgFileOriginalName);
             chartVO.setImgURL(imgUrl);
             try {
-                Chart chart = ChartConverter.INSTANCE.v2p(chartVO);
+                Chart chart=new Chart();
+                chart.setUserId(chartVO.getUserId());
+                chart.setImgURL(chartVO.getImgURL());
+                chart.setJsonURL(chartVO.getJsonURL());
+                chart.setImgName(chartVO.getImgName());
+                chart.setJsonName(chartVO.getJsonName());
+//                Chart chart = ChartConverter.INSTANCE.v2p(chartVO);
                 chartMapper.addChart(chart);
             } catch (Exception e) {
                 System.out.println(e.getMessage());
