@@ -22,11 +22,12 @@
 //        JsonArray nodes=new JsonArray();
 //        JsonArray links=new JsonArray();
 //        try {
-//            proc = Runtime.getRuntime().exec("python36 src\\main\\resources\\kg/main.py "+str2);
+//            proc = Runtime.getRuntime().exec("src\\main\\resources\\kg\\dist/main.exe "+str2);
 //            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 //            String line = null;
 //            Random r=new Random(1);
 //            while ((line = in.readLine()) != null) {
+//                System.out.println(line);
 //                if (line.equals("links")){
 //                    change=true;
 //                    continue;
