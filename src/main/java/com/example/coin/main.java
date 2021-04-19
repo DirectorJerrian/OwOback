@@ -22,7 +22,7 @@
 //        JsonArray nodes=new JsonArray();
 //        JsonArray links=new JsonArray();
 //        try {
-//            proc = Runtime.getRuntime().exec("python36 ./kg/main.py "+str2);
+//            proc = Runtime.getRuntime().exec("python36 src\\main\\resources\\kg/main.py "+str2);
 //            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 //            String line = null;
 //            Random r=new Random(1);
@@ -77,7 +77,7 @@
 //            System.out.println(jsonContainer);
 //            //输出json文件
 //            String jsonString=jsonContainer.toString();
-//            File file=new File("./kg/target.json");
+//            File file=new File("src\\main\\resources\\kg/target.json");
 //            if (file.exists()){
 //                file.delete();
 //            }

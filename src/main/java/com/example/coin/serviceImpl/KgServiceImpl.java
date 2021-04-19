@@ -16,7 +16,7 @@ public class KgServiceImpl implements KgService {
     public ResponseVO getExample(DataVO dataVO) {
         String jsonStr = "";
         try {
-            File jsonFile = new File("./kg/target.json");
+            File jsonFile = new File("src\\main\\resources\\kg/target.json");
             FileReader fileReader = new FileReader(jsonFile);
             Reader reader = new InputStreamReader(new FileInputStream(jsonFile), "utf-8");
             int ch = 0;
@@ -48,7 +48,7 @@ public class KgServiceImpl implements KgService {
         JsonArray nodes=new JsonArray();
         JsonArray links=new JsonArray();
         try {
-            proc = Runtime.getRuntime().exec("python36 ./kg/main.py "+file);
+            proc = Runtime.getRuntime().exec("python src\\main\\resources\\kg/main.py "+file);
             BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
             String line = null;
             Random r=new Random(1);
