@@ -22,7 +22,8 @@
 //        JsonArray nodes=new JsonArray();
 //        JsonArray links=new JsonArray();
 //        try {
-//            proc = Runtime.getRuntime().exec("src\\main\\resources\\kg\\dist/main.exe "+str2);
+////            proc = Runtime.getRuntime().exec("src\\main\\resources\\kg\\dist/main.exe "+str2);
+//            proc = Runtime.getRuntime().exec("python src\\main\\resources\\kg\\main.py "+str2);
 //            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
 //            String line = null;
 //            Random r=new Random(1);
