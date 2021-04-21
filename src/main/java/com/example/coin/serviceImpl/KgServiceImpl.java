@@ -49,8 +49,10 @@ public class KgServiceImpl implements KgService {
         JsonArray links=new JsonArray();
         try {
 //            proc = Runtime.getRuntime().exec("src\\main\\resources\\kg\\dist/main.exe "+file);
-            proc = Runtime.getRuntime().exec("python src\\main\\resources\\kg\\main.py "+file);
+            proc = Runtime.getRuntime().exec(new String[]{"bash", "-c","python ./kg/main.py "+file});
             BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            BufferedReader test = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
+            System.out.println(test.read());
             String line = null;
             Random r=new Random(1);
             while ((line = in.readLine()) != null) {
