@@ -28,7 +28,10 @@ public class WebConfig extends WebMvcConfigurerAdapter {
             "127.0.0.1",
             "localhost",
             "172.19.144.143",
-            "172.19.144.143:80"
+            "172.19.144.143:80",
+            "47.118.57.5",
+            "47.118.57.5:80",
+            "47.118.57.5:81"
     };
 
     @Bean
