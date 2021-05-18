@@ -5,7 +5,7 @@ block_cipher = None
 
 
 a = Analysis(['main.py'],
-             pathex=['E:\\大三下\\软件工程与计算Ⅲ\\code\\backend-owo\\src\\main\\resources\\kg'],
+             pathex=['/home/rongxing/桌面/kg'],
              binaries=[],
              datas=[],
              hiddenimports=[],
