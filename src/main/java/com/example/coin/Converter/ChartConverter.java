@@ -15,7 +15,6 @@ public interface ChartConverter {
     ChartConverter INSTANCE = Mappers.getMapper(ChartConverter.class);
 
     @Mappings({
-            @Mapping(target = "id", ignore = true),
             @Mapping(target = "variable", ignore = true)
     })
     Chart v2p(ChartVO chartVO);

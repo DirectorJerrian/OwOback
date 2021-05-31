@@ -129,6 +129,11 @@ public class ChartServiceImpl implements ChartService {
 
     @Override
     public ResponseVO deleteChart(int id) {
-        return null;
+        try{
+            chartMapper.deleteChart(id);
+        }catch (Exception e){
+            return ResponseVO.failure("不存在该知识图谱！");
+        }
+        return ResponseVO.success("知识图谱删除成功！");
     }
 }
