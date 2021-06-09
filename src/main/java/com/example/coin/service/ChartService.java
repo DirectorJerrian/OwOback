@@ -10,6 +10,8 @@ public interface ChartService {
 
     ResponseVO saveChart(int id, MultipartFile[] files);
 
+    ResponseVO updateChart(int id,int chartId, MultipartFile[] files);
+
     List<ChartVO> getAllCharts();
 
     List<ChartVO> getUserCharts(int userId);

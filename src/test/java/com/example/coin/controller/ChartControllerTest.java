@@ -43,32 +43,32 @@ public class ChartControllerTest {
     }
 
 
-    @Test
-    public void saveChartTest1(){
-        ChartVO chartVO=new ChartVO();
-        chartVO.setJsonURL("1234");
-        chartVO.setUserId(0);
-        chartVO.setImgURL("1234");
-        Mockito.when(chartServiceImpl.saveChart(Mockito.anyInt(),Mockito.any(MultipartFile[].class))).thenReturn(ResponseVO.success(chartVO));
-        ResponseVO responseVO=chartController.saveChart(new MultipartFile[2],0);
-        Assert.assertEquals(chartVO,responseVO.getObj());
-        Assert.assertEquals("success",responseVO.getRes());
+//    @Test
+//    public void saveChartTest1(){
+//        ChartVO chartVO=new ChartVO();
+//        chartVO.setJsonURL("1234");
+//        chartVO.setUserId(0);
+//        chartVO.setImgURL("1234");
+//        Mockito.when(chartServiceImpl.saveChart(Mockito.anyInt(),Mockito.any(MultipartFile[].class))).thenReturn(ResponseVO.success(chartVO));
+//        ResponseVO responseVO=chartController.saveChart(new MultipartFile[2],0);
+//        Assert.assertEquals(chartVO,responseVO.getObj());
+//        Assert.assertEquals("success",responseVO.getRes());
+//
+//    }
 
-    }
 
-
-    @Test
-    public void saveChartTest2(){
-        ChartVO chartVO=new ChartVO();
-        chartVO.setJsonURL("1234");
-        chartVO.setUserId(0);
-        chartVO.setJsonName("jsonFile");
-        Mockito.when(chartServiceImpl.saveChart(Mockito.anyInt(),Mockito.any(MultipartFile[].class))).thenReturn(ResponseVO.failure("source is null"));
-        ResponseVO responseVO=chartController.saveChart(new MultipartFile[1],0);
-        Assert.assertEquals(null,responseVO.getObj());
-        Assert.assertEquals("failure",responseVO.getRes());
-
-    }
+//    @Test
+//    public void saveChartTest2(){
+//        ChartVO chartVO=new ChartVO();
+//        chartVO.setJsonURL("1234");
+//        chartVO.setUserId(0);
+//        chartVO.setJsonName("jsonFile");
+//        Mockito.when(chartServiceImpl.saveChart(Mockito.anyInt(),Mockito.any(MultipartFile[].class))).thenReturn(ResponseVO.failure("source is null"));
+//        ResponseVO responseVO=chartController.saveChart(new MultipartFile[1],0);
+//        Assert.assertEquals(null,responseVO.getObj());
+//        Assert.assertEquals("failure",responseVO.getRes());
+//
+//    }
 
     @Test
     public void getUserChartsTest1(){

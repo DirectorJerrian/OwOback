@@ -1,7 +1,7 @@
 package com.example.coin.po;
 
 public class Chart {
-    int id;
+    int chartId;
     int userId;
     String jsonName;
     String jsonURL;
@@ -9,12 +9,12 @@ public class Chart {
     String imgURL;
     Boolean variable;
 
-    public int getId() {
-        return id;
+    public int getChartId() {
+        return chartId;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setChartId(int chartId) {
+        this.chartId = chartId;
     }
 
     public int getUserId() {

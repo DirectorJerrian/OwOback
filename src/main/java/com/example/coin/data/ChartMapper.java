@@ -17,7 +17,9 @@ public interface ChartMapper {
 
     int addChart(Chart chart);
 
-    Chart getChartById(@Param("id") int id);
+    int updateChart(Chart chart);
 
-    int deleteChart(@Param("id") int id);
+    Chart getChartById(@Param("chartId") int chartId);
+
+    int deleteChart(@Param("chartId") int chartId);
 }

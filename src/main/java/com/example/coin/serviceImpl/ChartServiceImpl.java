@@ -17,7 +17,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,10 +25,10 @@ public class ChartServiceImpl implements ChartService {
     @Autowired
     ChartMapper chartMapper;
 
-    @Override
-    public ResponseVO saveChart(int id, MultipartFile[] files) {
+    private ChartVO saveFiles(int id,MultipartFile[] files){
+        ChartVO chartVO=new ChartVO();
         if (files.length != 2) {
-            return ResponseVO.failure("source is null");
+            return null;
         }
         String endpoint = ConstantPropertiesUtils.ENDPOINT;
         String accessKeyId = ConstantPropertiesUtils.KEYID;
@@ -65,31 +64,63 @@ public class ChartServiceImpl implements ChartService {
             //把上传之后oss返回的文件url返回（）
             String jsonUrl = "https://" + bucketName + "." + endpoint + "/" + jsonFileName;
             String imgUrl = "https://" + bucketName + "." + endpoint + "/" + imgFileName;
-            ChartVO chartVO = new ChartVO();
+            chartVO = new ChartVO();
             chartVO.setUserId(id);
             chartVO.setJsonName(jsonFileOriginalName);
             chartVO.setJsonURL(jsonUrl);
             chartVO.setImgName(imgFileOriginalName);
             chartVO.setImgURL(imgUrl);
-            try {
+        }catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return chartVO;
+    }
+
+
+    @Override
+    public ResponseVO saveChart(int id, MultipartFile[] files) {
+        ChartVO chartVO=new ChartVO();
+        try {
 //                Chart chart=new Chart();
 //                chart.setUserId(chartVO.getUserId());
 //                chart.setImgURL(chartVO.getImgURL());
 //                chart.setJsonURL(chartVO.getJsonURL());
 //                chart.setImgName(chartVO.getImgName());
 //                chart.setJsonName(chartVO.getJsonName());
-                Chart chart = ChartConverter.INSTANCE.v2p(chartVO);
-                chartMapper.addChart(chart);
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                return ResponseVO.failure("上传失败！请检查文件与网络！");
-            }
-            return ResponseVO.success(chartVO);
-        } catch (IOException e) {
-            e.printStackTrace();
-            return ResponseVO.failure("上传失败！请联系管理员！");
+            chartVO=this.saveFiles(id,files);
+            if(chartVO==null)return ResponseVO.failure("上传失败！若文件符合规范，请联系管理员！");
+            Chart chart = ChartConverter.INSTANCE.v2p(chartVO);
+            chartMapper.addChart(chart);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseVO.failure("上传失败！请检查文件与网络！");
         }
+        return ResponseVO.success(chartVO);
     }
+
+    public ResponseVO updateChart(int id ,int chartId,MultipartFile[] files){
+        ChartVO chartVO=new ChartVO();
+        try {
+//                Chart chart=new Chart();
+//                chart.setUserId(chartVO.getUserId());
+//                chart.setImgURL(chartVO.getImgURL());
+//                chart.setJsonURL(chartVO.getJsonURL());
+//                chart.setImgName(chartVO.getImgName());
+//                chart.setJsonName(chartVO.getJsonName());
+            chartVO=this.saveFiles(id,files);
+            if(chartVO==null)return ResponseVO.failure("上传失败！若文件符合规范，请联系管理员！");
+            chartVO.setChartId(chartId);
+            Chart chart = ChartConverter.INSTANCE.v2p(chartVO);
+            chartMapper.updateChart(chart);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+            return ResponseVO.failure("上传失败！请检查文件与网络！");
+        }
+        return ResponseVO.success(chartVO);
+    }
+
+
 
     @Override
     public List<ChartVO> getAllCharts() {

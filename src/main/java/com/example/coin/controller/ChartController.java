@@ -15,8 +15,13 @@ public class ChartController {
 
     @PostMapping("/{id}/saveChart")
     @ResponseBody
-    public ResponseVO saveChart(@RequestParam MultipartFile[] files, @PathVariable int id){
-        return chartService.saveChart(id,files);
+    public ResponseVO saveChart(@RequestParam MultipartFile[] files, @RequestParam String chartId,@RequestParam boolean isChartAlreadySaved, @PathVariable int id){
+
+        if(isChartAlreadySaved){
+            int intChartId=Integer.parseInt(chartId);
+            return chartService.updateChart(id,intChartId,files);
+        }
+        else return chartService.saveChart(id,files);
     }
 
     @GetMapping("/getAllCharts")

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.example.coin.data.ChartMapper">
     <resultMap id="Chart" type="com.example.coin.po.Chart">
-        <id column="id" property="id"/>
+        <id column="id" property="chartId"/>
         <result column="userId" property="userId"/>
         <result column="jsonName" property="jsonName"/>
         <result column="jsonURL" property="jsonURL"/>
@@ -21,9 +21,12 @@
         values(#{userId},#{jsonName},#{jsonURL},#{imgName},#{imgURL})
     </insert>
     <select id="getChartById" resultMap="Chart">
-        select * from chart where id=#{id}
+        select * from chart where id=#{chartId}
     </select>
     <update id="deleteChart">
-        update chart set variable=0 where id=#{id}
+        update chart set variable=0 where id=#{chartId}
+    </update>
+    <update id="updateChart">
+        update chart set jsonName=#{jsonName},jsonURL=#{jsonURL},imgName=#{imgName},imgURL=#{imgURL} where id=#{chartId}
     </update>
 </mapper>

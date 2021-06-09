@@ -3,7 +3,7 @@ package com.example.coin.vo;
 public class ChartVO {
 
     int userId;
-    int id;
+    int chartId;
     String jsonName;
     String jsonURL;
     String imgName;
@@ -17,9 +17,9 @@ public class ChartVO {
         this.userId = userId;
     }
 
-    public int getId() { return id; }
+    public int getChartId() { return chartId; }
 
-    public void setId(int id) { this.id = id; }
+    public void setChartId(int chartId) { this.chartId = chartId; }
 
     public String getJsonURL() {
         return jsonURL;
