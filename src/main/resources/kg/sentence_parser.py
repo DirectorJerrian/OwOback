@@ -6,7 +6,8 @@ from pyltp import Segmentor, Postagger, Parser, NamedEntityRecognizer, SementicR
 class LtpParser:
     def __init__(self):
         #该地址需要自行设置，指向ltp数据包
-        LTP_DIR = "./kg/ltp_data_v3.4.0"
+        # LTP_DIR = "./../../../../../ltp_data_v3.4.0"
+        LTP_DIR = "./../ltp_data_v3.4.0"
         self.segmentor = Segmentor()
         self.segmentor.load(os.path.join(LTP_DIR, "cws.model"))
 
@@ -67,7 +68,7 @@ class LtpParser:
 
 if __name__ == '__main__':
     parse = LtpParser()
-    sentence = '李克强总理今天来我家了,我感到非常荣幸'
+    sentence = '戎鑫是南京大学软件学院的一名学生，学号是181250120，毕业于海安高级中学。'
     words, postags, child_dict_list, roles_dict, format_parse_list = parse.parser_main(sentence)
     print(words, len(words))
     print(postags, len(postags))

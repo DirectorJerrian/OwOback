@@ -6,6 +6,8 @@ import com.example.coin.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+
 @RestController()
 @RequestMapping("/api/chart")
 public class KgController {
@@ -17,6 +19,12 @@ public class KgController {
     public ResponseVO getKg(@RequestBody DataVO dataVO){
         return kgService.getTriple(dataVO);
         //return kgService.getExample(dataVO);
+    }
+
+    @PostMapping(value = "/getFusion")
+    @ResponseBody
+    public ResponseVO getFusion(@RequestBody DataVO dataVO) throws IOException {
+        return kgService.getFusion(dataVO);
     }
 
 }

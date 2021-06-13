@@ -127,8 +127,9 @@ def test():
     content4 = '李克强总理今天来我家了,我感到非常荣幸'
     content5 = ''' 以色列国防军20日对加沙地带实施轰炸，造成3名巴勒斯坦武装人员死亡。此外，巴勒斯坦人与以色列士兵当天在加沙地带与以交界地区发生冲突，一名巴勒斯坦人被打死。当天的冲突还造成210名巴勒斯坦人受伤。
     当天，数千名巴勒斯坦人在加沙地带边境地区继续“回归大游行”抗议活动。部分示威者燃烧轮胎，并向以军投掷石块、燃烧瓶等，驻守边境的以军士兵向示威人群发射催泪瓦斯并开枪射击。'''
+    content6='戎鑫就读于南京大学软件学院，学号是181250120，毕业于海安高级中学。'
     extractor = TripleExtractor()
-    svos = extractor.triples_main(content1)
+    svos = extractor.triples_main(content6)
     for n in svos:
         if svos.count(n)>1:
             svos.remove(n)

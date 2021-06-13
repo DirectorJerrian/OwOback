@@ -1,18 +1,19 @@
-//package com.example.coin;
-//
-//import java.io.*;
-//import java.util.Random;
-//
-//import com.example.coin.service.KgService;
-//import com.google.gson.JsonArray;
-//import com.google.gson.JsonObject;
-//import org.springframework.stereotype.Service;
-//
-//class Main {
+package com.example.coin;
+
+import java.io.*;
+import java.util.ArrayList;
+import com.example.coin.serviceImpl.KgServiceImpl;
+import java.util.Random;
+
+import com.example.coin.service.KgService;
+import com.google.gson.*;
+import com.google.gson.stream.JsonReader;
+import org.apache.commons.io.FileUtils;
+import org.springframework.stereotype.Service;
+
+class Main {
+    //生成知识图谱
 //    public static void main(String[] args) {
-//        String str1 = "环境很好，位置独立性很强，比较安静很切合店名，半闲居，偷得半日闲。点了比较经典的菜品，味道果然不错！烤乳鸽，超级赞赞赞，脆皮焦香，肉质细嫩，超好吃。艇仔粥料很足，香葱自己添加，很贴心。金钱肚味道不错，不过没有在广州吃的烂，牙口不好的慎点。凤爪很火候很好，推荐。最惊艳的是长寿菜，菜料十足，很新鲜，清淡又不乏味道，而且没有添加调料的味道，搭配的非常不错！";
-//        String str2 = "近日，一条男子高铁吃泡面被女乘客怒怼的视频引发热议。女子情绪激动，言辞激烈，大声斥责该乘客，称高铁上有规定不能吃泡面，质问其“有公德心吗”“没素质”。视频曝光后，该女子回应称，因自己的孩子对泡面过敏，曾跟这名男子沟通过，但对方执意不听，她才发泄不满，并称男子拍视频上传已侵犯了她的隐私权和名誉权，将采取法律手段。12306客服人员表示，高铁、动车上一般不卖泡面，但没有规定高铁、动车上不能吃泡面。高铁属于密封性较强的空间，每名乘客都有维护高铁内秩序，不破坏该空间内空气质量的义务。这也是乘客作为公民应当具备的基本品质。但是，在高铁没有明确禁止食用泡面等食物的背景下，以影响自己或孩子为由阻挠他人食用某种食品并厉声斥责，恐怕也超出了权利边界。当人们在公共场所活动时，不宜过分干涉他人权利，这样才能构建和谐美好的公共秩序。一般来说，个人的权利便是他人的义务，任何人不得随意侵犯他人权利，这是每个公民得以正常工作、生活的基本条件。如果权利可以被肆意侵犯而得不到救济，社会将无法运转，人们也没有幸福可言。如西谚所说，“你的权利止于我的鼻尖”，“你可以唱歌，但不能在午夜破坏我的美梦”。无论何种权利，其能够得以行使的前提是不影响他人正常生活，不违反公共利益和公序良俗。超越了这个边界，权利便不再为权利，也就不再受到保护。在“男子高铁吃泡面被怒怼”事件中，初一看，吃泡面男子可能侵犯公共场所秩序，被怒怼乃咎由自取，其实不尽然。虽然高铁属于封闭空间，但与禁止食用刺激性食品的地铁不同，高铁运营方虽然不建议食用泡面等刺激性食品，但并未作出禁止性规定。由此可见，即使食用泡面、榴莲、麻辣烫等食物可能产生刺激性味道，让他人不适，但是否食用该食品，依然取决于个人喜好，他人无权随意干涉乃至横加斥责。这也是此事件披露后，很多网友并未一边倒地批评食用泡面的男子，反而认为女乘客不该高声喧哗。现代社会，公民的义务一般分为法律义务和道德义务。如果某个行为被确定为法律义务，行为人必须遵守，一旦违反，无论是受害人抑或旁观群众，均有权制止、投诉、举报。违法者既会受到应有惩戒，也会受到道德谴责，积极制止者则属于应受鼓励的见义勇为。如果有人违反道德义务，则应受到道德和舆论谴责，并有可能被追究法律责任。如在公共场所随地吐痰、乱扔垃圾、脱掉鞋子、随意插队等。此时，如果行为人对他人的劝阻置之不理甚至行凶报复，无疑要受到严厉惩戒。当然，随着社会的发展，某些道德义务可能上升为法律义务。如之前，很多人对公共场所吸烟不以为然，烟民可以旁若无人地吞云吐雾。现在，要是还有人不识时务地在公共场所吸烟，必然将成为众矢之的。再回到“高铁吃泡面”事件，要是随着人们观念的更新，在高铁上不得吃泡面等可能产生刺激性气味的食物逐渐成为共识，或者上升到道德义务或法律义务。斥责、制止他人吃泡面将理直气壮，否则很难摆脱“矫情”，“将自我权利凌驾于他人权利之上”的嫌疑。在相关部门并未禁止在高铁上吃泡面的背景下，吃不吃泡面系个人权利或者个人私德，是不违反公共利益的个人正常生活的一部分。如果认为他人吃泡面让自己不适，最好是请求他人配合并加以感谢，而非站在道德制高点强制干预。只有每个人行使权利时不逾越边界，与他人沟通时好好说话，不过分自我地将幸福和舒适凌驾于他人之上，人与人之间才更趋于平等，公共生活才更趋向美好有序。";
-//
 //        Process proc;
 //        boolean change=false;
 //        int numOfNodes=0;
@@ -23,8 +24,9 @@
 //        JsonArray links=new JsonArray();
 //        try {
 ////            proc = Runtime.getRuntime().exec("src\\main\\resources\\kg\\dist/main.exe "+str2);
-//            proc = Runtime.getRuntime().exec("python src\\main\\resources\\kg\\main.py "+str2);
-//            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+////            proc = Runtime.getRuntime().exec("python36 src\\main\\resources\\kg\\main.py "+str2);
+//            proc = Runtime.getRuntime().exec("python36 src\\main\\resources\\kg\\makeKnowledge.py");
+//            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream(),"GBK"));
 //            String line = null;
 //            Random r=new Random(1);
 //            while ((line = in.readLine()) != null) {
@@ -36,36 +38,67 @@
 //                if (!change){
 //                    numOfNodes++;
 //                    JsonObject node=new JsonObject();
-//                    node.addProperty("name",line);
+//                    String[] object=line.split(" ");
+//                    node.addProperty("name",object[1]);
 //                    node.addProperty("des","nodedes"+numOfNodes);
-//                    int ran_symbol=r.nextInt(100);
-//                    if (ran_symbol<25)
-//                        node.addProperty("symbol","circle");
-//                    else if (ran_symbol<50)
-//                        node.addProperty("symbol","triangle");
-//                    else if (ran_symbol<75)
-//                        node.addProperty("symbol","rectangle");
-//                    else
-//                        node.addProperty("symbol","diamond");
-//                    node.addProperty("symbolSize",30);
-//                    node.addProperty("type","highlight");
+//
+//                    JsonObject frontSize=new JsonObject();
+//                    if (object[0].equals("0")) {
+//                        node.addProperty("symbol", "circle");
+//                        node.addProperty("symbolSize",40);
+//                        node.addProperty("type","highlight");
+//                        frontSize.addProperty("frontSize",15);
+//                    }
+//                    else if (object[0].equals("1")||object[0].equals("4")) {
+//                        node.addProperty("symbol", "triangle");
+//                        node.addProperty("symbolSize",30);
+//                        frontSize.addProperty("frontSize",12);
+//                    }
+//                    else if (object[0].equals("2")||object[0].equals("5")) {
+//                        node.addProperty("symbol", "rectangle");
+//                        node.addProperty("symbolSize",30);
+//                        frontSize.addProperty("frontSize",12);
+//                    }
+//                    else {
+//                        node.addProperty("symbol", "diamond");
+//                        node.addProperty("symbolSize",30);
+//                        frontSize.addProperty("frontSize",12);
+//                    }
 //                    JsonObject color=new JsonObject();
 //                    node.add("itemStyle",color);
-//                    JsonObject frontSize=new JsonObject();
-//                    frontSize.addProperty("frontSize",12);
-//                    node.add("label",frontSize);
-//                    int ran_Category=r.nextInt(10);
-//                    node.addProperty("category",ran_Category);
 //
+//
+//                    node.add("label",frontSize);
+//                    if (object[0].equals("0")) {
+//                        node.addProperty("category",0);
+//                    }
+//                    else if (object[0].equals("1")) {
+//                        node.addProperty("category",1);
+//                    }
+//                    else if (object[0].equals("2")) {
+//                        node.addProperty("category",2);
+//                    }
+//                    else if (object[0].equals("3")) {
+//                        node.addProperty("category",3);
+//                    }
+//                    else if (object[0].equals("4")) {
+//                        node.addProperty("category",4);
+//                    }
+//                    else if (object[0].equals("5")) {
+//                        node.addProperty("category",5);
+//                    }
+//                    else {
+//                        node.addProperty("category",6);
+//                    }
 //                    nodes.add(node);
 //                }
 //                else{
 //                    numOfLinks++;
 //                    JsonObject link=new JsonObject();
 //                    String[] object=line.split(" ");
-//                    link.addProperty("source",object[0]);
-//                    link.addProperty("target",object[1]);
-//                    link.addProperty("name",object[2]);
+//                    link.addProperty("source",object[1]);
+//                    link.addProperty("target",object[2]);
+//                    link.addProperty("name",object[3]);
 //                    link.addProperty("des","link"+numOfLinks+"des");
 //
 //                    links.add(link);
@@ -79,7 +112,7 @@
 //            System.out.println(jsonContainer);
 //            //输出json文件
 //            String jsonString=jsonContainer.toString();
-//            File file=new File("src\\main\\resources\\kg/target.json");
+//            File file=new File("src\\main\\resources\\kg\\data/target6.json");
 //            if (file.exists()){
 //                file.delete();
 //            }
@@ -102,4 +135,207 @@
 //            e.printStackTrace();
 //        }
 //    }
-//}
+
+
+    //读取知识图谱进行融合的测试,传入两个字符串
+    public static void main(String[] args) throws IOException {
+        KgServiceImpl kgService=new KgServiceImpl();
+        //读取内容
+        //第一个知识图谱
+        BufferedReader buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("src\\main\\resources\\kg\\data\\target4.json")));
+        String strTmp1 = buffReader.readLine();
+        ArrayList<ArrayList<String>> kg1=new ArrayList<>();
+        ArrayList<ArrayList<String>> kg1_nodes=new ArrayList<>();
+
+        //第二个知识图谱
+        buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("src\\main\\resources\\kg\\data\\target5.json")));
+        String strTmp2 = buffReader.readLine();
+        ArrayList<ArrayList<String>> kg2=new ArrayList<>();
+        ArrayList<ArrayList<String>> kg2_nodes=new ArrayList<>();
+
+        buffReader.close();
+
+        JsonObject jsonContainer1=new JsonParser().parse(strTmp1).getAsJsonObject();
+        JsonArray nodes1=(JsonArray) jsonContainer1.get("nodes");
+        JsonArray links1= (JsonArray) jsonContainer1.get("links");
+
+        for (int j=0;j<nodes1.size();j++){
+            ArrayList<String> temp=new ArrayList<>();
+            JsonObject node= (JsonObject) nodes1.get(j);
+            String category=node.get("category").toString().replaceAll("\"","");
+            String name=node.get("name").toString().replaceAll("\"","");
+            temp.add(category);
+            temp.add(name);
+            kg1_nodes.add(temp);
+        }
+        for (int j=0;j<links1.size();j++){
+            ArrayList<String> temp=new ArrayList<>();
+            JsonObject link= (JsonObject) links1.get(j);
+            String source=link.get("source").toString().replaceAll("\"","");
+            String target=link.get("target").toString().replaceAll("\"","");
+            String name=link.get("name").toString().replaceAll("\"","");
+            temp.add(source);
+            temp.add(target);
+            temp.add(name);
+            kg1.add(temp);
+        }
+
+        JsonObject jsonContainer2=new JsonParser().parse(strTmp2).getAsJsonObject();
+        JsonArray nodes2=(JsonArray) jsonContainer2.get("nodes");
+        JsonArray links2= (JsonArray) jsonContainer2.get("links");
+
+        for (int j=0;j<nodes2.size();j++){
+            ArrayList<String> temp=new ArrayList<>();
+            JsonObject node= (JsonObject) nodes2.get(j);
+            String category=node.get("category").toString().replaceAll("\"","");
+            String name=node.get("name").toString().replaceAll("\"","");
+            temp.add(category);
+            temp.add(name);
+            kg2_nodes.add(temp);
+        }
+        for (int j=0;j<links2.size();j++){
+            ArrayList<String> temp=new ArrayList<>();
+            JsonObject link= (JsonObject) links2.get(j);
+            String source=link.get("source").toString().replaceAll("\"","");
+            String target=link.get("target").toString().replaceAll("\"","");
+            String name=link.get("name").toString().replaceAll("\"","");
+            temp.add(source);
+            temp.add(target);
+            temp.add(name);
+            kg2.add(temp);
+        }
+
+        //合并三元组
+        ArrayList<ArrayList<String>> links_result= new ArrayList<>();
+        links_result=(ArrayList<ArrayList<String>>) kg1.clone();
+
+        for (int j=0;j<kg2.size();j++){
+            ArrayList<String> linkB=kg2.get(j);  //需要合并的节点
+            int index1=-1;      //记录kg1中相似的主节点序号
+            int index2=-1;      //记录kg1中相同的副节点序号
+            for (int i=0;i<kg1.size();i++){
+                ArrayList<String> linkA=kg1.get(i);
+                if (kgService.fuse(linkA.get(0),linkB.get(0))){
+                    //找到主节点相似
+                    index1=i;
+                    if (linkA.get(1).equals(linkB.get(1))){
+                        //找到副节点相同
+                        index2=i;
+                    }
+                }
+            }
+            ArrayList<String> change=new ArrayList<>();
+
+            if (index1==-1){
+                //与kg1中的任何一个关系不相似
+                links_result.add(linkB);
+            }
+            else if (index2==-1){
+                //主节点相似但是没有相同的父节点
+                change.add(kg1.get(index1).get(0));
+                change.add(linkB.get(1));
+                change.add(linkB.get(2));
+                links_result.add(change);
+            }
+            else{
+                //主节点相似且父节点相同
+                continue;
+            }
+
+        }
+
+        //合并节点
+        ArrayList<ArrayList<String>> nodes_result= new ArrayList<>();
+        nodes_result=(ArrayList<ArrayList<String>>) kg1_nodes.clone();
+        for (int j=0;j<kg2_nodes.size();j++){
+            boolean flag=true;
+            ArrayList<String> nodeB=kg2_nodes.get(j);
+            for (int i=0;i<kg1_nodes.size();i++){
+                ArrayList<String> nodeA=kg1_nodes.get(i);
+                if (kgService.fuse(nodeA.get(1),nodeB.get(1))){
+                    //找到相似的了
+                    flag=false;
+                }
+            }
+            if (flag)
+                nodes_result.add(nodeB);
+        }
+
+        //生成知识图谱
+        JsonObject jsonContainer=new JsonObject();
+        jsonContainer.addProperty("title","知识图谱");
+        JsonArray nodes=new JsonArray();
+        JsonArray links=new JsonArray();
+        JsonObject frontSize=new JsonObject();
+        for (int i=0;i<nodes_result.size();i++){
+            JsonObject node=new JsonObject();
+            node.addProperty("name",nodes_result.get(i).get(1));
+            node.addProperty("des","nodedes"+(i+1));
+            String category=nodes_result.get(i).get(0);
+            if (category.equals("0")) {
+                node.addProperty("symbol", "circle");
+                node.addProperty("symbolSize",40);
+                node.addProperty("type","highlight");
+                frontSize.addProperty("frontSize",15);
+            }
+            else if (category.equals("1")||category.equals("4")) {
+                node.addProperty("symbol", "triangle");
+                node.addProperty("symbolSize",30);
+                frontSize.addProperty("frontSize",12);
+            }
+            else if (category.equals("2")||category.equals("5")) {
+                node.addProperty("symbol", "rectangle");
+                node.addProperty("symbolSize",30);
+                frontSize.addProperty("frontSize",12);
+            }
+            else {
+                node.addProperty("symbol", "diamond");
+                node.addProperty("symbolSize",30);
+                frontSize.addProperty("frontSize",12);
+            }
+            JsonObject color=new JsonObject();
+            node.add("itemStyle",color);
+
+
+            node.add("label",frontSize);
+            if (category.equals("0")) {
+                node.addProperty("category",0);
+            }
+            else if (category.equals("1")) {
+                node.addProperty("category",1);
+            }
+            else if (category.equals("2")) {
+                node.addProperty("category",2);
+            }
+            else if (category.equals("3")) {
+                node.addProperty("category",3);
+            }
+            else if (category.equals("4")) {
+                node.addProperty("category",4);
+            }
+            else if (category.equals("5")) {
+                node.addProperty("category",5);
+            }
+            else {
+                node.addProperty("category",6);
+            }
+            nodes.add(node);
+        }
+        for (int i=0;i<links_result.size();i++){
+            JsonObject link=new JsonObject();
+            link.addProperty("source",links_result.get(i).get(0));
+            link.addProperty("target",links_result.get(i).get(1));
+            link.addProperty("name",links_result.get(i).get(1));
+            link.addProperty("des","link"+(i+1)+"des");
+
+            links.add(link);
+        }
+        jsonContainer.add("nodes",nodes);
+        jsonContainer.add("links",links);
+        jsonContainer.addProperty("isChartFixed",false);
+        JsonArray potions=new JsonArray();
+        jsonContainer.add("potions",potions);
+        String jsonString=jsonContainer.toString();
+        System.out.println(jsonString);
+    }
+}
