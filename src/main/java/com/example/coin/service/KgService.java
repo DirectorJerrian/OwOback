@@ -16,4 +16,6 @@ public interface KgService {
     Boolean fuse(String a,String b) throws IOException;
 
     ResponseVO getFusion(DataVO dataVO) throws IOException;
+
+    ResponseVO getAnswer(DataVO dataVO) throws IOException;
 }

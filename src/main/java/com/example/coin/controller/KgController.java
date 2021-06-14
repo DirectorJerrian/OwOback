@@ -27,4 +27,10 @@ public class KgController {
         return kgService.getFusion(dataVO);
     }
 
+    @PostMapping(value = "/getAnswer")
+    @ResponseBody
+    public ResponseVO getAnswer(@RequestBody DataVO dataVO) throws IOException {
+        return kgService.getAnswer(dataVO);
+    }
+
 }

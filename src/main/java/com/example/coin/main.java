@@ -375,7 +375,7 @@ class Main {
         String jsonString=jsonContainer.toString();
         System.out.println(jsonString);
 
-        File file=new File("src\\main\\resources\\kg\\data/target7.json");
+        File file=new File("src\\main\\resources\\kg\\data/target.json");
         if (file.exists()){
             file.delete();
         }
@@ -387,10 +387,41 @@ class Main {
     }
 
     public static void getAnswer() throws IOException {
-        String questions="";
+        String questions="请问乙型肝炎的发病症状是什么，吃什么药能好？发病部位呢?有哪些人患病？传染性怎么样？所属科呢？需要检查什么？";
+        //1 用药
+        String[] drug={"药", "药品", "用药", "胶囊", "口服液", "炎片", "吃什么药", "用什么药", "买什么药",};
+        //2 发病部位
+        String[] part={"发病部位","发病位置","哪里发病","哪里有问题"};
+        //3 发病人群
+        String[] age={"什么时候发病","什么人发病","哪种人","谁会患","什么人","哪些人"};
+        //4 传染性
+        String[] infection={"传染性","传染"};
+        //5 治疗时间
+        String[] period={"周期", "多久", "多长时间", "多少时间", "几天", "几年", "多少天", "多少小时",
+                "几个小时", "多少年", "多久能好", "痊愈", "康复","什么时候能好"};
+        //6 所属科
+        String[] department={"属于什么科", "什么科", "科室", "挂什么", "挂哪个", "哪个科", "哪些科","所属科"};
+        //7 检查项目
+        String[] check={"检查什么", "检查项目", "哪些检查", "什么检查", "检查哪些", "项目", "检测什么",
+                "哪些检测", "检测哪些", "化验什么", "哪些化验", "化验哪些", "哪些体检", "怎么查找",
+                "如何查找", "怎么检查", "如何检查", "怎么检测", "如何检测"};
+        //8 症状
+        String[] symptom={"什么症状", "哪些症状", "症状有哪些", "症状是什么", "什么表征", "哪些表征", "表征是什么",
+                "什么现象", "哪些现象", "现象有哪些", "症候", "什么表现", "哪些表现", "表现有哪些",
+                "什么行为", "哪些行为", "行为有哪些", "什么状况", "哪些状况", "状况有哪些", "现象是什么",
+                "表现是什么", "行为是什么"};
+        //9 并发症
+        String[] complication={"并发症","还会患什么","还会得什么"};
+        //10 治疗方法
+        String[] treatment={"怎么办", "怎么治疗", "如何医治", "怎么医治", "怎么治", "怎么医",
+                "如何治","医治方式", "疗法", "咋治", "咋办", "咋治", "治疗方法"};
+        //11 治愈率
+        String[] rate={"多大概率能治好", "多大几率能治好", "治好希望大么", "几率", "几成", "比例",
+                "可能性", "能治", "可治", "可以治", "可以医", "能治好吗", "可以治好吗", "会好吗",
+                "能好吗", "治愈吗"};
 
         //读取生成知识图谱三元组
-        BufferedReader buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("src\\main\\resources\\kg\\data\\target1.json")));
+        BufferedReader buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("src\\main\\resources\\kg\\data\\target2.json")));
         String strTmp1 = buffReader.readLine();
         ArrayList<ArrayList<String>> kg=new ArrayList<>();
         buffReader.close();
@@ -407,7 +438,6 @@ class Main {
             temp.add(name);
             kg.add(temp);
         }
-        System.out.println(kg);
 
         //读取生成字典
         if(dic.size()==0) {
@@ -420,7 +450,629 @@ class Main {
                 dic.add(temp);
             }
         }
-        System.out.println(dic);
 
+        //处理问题
+        String[] questionList=questions.split("[?？]");
+        ArrayList<ArrayList<ArrayList<String>>> transQuestions=new ArrayList<>();
+        for (int i=0;i<questionList.length;i++){
+            String singleQuestion=questionList[i];
+            ArrayList<ArrayList<String>> singleTrans=new ArrayList<>();
+            //首先去寻找主语,如果没有找到添加空
+            boolean flag=false;
+            for (int j=0;j<dic.size();j++){
+                ArrayList<String> similarName= (ArrayList<String>) dic.get(j).clone();
+                for(int k=0;k<similarName.size();k++){
+                    if (singleQuestion.indexOf(similarName.get(k))!=-1){
+                        //在字典的j行k列找到句子中包含的主语
+                        flag=true;
+                        similarName.add(String.valueOf(k));
+                        singleTrans.add(similarName);
+                        break;
+                    }
+                }
+                if (flag){
+                    break;
+                }
+                else if (j==dic.size()-1){
+                    singleTrans.add(new ArrayList<String>());
+                }
+            }
+            //1 用药
+            ArrayList<String> singleDrug=new ArrayList<>();
+            for(int j=0;j<drug.length;j++){
+                if (singleQuestion.indexOf(drug[j])!=-1){
+                    singleDrug.add(String.valueOf(1));
+                    break;
+                }
+            }
+            if (singleDrug.size()!=0)
+                singleTrans.add(singleDrug);
+
+            //2 发病部位
+            ArrayList<String> singlePart=new ArrayList<>();
+            for(int j=0;j<part.length;j++){
+                if (singleQuestion.indexOf(part[j])!=-1){
+                    singlePart.add(String.valueOf(2));
+                    break;
+                }
+            }
+            if (singlePart.size()!=0)
+                singleTrans.add(singlePart);
+
+            //3 发病人群
+            ArrayList<String> singleAge=new ArrayList<>();
+            for(int j=0;j<age.length;j++){
+                if (singleQuestion.indexOf(age[j])!=-1){
+                    singleAge.add(String.valueOf(3));
+                    break;
+                }
+            }
+            if (singleAge.size()!=0)
+                singleTrans.add(singleAge);
+
+            //4 传染性
+            ArrayList<String> singleInfection=new ArrayList<>();
+            for(int j=0;j<infection.length;j++){
+                if (singleQuestion.indexOf(infection[j])!=-1){
+                    singleInfection.add(String.valueOf(4));
+                    break;
+                }
+            }
+            if (singleInfection.size()!=0)
+                singleTrans.add(singleInfection);
+
+            //5 治疗时间
+            ArrayList<String> singlePeriod=new ArrayList<>();
+            for(int j=0;j<period.length;j++){
+                if (singleQuestion.indexOf(period[j])!=-1){
+                    singlePeriod.add(String.valueOf(5));
+                    break;
+                }
+            }
+            if (singlePeriod.size()!=0)
+                singleTrans.add(singlePeriod);
+
+            //6 所属科
+            ArrayList<String> singleDepartment=new ArrayList<>();
+            for(int j=0;j<department.length;j++){
+                if (singleQuestion.indexOf(department[j])!=-1){
+                    singleDepartment.add(String.valueOf(6));
+                    break;
+                }
+            }
+            if (singleDepartment.size()!=0)
+                singleTrans.add(singleDepartment);
+
+            //7 检查项目
+            ArrayList<String> singleCheck=new ArrayList<>();
+            for(int j=0;j<check.length;j++){
+                if (singleQuestion.indexOf(check[j])!=-1){
+                    singleCheck.add(String.valueOf(7));
+                    break;
+                }
+            }
+            if (singleCheck.size()!=0)
+                singleTrans.add(singleCheck);
+
+            //8 症状
+            ArrayList<String> singleSymptom=new ArrayList<>();
+            for(int j=0;j<symptom.length;j++){
+                if (singleQuestion.indexOf(symptom[j])!=-1){
+                    singleSymptom.add(String.valueOf(8));
+                    break;
+                }
+            }
+            if (singleSymptom.size()!=0)
+                singleTrans.add(singleSymptom);
+
+            //9 并发症
+            ArrayList<String> singleComplication=new ArrayList<>();
+            for(int j=0;j<complication.length;j++){
+                if (singleQuestion.indexOf(complication[j])!=-1){
+                    singleComplication.add(String.valueOf(9));
+                    break;
+                }
+            }
+            if (singleComplication.size()!=0)
+                singleTrans.add(singleComplication);
+
+            //10 治疗方法
+            ArrayList<String> singleTreatment=new ArrayList<>();
+            for(int j=0;j<treatment.length;j++){
+                if (singleQuestion.indexOf(treatment[j])!=-1){
+                    singleTreatment.add(String.valueOf(10));
+                    break;
+                }
+            }
+            if (singleTreatment.size()!=0)
+                singleTrans.add(singleTreatment);
+
+            //11 治愈率
+            ArrayList<String> singleRate=new ArrayList<>();
+            for(int j=0;j<rate.length;j++){
+                if (singleQuestion.indexOf(rate[j])!=-1){
+                    singleRate.add(String.valueOf(11));
+                    break;
+                }
+            }
+            if (singleRate.size()!=0)
+                singleTrans.add(singleRate);
+
+            transQuestions.add(singleTrans);
+        }
+
+        //根据处理好的问题生成回答
+        String result="";
+        ArrayList<String> lack=new ArrayList<>();
+        ArrayList<String> temp=new ArrayList<>();
+        for (int i=0;i<transQuestions.size();i++){
+            ArrayList<ArrayList<String>> singleQuestion=transQuestions.get(i);      //第i个转换好的问题
+            ArrayList<String> name=singleQuestion.get(0);
+
+            //找到主语且有关系
+            if (name.size()!=0&&singleQuestion.size()>1){
+                //添加主语
+                Integer indexOfSubject=Integer.parseInt(name.get(name.size()-1));
+                //找到的主语不为正式名字
+                if (indexOfSubject!=0){
+                    result=result+name.get(indexOfSubject)+"即"+name.get(0)+"，";
+                }
+                else {
+                    result=result+name.get(indexOfSubject)+"，";
+                }
+
+                //添加答案
+                for (int j=1;j<singleQuestion.size();j++){
+                    Integer indexOfRelation=Integer.parseInt(singleQuestion.get(j).get(0));
+                    switch (indexOfRelation){
+                        //回答药物
+                        case 1:
+                            temp=new ArrayList<>();
+                            for (int k=0;k<kg.size();k++){
+                                if (singleQuestion.get(0).contains(kg.get(k).get(0))&&kg.get(k).get(2).equals("用药")){
+                                    temp.add(kg.get(k).get(1));
+                                }
+                            }
+                            if (temp.size()>0){
+                                result=result+"治疗需要使用以下药物：";
+                                for (int k=0;k<temp.size();k++){
+                                    if (k==temp.size()-1){
+                                        result=result+temp.get(k)+"，";
+                                    }
+                                    else {
+                                        result=result+temp.get(k)+"、";
+                                    }
+                                }
+                            }
+                            else
+                                lack.add(name.get(indexOfSubject)+"的用药");
+                            break;
+                        case 2:
+                            temp=new ArrayList<>();
+                            for (int k=0;k<kg.size();k++){
+                                if (singleQuestion.get(0).contains(kg.get(k).get(0))&&kg.get(k).get(2).equals("发病部位")){
+                                    temp.add(kg.get(k).get(1));
+                                }
+                            }
+                            if (temp.size()>0){
+                                result=result+"发病部位有";
+                                for (int k=0;k<temp.size();k++){
+                                    if (k==temp.size()-1){
+                                        result=result+temp.get(k)+"，";
+                                    }
+                                    else {
+                                        result=result+temp.get(k)+"、";
+                                    }
+                                }
+                            }
+                            else
+                                lack.add(name.get(indexOfSubject)+"的发病部位");
+                            break;
+                        case 3:
+                            temp=new ArrayList<>();
+                            for (int k=0;k<kg.size();k++){
+                                if (singleQuestion.get(0).contains(kg.get(k).get(0))&&kg.get(k).get(2).equals("发病人群")){
+                                    temp.add(kg.get(k).get(1));
+                                }
+                            }
+                            if (temp.size()>0){
+                                result=result+"发病人群有";
+                                for (int k=0;k<temp.size();k++){
+                                    if (k==temp.size()-1){
+                                        result=result+temp.get(k)+"，";
+                                    }
+                                    else {
+                                        result=result+temp.get(k)+"、";
+                                    }
+                                }
+                            }
+                            else
+                                lack.add(name.get(indexOfSubject)+"的发病人群");
+                            break;
+                        case 4:
+                            for (int k=0;k<kg.size();k++){
+                                if (singleQuestion.get(0).contains(kg.get(k).get(0))&&kg.get(k).get(2).equals("传染性")){
+                                    result=result+kg.get(k).get(1)+"，";
+                                    break;
+                                }
+                                if (k==kg.size()-1)
+                                    lack.add(name.get(indexOfSubject)+"的传染性");
+                            }
+                            break;
+                        case 5:
+                            for (int k=0;k<kg.size();k++){
+                                if (singleQuestion.get(0).contains(kg.get(k).get(0))&&kg.get(k).get(2).equals("治疗时间")){
+                                    result=result+"治疗时间为"+kg.get(k).get(1)+"，";
+                                    break;
+                                }
+                                if (k==kg.size()-1)
+                                    lack.add(name.get(indexOfSubject)+"的治疗时间");
+                            }
+                            break;
+                        case 6:
+                            temp=new ArrayList<>();
+                            for (int k=0;k<kg.size();k++){
+                                if (singleQuestion.get(0).contains(kg.get(k).get(0))&&kg.get(k).get(2).equals("所属科")){
+                                    temp.add(kg.get(k).get(1));
+                                }
+                            }
+                            if (temp.size()>0){
+                                result=result+"所属科为";
+                                for (int k=0;k<temp.size();k++){
+                                    if (k==temp.size()-1){
+                                        result=result+temp.get(k)+"，";
+                                    }
+                                    else {
+                                        result=result+temp.get(k)+"、";
+                                    }
+                                }
+                            }
+                            else
+                                lack.add(name.get(indexOfSubject)+"的所属科");
+                            break;
+                        case 7:
+                            temp=new ArrayList<>();
+                            for (int k=0;k<kg.size();k++){
+                                if (singleQuestion.get(0).contains(kg.get(k).get(0))&&kg.get(k).get(2).equals("检查项目")){
+                                    temp.add(kg.get(k).get(1));
+                                }
+                            }
+                            if (temp.size()>0){
+                                result=result+"需要检查以下项目：";
+                                for (int k=0;k<temp.size();k++){
+                                    if (k==temp.size()-1){
+                                        result=result+temp.get(k)+"，";
+                                    }
+                                    else {
+                                        result=result+temp.get(k)+"、";
+                                    }
+                                }
+                            }
+                            else
+                                lack.add(name.get(indexOfSubject)+"的检查项目");
+                            break;
+                        case 8:
+                            temp=new ArrayList<>();
+                            for (int k=0;k<kg.size();k++){
+                                if (singleQuestion.get(0).contains(kg.get(k).get(0))&&kg.get(k).get(2).equals("症状")){
+                                    temp.add(kg.get(k).get(1));
+                                }
+                            }
+                            if (temp.size()>0){
+                                result=result+"有以下症状：";
+                                for (int k=0;k<temp.size();k++){
+                                    if (k==temp.size()-1){
+                                        result=result+temp.get(k)+"，";
+                                    }
+                                    else {
+                                        result=result+temp.get(k)+"、";
+                                    }
+                                }
+                            }
+                            else
+                                lack.add(name.get(indexOfSubject)+"的症状");
+                            break;
+                        case 9:
+                            temp=new ArrayList<>();
+                            for (int k=0;k<kg.size();k++){
+                                if (singleQuestion.get(0).contains(kg.get(k).get(0))&&kg.get(k).get(2).equals("并发症")){
+                                    temp.add(kg.get(k).get(1));
+                                }
+                            }
+                            if (temp.size()>0){
+                                result=result+"有以下并发症：";
+                                for (int k=0;k<temp.size();k++){
+                                    if (k==temp.size()-1){
+                                        result=result+temp.get(k)+"，";
+                                    }
+                                    else {
+                                        result=result+temp.get(k)+"、";
+                                    }
+                                }
+                            }
+                            else
+                                lack.add(name.get(indexOfSubject)+"的并发症");
+                            break;
+                        case 10:
+                            temp=new ArrayList<>();
+                            for (int k=0;k<kg.size();k++){
+                                if (singleQuestion.get(0).contains(kg.get(k).get(0))&&kg.get(k).get(2).equals("治疗方法")){
+                                    temp.add(kg.get(k).get(1));
+                                }
+                            }
+                            if (temp.size()>0){
+                                result=result+"治疗方法为";
+                                for (int k=0;k<temp.size();k++){
+                                    if (k==temp.size()-1){
+                                        result=result+temp.get(k)+"，";
+                                    }
+                                    else {
+                                        result=result+temp.get(k)+"、";
+                                    }
+                                }
+                            }
+                            else
+                                lack.add(name.get(indexOfSubject)+"的治疗方法");
+                            break;
+                        case 11:
+                            for (int k=0;k<kg.size();k++){
+                                if (singleQuestion.get(0).contains(kg.get(k).get(0))&&kg.get(k).get(2).equals("治愈率")){
+                                    result=result+"治愈率为"+kg.get(k).get(1)+"，";
+                                    break;
+                                }
+                                if (k==kg.size()-1)
+                                    lack.add(name.get(indexOfSubject)+"的治愈率");
+                            }
+                            break;
+                    }
+                }
+                if (result.substring(result.length()-1,result.length()).equals("，"))
+                    result=result.substring(0,result.length()-1)+"。";
+            }
+            //没有主语有关系
+            else if (name.size()==0&&singleQuestion.size()>1){
+                //找到前一句话的主语
+                ArrayList<String> preName=new ArrayList<>();
+                if (i==0)
+                    continue;
+                else {
+                    for (int j=i-1;j>-1;j--){
+                        if (transQuestions.get(j).get(0).size()!=0){
+                            preName=transQuestions.get(j).get(0);
+                            break;
+                        }
+                    }
+                }
+                if (preName.size()!=0) {
+                    //添加主语
+                    result=result+preName.get(0);
+
+                    for (int j=1;j<singleQuestion.size();j++){
+                        Integer indexOfRelation=Integer.parseInt(singleQuestion.get(j).get(0));
+                        switch (indexOfRelation){
+                            //回答药物
+                            case 1:
+                                temp=new ArrayList<>();
+                                for (int k=0;k<kg.size();k++){
+                                    if (preName.contains(kg.get(k).get(0))&&kg.get(k).get(2).equals("用药")){
+                                        temp.add(kg.get(k).get(1));
+                                    }
+                                }
+                                if (temp.size()>0){
+                                    result=result+"治疗需要使用以下药物：";
+                                    for (int k=0;k<temp.size();k++){
+                                        if (k==temp.size()-1){
+                                            result=result+temp.get(k)+"，";
+                                        }
+                                        else {
+                                            result=result+temp.get(k)+"、";
+                                        }
+                                    }
+                                }
+                                else
+                                    lack.add(preName.get(0)+"的用药");
+                                break;
+                            case 2:
+                                temp=new ArrayList<>();
+                                for (int k=0;k<kg.size();k++){
+                                    if (preName.contains(kg.get(k).get(0))&&kg.get(k).get(2).equals("发病部位")){
+                                        temp.add(kg.get(k).get(1));
+                                    }
+                                }
+                                if (temp.size()>0){
+                                    result=result+"发病部位有";
+                                    for (int k=0;k<temp.size();k++){
+                                        if (k==temp.size()-1){
+                                            result=result+temp.get(k)+"，";
+                                        }
+                                        else {
+                                            result=result+temp.get(k)+"、";
+                                        }
+                                    }
+                                }
+                                else
+                                    lack.add(preName.get(0)+"的发病部位");
+                                break;
+                            case 3:
+                                temp=new ArrayList<>();
+                                for (int k=0;k<kg.size();k++){
+                                    if (preName.contains(kg.get(k).get(0))&&kg.get(k).get(2).equals("发病人群")){
+                                        temp.add(kg.get(k).get(1));
+                                    }
+                                }
+                                if (temp.size()>0){
+                                    result=result+"发病人群有";
+                                    for (int k=0;k<temp.size();k++){
+                                        if (k==temp.size()-1){
+                                            result=result+temp.get(k)+"，";
+                                        }
+                                        else {
+                                            result=result+temp.get(k)+"、";
+                                        }
+                                    }
+                                }
+                                else
+                                    lack.add(preName.get(0)+"的发病人群");
+                                break;
+                            case 4:
+                                for (int k=0;k<kg.size();k++){
+                                    if (preName.contains(kg.get(k).get(0))&&kg.get(k).get(2).equals("传染性")){
+                                        result=result+kg.get(k).get(1)+"，";
+                                        break;
+                                    }
+                                    if (k==kg.size()-1)
+                                        lack.add(preName.get(0)+"的传染性");
+                                }
+                                break;
+                            case 5:
+                                for (int k=0;k<kg.size();k++){
+                                    if (preName.contains(kg.get(k).get(0))&&kg.get(k).get(2).equals("治疗时间")){
+                                        result=result+"治疗时间为"+kg.get(k).get(1)+"，";
+                                        break;
+                                    }
+                                    if (k==kg.size()-1)
+                                        lack.add(preName.get(0)+"的治疗时间");
+                                }
+                                break;
+                            case 6:
+                                temp=new ArrayList<>();
+                                for (int k=0;k<kg.size();k++){
+                                    if (preName.contains(kg.get(k).get(0))&&kg.get(k).get(2).equals("所属科")){
+                                        temp.add(kg.get(k).get(1));
+                                    }
+                                }
+                                if (temp.size()>0){
+                                    result=result+"所属科为";
+                                    for (int k=0;k<temp.size();k++){
+                                        if (k==temp.size()-1){
+                                            result=result+temp.get(k)+"，";
+                                        }
+                                        else {
+                                            result=result+temp.get(k)+"、";
+                                        }
+                                    }
+                                }
+                                else
+                                    lack.add(preName.get(0)+"的所属科");
+                                break;
+                            case 7:
+                                temp=new ArrayList<>();
+                                for (int k=0;k<kg.size();k++){
+                                    if (preName.contains(kg.get(k).get(0))&&kg.get(k).get(2).equals("检查项目")){
+                                        temp.add(kg.get(k).get(1));
+                                    }
+                                }
+                                if (temp.size()>0){
+                                    result=result+"需要检查以下项目：";
+                                    for (int k=0;k<temp.size();k++){
+                                        if (k==temp.size()-1){
+                                            result=result+temp.get(k)+"，";
+                                        }
+                                        else {
+                                            result=result+temp.get(k)+"、";
+                                        }
+                                    }
+                                }
+                                else
+                                    lack.add(preName.get(0)+"的检查项目");
+                                break;
+                            case 8:
+                                temp=new ArrayList<>();
+                                for (int k=0;k<kg.size();k++){
+                                    if (preName.contains(kg.get(k).get(0))&&kg.get(k).get(2).equals("症状")){
+                                        temp.add(kg.get(k).get(1));
+                                    }
+                                }
+                                if (temp.size()>0){
+                                    result=result+"有以下症状：";
+                                    for (int k=0;k<temp.size();k++){
+                                        if (k==temp.size()-1){
+                                            result=result+temp.get(k)+"，";
+                                        }
+                                        else {
+                                            result=result+temp.get(k)+"、";
+                                        }
+                                    }
+                                }
+                                else
+                                    lack.add(preName.get(0)+"的症状");
+                                break;
+                            case 9:
+                                temp=new ArrayList<>();
+                                for (int k=0;k<kg.size();k++){
+                                    if (preName.contains(kg.get(k).get(0))&&kg.get(k).get(2).equals("并发症")){
+                                        temp.add(kg.get(k).get(1));
+                                    }
+                                }
+                                if (temp.size()>0){
+                                    result=result+"有以下并发症：";
+                                    for (int k=0;k<temp.size();k++){
+                                        if (k==temp.size()-1){
+                                            result=result+temp.get(k)+"，";
+                                        }
+                                        else {
+                                            result=result+temp.get(k)+"、";
+                                        }
+                                    }
+                                }
+                                else
+                                    lack.add(preName.get(0)+"的并发症");
+                                break;
+                            case 10:
+                                temp=new ArrayList<>();
+                                for (int k=0;k<kg.size();k++){
+                                    if (preName.contains(kg.get(k).get(0))&&kg.get(k).get(2).equals("治疗方法")){
+                                        temp.add(kg.get(k).get(1));
+                                    }
+                                }
+                                if (temp.size()>0){
+                                    result=result+"治疗方法为";
+                                    for (int k=0;k<temp.size();k++){
+                                        if (k==temp.size()-1){
+                                            result=result+temp.get(k)+"，";
+                                        }
+                                        else {
+                                            result=result+temp.get(k)+"、";
+                                        }
+                                    }
+                                }
+                                else
+                                    lack.add(preName.get(0)+"的治疗方法");
+                                break;
+                            case 11:
+                                for (int k=0;k<kg.size();k++){
+                                    if (preName.contains(kg.get(k).get(0))&&kg.get(k).get(2).equals("治愈率")){
+                                        result=result+"治愈率为"+kg.get(k).get(1)+"，";
+                                        break;
+                                    }
+                                    if (k==kg.size()-1)
+                                        lack.add(preName.get(0)+"的治愈率");
+                                }
+                                break;
+                        }
+                    }
+                    if (result.substring(result.length()-1,result.length()).equals("，"))
+                        result=result.substring(0,result.length()-1)+"。";
+                    if (result.substring(result.length()-preName.get(0).length(),result.length()).equals(preName.get(0)))
+                        result=result.substring(0,result.length()-preName.get(0).length());
+
+                }
+            }
+        }
+        if (lack.size()>0){
+            result=result+"知识图谱中未查找到以下内容：";
+            for (int i=0;i<lack.size();i++){
+                result=result+lack.get(i);
+                if (i!=lack.size()-1)
+                    result+="、";
+                else
+                    result+="。";
+            }
+        }
+
+        System.out.println(result);
     }
+
 }
+
+
