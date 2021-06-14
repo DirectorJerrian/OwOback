@@ -17,7 +17,7 @@ class Main {
     public static ArrayList<ArrayList<String>> dic=new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
-        getAnswer();
+        getKg();
     }
     //生成知识图谱
     public static void getKg() {
@@ -134,7 +134,7 @@ class Main {
             System.out.println(jsonContainer);
             //输出json文件
             String jsonString=jsonContainer.toString();
-            File file=new File("src\\main\\resources\\kg\\data/target.json");
+            File file=new File("src\\main\\resources\\kg\\data/targetForFusion2.json");
             if (file.exists()){
                 file.delete();
             }
