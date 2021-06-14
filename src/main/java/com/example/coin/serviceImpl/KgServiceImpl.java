@@ -143,15 +143,16 @@ public class KgServiceImpl implements KgService {
 
     //读取知识图谱三元组，融合后返回json字符串
     public ResponseVO getFusion(DataVO dataVO) throws IOException {
+
         //读取内容
         //第一个知识图谱
         String strTmp1 = dataVO.getDataString();
-        ArrayList<ArrayList<String>> kg1=new ArrayList<>();
+        ArrayList<ArrayList<String>> kg1_links=new ArrayList<>();
         ArrayList<ArrayList<String>> kg1_nodes=new ArrayList<>();
 
         //第二个知识图谱
         String strTmp2 = dataVO.getNextData();
-        ArrayList<ArrayList<String>> kg2=new ArrayList<>();
+        ArrayList<ArrayList<String>> kg2_links=new ArrayList<>();
         ArrayList<ArrayList<String>> kg2_nodes=new ArrayList<>();
 
 
@@ -177,7 +178,7 @@ public class KgServiceImpl implements KgService {
             temp.add(source);
             temp.add(target);
             temp.add(name);
-            kg1.add(temp);
+            kg1_links.add(temp);
         }
 
         JsonObject jsonContainer2=new JsonParser().parse(strTmp2).getAsJsonObject();
@@ -202,19 +203,19 @@ public class KgServiceImpl implements KgService {
             temp.add(source);
             temp.add(target);
             temp.add(name);
-            kg2.add(temp);
+            kg2_links.add(temp);
         }
 
         //合并三元组
         ArrayList<ArrayList<String>> links_result= new ArrayList<>();
-        links_result=(ArrayList<ArrayList<String>>) kg1.clone();
+        links_result=(ArrayList<ArrayList<String>>) kg1_links.clone();
 
-        for (int j=0;j<kg2.size();j++){
-            ArrayList<String> linkB=kg2.get(j);  //需要合并的节点
+        for (int j=0;j<kg2_links.size();j++){
+            ArrayList<String> linkB=kg2_links.get(j);  //需要合并的节点
             int index1=-1;      //记录kg1中相似的主节点序号
             int index2=-1;      //记录kg1中相同的副节点序号
-            for (int i=0;i<kg1.size();i++){
-                ArrayList<String> linkA=kg1.get(i);
+            for (int i=0;i<kg1_links.size();i++){
+                ArrayList<String> linkA=kg1_links.get(i);
                 if (fuse(linkA.get(0),linkB.get(0))){
                     //找到主节点相似
                     index1=i;
@@ -232,7 +233,7 @@ public class KgServiceImpl implements KgService {
             }
             else if (index2==-1){
                 //主节点相似但是没有相同的父节点
-                change.add(kg1.get(index1).get(0));
+                change.add(kg1_links.get(index1).get(0));
                 change.add(linkB.get(1));
                 change.add(linkB.get(2));
                 links_result.add(change);
@@ -278,12 +279,12 @@ public class KgServiceImpl implements KgService {
                 node.addProperty("type","highlight");
                 frontSize.addProperty("frontSize",15);
             }
-            else if (category.equals("1")||category.equals("4")) {
+            else if (category.equals("2")||category.equals("6")||category.equals("9")) {
                 node.addProperty("symbol", "triangle");
                 node.addProperty("symbolSize",30);
                 frontSize.addProperty("frontSize",12);
             }
-            else if (category.equals("2")||category.equals("5")) {
+            else if (category.equals("1")||category.equals("3")||category.equals("5")||category.equals("7")||category.equals("8")) {
                 node.addProperty("symbol", "rectangle");
                 node.addProperty("symbolSize",30);
                 frontSize.addProperty("frontSize",12);
@@ -316,8 +317,23 @@ public class KgServiceImpl implements KgService {
             else if (category.equals("5")) {
                 node.addProperty("category",5);
             }
-            else {
+            else if (category.equals("6")) {
                 node.addProperty("category",6);
+            }
+            else if (category.equals("7")) {
+                node.addProperty("category",7);
+            }
+            else if (category.equals("8")) {
+                node.addProperty("category",8);
+            }
+            else if (category.equals("9")) {
+                node.addProperty("category",9);
+            }
+            else if (category.equals("10")) {
+                node.addProperty("category",10);
+            }
+            else {
+                node.addProperty("category",11);
             }
             nodes.add(node);
         }
@@ -325,7 +341,7 @@ public class KgServiceImpl implements KgService {
             JsonObject link=new JsonObject();
             link.addProperty("source",links_result.get(i).get(0));
             link.addProperty("target",links_result.get(i).get(1));
-            link.addProperty("name",links_result.get(i).get(1));
+            link.addProperty("name",links_result.get(i).get(2));
             link.addProperty("des","link"+(i+1)+"des");
 
             links.add(link);
@@ -335,8 +351,6 @@ public class KgServiceImpl implements KgService {
         jsonContainer.addProperty("isChartFixed",false);
         JsonArray potions=new JsonArray();
         jsonContainer.add("potions",potions);
-
-        System.out.println(jsonContainer);
         String jsonString=jsonContainer.toString();
         return ResponseVO.success(jsonString);
     }
