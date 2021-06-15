@@ -11,7 +11,7 @@ import jiagu
 result=""
 index1=0
 index2=0
-line=20
+line=5
 array1=[[0] * 2 for i in range(line*280)]
 array2=[[0] * 4 for i in range(line*280)]
 
