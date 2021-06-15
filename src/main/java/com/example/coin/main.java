@@ -17,7 +17,7 @@ class Main {
     public static ArrayList<ArrayList<String>> dic=new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
-        getKg();
+        getAnswer();
     }
     //生成知识图谱
     public static void getKg() {
@@ -26,7 +26,7 @@ class Main {
         int numOfNodes=0;
         int numOfLinks=0;
         JsonObject jsonContainer=new JsonObject();
-        jsonContainer.addProperty("title","知识图谱");
+        jsonContainer.addProperty("title","知识图谱6");
         JsonArray nodes=new JsonArray();
         JsonArray links=new JsonArray();
         try {
@@ -134,7 +134,7 @@ class Main {
             System.out.println(jsonContainer);
             //输出json文件
             String jsonString=jsonContainer.toString();
-            File file=new File("src\\main\\resources\\kg\\data/targetForFusion4.json");
+            File file=new File("src\\main\\resources\\kg\\data/target6.json");
             if (file.exists()){
                 file.delete();
             }
@@ -164,13 +164,13 @@ class Main {
         KgServiceImpl kgService=new KgServiceImpl();
         //读取内容
         //第一个知识图谱
-        BufferedReader buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("src\\main\\resources\\kg\\data\\target4.json")));
+        BufferedReader buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("src\\main\\resources\\kg\\data\\target1.json")));
         String strTmp1 = buffReader.readLine();
         ArrayList<ArrayList<String>> kg1_links=new ArrayList<>();
         ArrayList<ArrayList<String>> kg1_nodes=new ArrayList<>();
 
         //第二个知识图谱
-        buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("src\\main\\resources\\kg\\data\\target5.json")));
+        buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("src\\main\\resources\\kg\\data\\target3.json")));
         String strTmp2 = buffReader.readLine();
         ArrayList<ArrayList<String>> kg2_links=new ArrayList<>();
         ArrayList<ArrayList<String>> kg2_nodes=new ArrayList<>();
@@ -375,7 +375,7 @@ class Main {
         String jsonString=jsonContainer.toString();
         System.out.println(jsonString);
 
-        File file=new File("src\\main\\resources\\kg\\data/target.json");
+        File file=new File("src\\main\\resources\\kg\\data/target8.json");
         if (file.exists()){
             file.delete();
         }
@@ -387,13 +387,15 @@ class Main {
     }
 
     public static void getAnswer() throws IOException {
-        String questions="请问乙型肝炎的发病症状是什么，吃什么药能好？发病部位呢?有哪些人患病？传染性怎么样？所属科呢？需要检查什么？";
+        String questions="乙肝的传染性？癫痫传染性怎么样";
         //1 用药
-        String[] drug={"药", "药品", "用药", "胶囊", "口服液", "炎片", "吃什么药", "用什么药", "买什么药",};
+        String[] drug={"药", "药品", "用药", "胶囊", "口服液", "炎片", "吃什么药", "用什么药", "买什么药"};
         //2 发病部位
-        String[] part={"发病部位","发病位置","哪里发病","哪里有问题"};
+        String[] part={"发病部位","发病位置","哪里发病","哪里有问题","哪有问题","哪儿发病",
+                "哪里出问题","哪里除了问题","哪里不舒服","哪儿不舒服"};
         //3 发病人群
-        String[] age={"什么时候发病","什么人发病","哪种人","谁会患","什么人","哪些人"};
+        String[] age={"什么时候发病","什么人发病","哪种人","谁会患","什么人","哪些人","发病人群",
+                        "什么时候患病","什么人患病"};
         //4 传染性
         String[] infection={"传染性","传染"};
         //5 治疗时间
@@ -409,19 +411,19 @@ class Main {
         String[] symptom={"什么症状", "哪些症状", "症状有哪些", "症状是什么", "什么表征", "哪些表征", "表征是什么",
                 "什么现象", "哪些现象", "现象有哪些", "症候", "什么表现", "哪些表现", "表现有哪些",
                 "什么行为", "哪些行为", "行为有哪些", "什么状况", "哪些状况", "状况有哪些", "现象是什么",
-                "表现是什么", "行为是什么"};
+                "表现是什么", "行为是什么","症状"};
         //9 并发症
-        String[] complication={"并发症","还会患什么","还会得什么"};
+        String[] complication={"并发症","还会患什么","还会得什么","一起发作","一起患"};
         //10 治疗方法
         String[] treatment={"怎么办", "怎么治疗", "如何医治", "怎么医治", "怎么治", "怎么医",
                 "如何治","医治方式", "疗法", "咋治", "咋办", "咋治", "治疗方法"};
         //11 治愈率
-        String[] rate={"多大概率能治好", "多大几率能治好", "治好希望大么", "几率", "几成", "比例",
+        String[] rate={"多大概率能治好", "多大几率能治好", "治好希望大么", "几率","概率" ,"几成", "比例",
                 "可能性", "能治", "可治", "可以治", "可以医", "能治好吗", "可以治好吗", "会好吗",
                 "能好吗", "治愈吗"};
 
         //读取生成知识图谱三元组
-        BufferedReader buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("src\\main\\resources\\kg\\data\\target2.json")));
+        BufferedReader buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("src\\main\\resources\\kg\\data\\target3.json")));
         String strTmp1 = buffReader.readLine();
         ArrayList<ArrayList<String>> kg=new ArrayList<>();
         buffReader.close();
@@ -600,6 +602,7 @@ class Main {
 
             transQuestions.add(singleTrans);
         }
+
 
         //根据处理好的问题生成回答
         String result="";
@@ -825,6 +828,13 @@ class Main {
                             }
                             break;
                     }
+                }
+                //如果逗号之前仅有正式名字，证明什么都没有查到，删除正式名字
+                if (result.substring(result.length()-name.get(0).length()-1,result.length()-1).equals(name.get(0))){
+                    if ((result.length()-name.get(0).length()-1)==0)
+                        result="";
+                    else
+                        result=result.substring(0,result.length()-name.get(0).length()-1);
                 }
                 if (result.substring(result.length()-1,result.length()).equals("，"))
                     result=result.substring(0,result.length()-1)+"。";
@@ -1070,6 +1080,9 @@ class Main {
             }
         }
 
+        if(result.equals("")){
+            result+="我不是太听得懂。。。";
+        }
         System.out.println(result);
     }
 
