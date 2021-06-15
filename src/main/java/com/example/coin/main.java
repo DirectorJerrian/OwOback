@@ -164,13 +164,13 @@ class Main {
         KgServiceImpl kgService=new KgServiceImpl();
         //读取内容
         //第一个知识图谱
-        BufferedReader buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("src\\main\\resources\\kg\\data\\target4.json")));
+        BufferedReader buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("src\\main\\resources\\kg\\data\\target1.json")));
         String strTmp1 = buffReader.readLine();
         ArrayList<ArrayList<String>> kg1_links=new ArrayList<>();
         ArrayList<ArrayList<String>> kg1_nodes=new ArrayList<>();
 
         //第二个知识图谱
-        buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("src\\main\\resources\\kg\\data\\target5.json")));
+        buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("src\\main\\resources\\kg\\data\\target3.json")));
         String strTmp2 = buffReader.readLine();
         ArrayList<ArrayList<String>> kg2_links=new ArrayList<>();
         ArrayList<ArrayList<String>> kg2_nodes=new ArrayList<>();
@@ -375,7 +375,7 @@ class Main {
         String jsonString=jsonContainer.toString();
         System.out.println(jsonString);
 
-        File file=new File("src\\main\\resources\\kg\\data/target.json");
+        File file=new File("src\\main\\resources\\kg\\data/target8.json");
         if (file.exists()){
             file.delete();
         }
@@ -387,9 +387,9 @@ class Main {
     }
 
     public static void getAnswer() throws IOException {
-        String questions="请问什么病与乙型肝炎一起发作";
+        String questions="乙肝的传染性？癫痫传染性怎么样";
         //1 用药
-        String[] drug={"药", "药品", "用药", "胶囊", "口服液", "炎片", "吃什么药", "用什么药", "买什么药",};
+        String[] drug={"药", "药品", "用药", "胶囊", "口服液", "炎片", "吃什么药", "用什么药", "买什么药"};
         //2 发病部位
         String[] part={"发病部位","发病位置","哪里发病","哪里有问题","哪有问题","哪儿发病",
                 "哪里出问题","哪里除了问题","哪里不舒服","哪儿不舒服"};
@@ -828,6 +828,13 @@ class Main {
                             break;
                     }
                 }
+                //如果逗号之前仅有正式名字，证明什么都没有查到，删除正式名字
+                if (result.substring(result.length()-name.get(0).length()-1,result.length()-1).equals(name.get(0))){
+                    if ((result.length()-name.get(0).length()-1)==0)
+                        result="";
+                    else
+                        result=result.substring(0,result.length()-name.get(0).length()-1);
+                }
                 if (result.substring(result.length()-1,result.length()).equals("，"))
                     result=result.substring(0,result.length()-1)+"。";
             }
@@ -1072,6 +1079,9 @@ class Main {
             }
         }
 
+        if(result.equals("")){
+            result+="我不是太听得懂。。。";
+        }
         System.out.println(result);
     }
 

@@ -796,6 +796,13 @@ public class KgServiceImpl implements KgService {
                             break;
                     }
                 }
+                //如果逗号之前仅有正式名字，证明什么都没有查到，删除正式名字
+                if (result.substring(result.length()-name.get(0).length()-1,result.length()-1).equals(name.get(0))){
+                    if ((result.length()-name.get(0).length()-1)==0)
+                        result="";
+                    else
+                        result=result.substring(0,result.length()-name.get(0).length()-1);
+                }
                 if (result.substring(result.length()-1,result.length()).equals("，"))
                     result=result.substring(0,result.length()-1)+"。";
             }
