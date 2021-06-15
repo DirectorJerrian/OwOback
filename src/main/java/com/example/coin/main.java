@@ -603,6 +603,7 @@ class Main {
             transQuestions.add(singleTrans);
         }
 
+
         //根据处理好的问题生成回答
         String result="";
         ArrayList<String> lack=new ArrayList<>();
