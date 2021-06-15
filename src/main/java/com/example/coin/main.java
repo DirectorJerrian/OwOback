@@ -387,7 +387,7 @@ class Main {
     }
 
     public static void getAnswer() throws IOException {
-        String questions="乙肝的传染性？癫痫传染性怎么样";
+        String questions="阳痿的治愈率怎么样？";
         //1 用药
         String[] drug={"药", "药品", "用药", "胶囊", "口服液", "炎片", "吃什么药", "用什么药", "买什么药"};
         //2 发病部位
@@ -420,10 +420,10 @@ class Main {
         //11 治愈率
         String[] rate={"多大概率能治好", "多大几率能治好", "治好希望大么", "几率","概率" ,"几成", "比例",
                 "可能性", "能治", "可治", "可以治", "可以医", "能治好吗", "可以治好吗", "会好吗",
-                "能好吗", "治愈吗"};
+                "能好吗", "治愈吗","治愈率"};
 
         //读取生成知识图谱三元组
-        BufferedReader buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("src\\main\\resources\\kg\\data\\target3.json")));
+        BufferedReader buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("src\\main\\resources\\kg\\data\\target1.json")));
         String strTmp1 = buffReader.readLine();
         ArrayList<ArrayList<String>> kg=new ArrayList<>();
         buffReader.close();
@@ -836,7 +836,7 @@ class Main {
                     else
                         result=result.substring(0,result.length()-name.get(0).length()-1);
                 }
-                if (result.substring(result.length()-1,result.length()).equals("，"))
+                if (result.length()!=0&&result.substring(result.length()-1,result.length()).equals("，"))
                     result=result.substring(0,result.length()-1)+"。";
             }
             //没有主语有关系

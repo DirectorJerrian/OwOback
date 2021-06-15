@@ -376,7 +376,7 @@ public class KgServiceImpl implements KgService {
         //7 检查项目
         String[] check={"检查什么", "检查项目", "哪些检查", "什么检查", "检查哪些", "项目", "检测什么",
                 "哪些检测", "检测哪些", "化验什么", "哪些化验", "化验哪些", "哪些体检", "怎么查找",
-                "如何查找", "怎么检查", "如何检查", "怎么检测", "如何检测"};
+                "如何查找", "怎么检查", "如何检查", "怎么检测", "如何检测","检查啥"};
         //8 症状
         String[] symptom={"什么症状", "哪些症状", "症状有哪些", "症状是什么", "什么表征", "哪些表征", "表征是什么",
                 "什么现象", "哪些现象", "现象有哪些", "症候", "什么表现", "哪些表现", "表现有哪些",
@@ -390,7 +390,7 @@ public class KgServiceImpl implements KgService {
         //11 治愈率
         String[] rate={"多大概率能治好", "多大几率能治好", "治好希望大么", "几率","概率" ,"几成", "比例",
                 "可能性", "能治", "可治", "可以治", "可以医", "能治好吗", "可以治好吗", "会好吗",
-                "能好吗", "治愈吗"};
+                "能好吗", "治愈吗","治愈率"};
 
         //读取生成知识图谱三元组
         String strTmp1 = dataVO.getDataString();
@@ -803,7 +803,7 @@ public class KgServiceImpl implements KgService {
                     else
                         result=result.substring(0,result.length()-name.get(0).length()-1);
                 }
-                if (result.substring(result.length()-1,result.length()).equals("，"))
+                if (result.length()!=0&&result.substring(result.length()-1,result.length()).equals("，"))
                     result=result.substring(0,result.length()-1)+"。";
             }
             //没有主语有关系
