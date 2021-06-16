@@ -21,19 +21,21 @@ class Main {
     }
     //生成知识图谱
     public static void getKg() {
+        String str2="抑郁症又叫忧郁症，是一种脑部精神疾病，并发症有焦虑、失眠和精神失常，需要心理疏导和药物治疗。";
         Process proc;
         boolean change=false;
         int numOfNodes=0;
         int numOfLinks=0;
         JsonObject jsonContainer=new JsonObject();
-        jsonContainer.addProperty("title","知识图谱6");
+        jsonContainer.addProperty("title","知识图谱9");
         JsonArray nodes=new JsonArray();
         JsonArray links=new JsonArray();
         try {
-//            proc = Runtime.getRuntime().exec("src\\main\\resources\\kg\\dist/main.exe "+str2);
+            proc = Runtime.getRuntime().exec("src\\main\\resources\\kg\\dist\\extraction.exe "+str2);
 //            proc = Runtime.getRuntime().exec("python36 src\\main\\resources\\kg\\main.py "+str2);
-            proc = Runtime.getRuntime().exec("python36 src\\main\\resources\\kg\\makeKnowledge.py");
-            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream(),"GBK"));
+            //proc = Runtime.getRuntime().exec("python36 src\\main\\resources\\kg\\makeKnowledge.py");
+            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream(),"utf-8"));
+            //BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream(),"GBK"));
             String line = null;
             Random r=new Random(1);
             while ((line = in.readLine()) != null) {
@@ -134,7 +136,7 @@ class Main {
             System.out.println(jsonContainer);
             //输出json文件
             String jsonString=jsonContainer.toString();
-            File file=new File("src\\main\\resources\\kg\\data/target6.json");
+            File file=new File("src\\main\\resources\\kg\\data/target9.json");
             if (file.exists()){
                 file.delete();
             }

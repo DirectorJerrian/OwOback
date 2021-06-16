@@ -52,11 +52,10 @@ public class KgServiceImpl implements KgService {
         JsonArray nodes=new JsonArray();
         JsonArray links=new JsonArray();
         try {
-//            proc = Runtime.getRuntime().exec("src\\main\\resources\\kg\\dist/main.exe "+file);
-            proc = Runtime.getRuntime().exec("./kg/main "+file);
-            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-            BufferedReader test = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
-            System.out.println(test.read());
+            proc = Runtime.getRuntime().exec("src\\main\\resources\\kg\\dist\\extraction.exe "+file);
+//            proc = Runtime.getRuntime().exec("python36 src\\main\\resources\\kg\\main.py "+str2);
+            //proc = Runtime.getRuntime().exec("python36 src\\main\\resources\\kg\\makeKnowledge.py");
+            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream(),"utf-8"));
             String line = null;
             Random r=new Random(1);
             while ((line = in.readLine()) != null) {
@@ -67,27 +66,73 @@ public class KgServiceImpl implements KgService {
                 if (!change){
                     numOfNodes++;
                     JsonObject node=new JsonObject();
-                    node.addProperty("name",line);
+                    String[] object=line.split(" ");
+                    node.addProperty("name",object[1]);
                     node.addProperty("des","nodedes"+numOfNodes);
-                    int ran_symbol=r.nextInt(100);
-                    if (ran_symbol<25)
-                        node.addProperty("symbol","circle");
-                    else if (ran_symbol<50)
-                        node.addProperty("symbol","triangle");
-                    else if (ran_symbol<75)
-                        node.addProperty("symbol","rectangle");
-                    else
-                        node.addProperty("symbol","diamond");
-                    node.addProperty("symbolSize",30);
-                    node.addProperty("type","highlight");
+
+                    JsonObject frontSize=new JsonObject();
+                    if (object[0].equals("0")) {
+                        node.addProperty("symbol", "circle");
+                        node.addProperty("symbolSize",40);
+                        node.addProperty("type","highlight");
+                        frontSize.addProperty("frontSize",15);
+                    }
+                    else if (object[0].equals("2")||object[0].equals("6")||object[0].equals("9")) {
+                        node.addProperty("symbol", "triangle");
+                        node.addProperty("symbolSize",30);
+                        frontSize.addProperty("frontSize",12);
+                    }
+                    else if (object[0].equals("1")||object[0].equals("3")||object[0].equals("5")||object[0].equals("7")||object[0].equals("8")) {
+                        node.addProperty("symbol", "rectangle");
+                        node.addProperty("symbolSize",30);
+                        frontSize.addProperty("frontSize",12);
+                    }
+                    else {
+                        node.addProperty("symbol", "diamond");
+                        node.addProperty("symbolSize",30);
+                        frontSize.addProperty("frontSize",12);
+                    }
                     JsonObject color=new JsonObject();
                     node.add("itemStyle",color);
-                    JsonObject frontSize=new JsonObject();
-                    frontSize.addProperty("frontSize",12);
-                    node.add("label",frontSize);
-                    int ran_Category=r.nextInt(6);
-                    node.addProperty("category",ran_Category);
 
+
+                    node.add("label",frontSize);
+                    if (object[0].equals("0")) {
+                        node.addProperty("category",0);
+                    }
+                    else if (object[0].equals("1")) {
+                        node.addProperty("category",1);
+                    }
+                    else if (object[0].equals("2")) {
+                        node.addProperty("category",2);
+                    }
+                    else if (object[0].equals("3")) {
+                        node.addProperty("category",3);
+                    }
+                    else if (object[0].equals("4")) {
+                        node.addProperty("category",4);
+                    }
+                    else if (object[0].equals("5")) {
+                        node.addProperty("category",5);
+                    }
+                    else if (object[0].equals("6")) {
+                        node.addProperty("category",6);
+                    }
+                    else if (object[0].equals("7")) {
+                        node.addProperty("category",7);
+                    }
+                    else if (object[0].equals("8")) {
+                        node.addProperty("category",8);
+                    }
+                    else if (object[0].equals("9")) {
+                        node.addProperty("category",9);
+                    }
+                    else if (object[0].equals("10")) {
+                        node.addProperty("category",10);
+                    }
+                    else {
+                        node.addProperty("category",11);
+                    }
                     nodes.add(node);
                 }
                 else{
