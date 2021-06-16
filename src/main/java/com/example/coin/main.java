@@ -17,7 +17,7 @@ class Main {
     public static ArrayList<ArrayList<String>> dic=new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
-        getAnswer();
+        getKg();
     }
     //生成知识图谱
     public static void getKg() {
@@ -118,9 +118,9 @@ class Main {
                     numOfLinks++;
                     JsonObject link=new JsonObject();
                     String[] object=line.split(" ");
-                    link.addProperty("source",object[1]);
-                    link.addProperty("target",object[2]);
-                    link.addProperty("name",object[3]);
+                    link.addProperty("source",object[0]);
+                    link.addProperty("target",object[1]);
+                    link.addProperty("name",object[2]);
                     link.addProperty("des","link"+numOfLinks+"des");
 
                     links.add(link);
