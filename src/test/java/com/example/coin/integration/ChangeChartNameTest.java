@@ -12,7 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @RunWith(SpringRunner.class)
-public class ChangeChartName {
+public class ChangeChartNameTest {
     private static ChromeDriver browser;
     @BeforeClass
     public static void before(){
@@ -27,7 +27,7 @@ public class ChangeChartName {
     }
 
     @Test
-    public void changeChartName(){
+    public void changeChartNameTest(){
         String afterChangeName="afterChangeName";
         browser.findElement(By.xpath("//*[@id=\"chartList\"]/div/div[2]/div/div/div/button[1]")).click();
         browser.findElement(By.xpath("//*[@id=\"sideMenu\"]/ul/li[3]/div")).click();
