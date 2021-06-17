@@ -27,12 +27,9 @@ public class BrowseChartListTest {
     }
 
 
-
-
-
     @Test
     public void browseChartListTest(){
-        Assert.assertEquals("知识图谱",browser.findElement(By.xpath("//*[@id=\"chartList\"]/div/div[1]/div/div/span")).getText());
+        Assert.assertEquals("知识图谱01",browser.findElement(By.xpath("//*[@id=\"chartList\"]/div/div[1]/div/div/span")).getText());
         Assert.assertEquals("01",browser.findElement(By.xpath("//*[@id=\"chartList\"]/div/div[2]/div/div/span")).getText());
         Assert.assertEquals("02",browser.findElement(By.xpath("//*[@id=\"chartList\"]/div/div[3]/div/div/span")).getText());
         Assert.assertEquals("知识图谱",browser.findElement(By.xpath("//*[@id=\"chartList\"]/div/div[4]/div/div/span")).getText());
