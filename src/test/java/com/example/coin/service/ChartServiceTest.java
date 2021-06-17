@@ -44,7 +44,7 @@ public class ChartServiceTest {
     public void saveChartTest1(){
         Chart chart=new Chart();
         Mockito.when(chartMapper.addChart(chart)).thenReturn(1);
-        MultipartFile[] multipartFiles=new MultipartFile[2];
+        //MultipartFile[] multipartFiles=new MultipartFile[2];
         ResponseVO responseVO= chartServiceImpl.saveChart(0,new MultipartFile[1]);
         String res=responseVO.getRes();
         Assert.assertEquals(res,"failure");
