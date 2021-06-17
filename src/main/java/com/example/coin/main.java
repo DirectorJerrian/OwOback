@@ -7,11 +7,7 @@ import com.example.coin.serviceImpl.KgServiceImpl;
 import java.util.Collections;
 import java.util.Random;
 
-import com.example.coin.service.KgService;
 import com.google.gson.*;
-import com.google.gson.stream.JsonReader;
-import org.apache.commons.io.FileUtils;
-import org.springframework.stereotype.Service;
 
 class Main {
     public static ArrayList<ArrayList<String>> dic=new ArrayList<>();
