@@ -52,11 +52,10 @@ public class KgServiceImpl implements KgService {
         JsonArray nodes=new JsonArray();
         JsonArray links=new JsonArray();
         try {
-//            proc = Runtime.getRuntime().exec("src\\main\\resources\\kg\\dist/main.exe "+file);
-            proc = Runtime.getRuntime().exec("./kg/main "+file);
-            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
-            BufferedReader test = new BufferedReader(new InputStreamReader(proc.getErrorStream()));
-            System.out.println(test.read());
+            proc = Runtime.getRuntime().exec("src\\main\\resources\\kg\\dist\\extraction.exe "+file);
+//            proc = Runtime.getRuntime().exec("python36 src\\main\\resources\\kg\\main.py "+str2);
+            //proc = Runtime.getRuntime().exec("python36 src\\main\\resources\\kg\\makeKnowledge.py");
+            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream(),"utf-8"));
             String line = null;
             Random r=new Random(1);
             while ((line = in.readLine()) != null) {
@@ -67,27 +66,73 @@ public class KgServiceImpl implements KgService {
                 if (!change){
                     numOfNodes++;
                     JsonObject node=new JsonObject();
-                    node.addProperty("name",line);
+                    String[] object=line.split(" ");
+                    node.addProperty("name",object[1]);
                     node.addProperty("des","nodedes"+numOfNodes);
-                    int ran_symbol=r.nextInt(100);
-                    if (ran_symbol<25)
-                        node.addProperty("symbol","circle");
-                    else if (ran_symbol<50)
-                        node.addProperty("symbol","triangle");
-                    else if (ran_symbol<75)
-                        node.addProperty("symbol","rectangle");
-                    else
-                        node.addProperty("symbol","diamond");
-                    node.addProperty("symbolSize",30);
-                    node.addProperty("type","highlight");
+
+                    JsonObject frontSize=new JsonObject();
+                    if (object[0].equals("0")) {
+                        node.addProperty("symbol", "circle");
+                        node.addProperty("symbolSize",40);
+                        node.addProperty("type","highlight");
+                        frontSize.addProperty("frontSize",15);
+                    }
+                    else if (object[0].equals("2")||object[0].equals("6")||object[0].equals("9")) {
+                        node.addProperty("symbol", "triangle");
+                        node.addProperty("symbolSize",30);
+                        frontSize.addProperty("frontSize",12);
+                    }
+                    else if (object[0].equals("1")||object[0].equals("3")||object[0].equals("5")||object[0].equals("7")||object[0].equals("8")) {
+                        node.addProperty("symbol", "rectangle");
+                        node.addProperty("symbolSize",30);
+                        frontSize.addProperty("frontSize",12);
+                    }
+                    else {
+                        node.addProperty("symbol", "diamond");
+                        node.addProperty("symbolSize",30);
+                        frontSize.addProperty("frontSize",12);
+                    }
                     JsonObject color=new JsonObject();
                     node.add("itemStyle",color);
-                    JsonObject frontSize=new JsonObject();
-                    frontSize.addProperty("frontSize",12);
-                    node.add("label",frontSize);
-                    int ran_Category=r.nextInt(6);
-                    node.addProperty("category",ran_Category);
 
+
+                    node.add("label",frontSize);
+                    if (object[0].equals("0")) {
+                        node.addProperty("category",0);
+                    }
+                    else if (object[0].equals("1")) {
+                        node.addProperty("category",1);
+                    }
+                    else if (object[0].equals("2")) {
+                        node.addProperty("category",2);
+                    }
+                    else if (object[0].equals("3")) {
+                        node.addProperty("category",3);
+                    }
+                    else if (object[0].equals("4")) {
+                        node.addProperty("category",4);
+                    }
+                    else if (object[0].equals("5")) {
+                        node.addProperty("category",5);
+                    }
+                    else if (object[0].equals("6")) {
+                        node.addProperty("category",6);
+                    }
+                    else if (object[0].equals("7")) {
+                        node.addProperty("category",7);
+                    }
+                    else if (object[0].equals("8")) {
+                        node.addProperty("category",8);
+                    }
+                    else if (object[0].equals("9")) {
+                        node.addProperty("category",9);
+                    }
+                    else if (object[0].equals("10")) {
+                        node.addProperty("category",10);
+                    }
+                    else {
+                        node.addProperty("category",11);
+                    }
                     nodes.add(node);
                 }
                 else{
@@ -376,7 +421,7 @@ public class KgServiceImpl implements KgService {
         //7 检查项目
         String[] check={"检查什么", "检查项目", "哪些检查", "什么检查", "检查哪些", "项目", "检测什么",
                 "哪些检测", "检测哪些", "化验什么", "哪些化验", "化验哪些", "哪些体检", "怎么查找",
-                "如何查找", "怎么检查", "如何检查", "怎么检测", "如何检测"};
+                "如何查找", "怎么检查", "如何检查", "怎么检测", "如何检测","检查啥"};
         //8 症状
         String[] symptom={"什么症状", "哪些症状", "症状有哪些", "症状是什么", "什么表征", "哪些表征", "表征是什么",
                 "什么现象", "哪些现象", "现象有哪些", "症候", "什么表现", "哪些表现", "表现有哪些",
@@ -390,7 +435,7 @@ public class KgServiceImpl implements KgService {
         //11 治愈率
         String[] rate={"多大概率能治好", "多大几率能治好", "治好希望大么", "几率","概率" ,"几成", "比例",
                 "可能性", "能治", "可治", "可以治", "可以医", "能治好吗", "可以治好吗", "会好吗",
-                "能好吗", "治愈吗"};
+                "能好吗", "治愈吗","治愈率"};
 
         //读取生成知识图谱三元组
         String strTmp1 = dataVO.getDataString();
@@ -803,7 +848,7 @@ public class KgServiceImpl implements KgService {
                     else
                         result=result.substring(0,result.length()-name.get(0).length()-1);
                 }
-                if (result.substring(result.length()-1,result.length()).equals("，"))
+                if (result.length()!=0&&result.substring(result.length()-1,result.length()).equals("，"))
                     result=result.substring(0,result.length()-1)+"。";
             }
             //没有主语有关系

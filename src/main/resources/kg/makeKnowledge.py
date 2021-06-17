@@ -576,4 +576,4 @@ for i in range(len(array1)-1):
 
 print("links")
 for i in range(index2):
-    print(str(array2[i][0]) + " " + str(array2[i][1]) + " " + str(array2[i][2]) + " " + str(array2[i][3]))
+    print(str(array2[i][1]) + " " + str(array2[i][2]) + " " + str(array2[i][3]))

@@ -17,23 +17,25 @@ class Main {
     public static ArrayList<ArrayList<String>> dic=new ArrayList<>();
 
     public static void main(String[] args) throws IOException {
-        getAnswer();
+        getKg();
     }
     //生成知识图谱
     public static void getKg() {
+        String str2="抑郁症又叫忧郁症，是一种脑部精神疾病，并发症有焦虑、失眠和精神失常，需要心理疏导和药物治疗。";
         Process proc;
         boolean change=false;
         int numOfNodes=0;
         int numOfLinks=0;
         JsonObject jsonContainer=new JsonObject();
-        jsonContainer.addProperty("title","知识图谱6");
+        jsonContainer.addProperty("title","知识图谱9");
         JsonArray nodes=new JsonArray();
         JsonArray links=new JsonArray();
         try {
-//            proc = Runtime.getRuntime().exec("src\\main\\resources\\kg\\dist/main.exe "+str2);
+            proc = Runtime.getRuntime().exec("src\\main\\resources\\kg\\dist\\extraction.exe "+str2);
 //            proc = Runtime.getRuntime().exec("python36 src\\main\\resources\\kg\\main.py "+str2);
-            proc = Runtime.getRuntime().exec("python36 src\\main\\resources\\kg\\makeKnowledge.py");
-            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream(),"GBK"));
+            //proc = Runtime.getRuntime().exec("python36 src\\main\\resources\\kg\\makeKnowledge.py");
+            BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream(),"utf-8"));
+            //BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream(),"GBK"));
             String line = null;
             Random r=new Random(1);
             while ((line = in.readLine()) != null) {
@@ -118,9 +120,9 @@ class Main {
                     numOfLinks++;
                     JsonObject link=new JsonObject();
                     String[] object=line.split(" ");
-                    link.addProperty("source",object[1]);
-                    link.addProperty("target",object[2]);
-                    link.addProperty("name",object[3]);
+                    link.addProperty("source",object[0]);
+                    link.addProperty("target",object[1]);
+                    link.addProperty("name",object[2]);
                     link.addProperty("des","link"+numOfLinks+"des");
 
                     links.add(link);
@@ -134,7 +136,7 @@ class Main {
             System.out.println(jsonContainer);
             //输出json文件
             String jsonString=jsonContainer.toString();
-            File file=new File("src\\main\\resources\\kg\\data/target6.json");
+            File file=new File("src\\main\\resources\\kg\\data/target9.json");
             if (file.exists()){
                 file.delete();
             }
@@ -387,7 +389,7 @@ class Main {
     }
 
     public static void getAnswer() throws IOException {
-        String questions="乙肝的传染性？癫痫传染性怎么样";
+        String questions="阳痿的治愈率怎么样？";
         //1 用药
         String[] drug={"药", "药品", "用药", "胶囊", "口服液", "炎片", "吃什么药", "用什么药", "买什么药"};
         //2 发病部位
@@ -420,10 +422,10 @@ class Main {
         //11 治愈率
         String[] rate={"多大概率能治好", "多大几率能治好", "治好希望大么", "几率","概率" ,"几成", "比例",
                 "可能性", "能治", "可治", "可以治", "可以医", "能治好吗", "可以治好吗", "会好吗",
-                "能好吗", "治愈吗"};
+                "能好吗", "治愈吗","治愈率"};
 
         //读取生成知识图谱三元组
-        BufferedReader buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("src\\main\\resources\\kg\\data\\target3.json")));
+        BufferedReader buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("src\\main\\resources\\kg\\data\\target1.json")));
         String strTmp1 = buffReader.readLine();
         ArrayList<ArrayList<String>> kg=new ArrayList<>();
         buffReader.close();
@@ -836,7 +838,7 @@ class Main {
                     else
                         result=result.substring(0,result.length()-name.get(0).length()-1);
                 }
-                if (result.substring(result.length()-1,result.length()).equals("，"))
+                if (result.length()!=0&&result.substring(result.length()-1,result.length()).equals("，"))
                     result=result.substring(0,result.length()-1)+"。";
             }
             //没有主语有关系
