@@ -20,7 +20,7 @@ public class Configuration {
         System.setProperty("webdriver.chrome.driver",driverUrl);
         browser=new ChromeDriver();
         browser.manage().deleteAllCookies();
-        browser.manage().timeouts().implicitlyWait(100, TimeUnit.SECONDS);
+        browser.manage().timeouts().implicitlyWait(2000, TimeUnit.SECONDS);
         login();
     }
 

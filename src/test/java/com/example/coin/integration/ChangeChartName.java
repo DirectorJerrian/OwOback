@@ -32,6 +32,7 @@ public class ChangeChartName {
         browser.findElement(By.xpath("//*[@id=\"chartList\"]/div/div[2]/div/div/div/button[1]")).click();
         browser.findElement(By.xpath("//*[@id=\"sideMenu\"]/ul/li[3]/div")).click();
         browser.findElement(By.xpath("//*[@id=\"sideMenu\"]/ul/li[3]/ul/li/ul/li[1]")).click();
+        browser.findElement(By.xpath("//*[@id=\"chartNameChange\"]/div/div/div[2]/div/input")).clear();
         browser.findElement(By.xpath("//*[@id=\"chartNameChange\"]/div/div/div[2]/div/input")).sendKeys(afterChangeName);
         browser.findElement(By.xpath("//*[@id=\"chartNameChange\"]/div/div/div[3]/span/button[1]")).click();
         browser.findElement(By.xpath("//*[@id=\"sideMenu\"]/ul/li[3]/ul/li/ul/li[1]")).click();

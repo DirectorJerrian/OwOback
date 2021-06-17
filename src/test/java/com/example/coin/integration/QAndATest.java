@@ -8,13 +8,11 @@ import org.junit.runner.RunWith;
 import org.openqa.selenium.By;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.DEFINED_PORT)
 @RunWith(SpringRunner.class)
-public class DeleteChartTest {
+public class QAndATest {
     private static ChromeDriver browser;
     @BeforeClass
     public static void before(){
@@ -27,15 +25,14 @@ public class DeleteChartTest {
     public static void after(){
         Configuration.closeBrowser();
     }
-
     @Test
-    @Transactional
-    @Rollback
-    public void deleteChartTest() throws InterruptedException {
-        browser.findElement(By.xpath("//*[@id=\"chartList\"]/div/div[5]/div/div/div/button[2]")).click();
-        browser.findElement(By.xpath("/html/body/div[2]/div/div[3]/button[2]")).click();
-        Thread.sleep(1000);
-        String nextChartName=browser.findElement(By.xpath("//*[@id=\"chartList\"]/div/div[5]/div/div/span")).getText();
-        Assert.assertEquals("知识图谱03",nextChartName);
+    public void qAndATest(){
+        String expectedAnswer="乙肝，发病人群有所有人群、青少年。";
+        browser.findElement(By.xpath("//*[@id=\"chartList\"]/div/div[2]/div/div/div/button[1]")).click();
+        browser.findElement(By.xpath("//*[@id=\"chatBox\"]/div/div/div[1]")).click();
+        browser.findElement(By.xpath("//*[@id=\"chatBox\"]/div/div/div[2]/div[3]/form/div[1]")).sendKeys("乙肝的发病人群");
+        browser.findElement(By.xpath("//*[@id=\"chatBox\"]/div/div/div[2]/div[3]/form/div[2]/div[2]")).click();
+        String answer=browser.findElement(By.xpath("//*[@id=\"chatBox\"]/div/div/div[2]/div[2]/div[3]/div/div[2]/p")).getText();
+        Assert.assertEquals(expectedAnswer,answer);
     }
 }
