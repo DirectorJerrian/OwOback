@@ -7,11 +7,7 @@ import com.example.coin.serviceImpl.KgServiceImpl;
 import java.util.Collections;
 import java.util.Random;
 
-import com.example.coin.service.KgService;
 import com.google.gson.*;
-import com.google.gson.stream.JsonReader;
-import org.apache.commons.io.FileUtils;
-import org.springframework.stereotype.Service;
 
 class Main {
     public static ArrayList<ArrayList<String>> dic=new ArrayList<>();
@@ -32,8 +28,6 @@ class Main {
         JsonArray links=new JsonArray();
         try {
             proc = Runtime.getRuntime().exec("src\\main\\resources\\kg\\dist\\extraction.exe "+str2);
-//            proc = Runtime.getRuntime().exec("python36 src\\main\\resources\\kg\\main.py "+str2);
-            //proc = Runtime.getRuntime().exec("python36 src\\main\\resources\\kg\\makeKnowledge.py");
             BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream(),"utf-8"));
             //BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream(),"GBK"));
             String line = null;
