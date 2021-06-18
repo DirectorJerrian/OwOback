@@ -20,7 +20,7 @@ public class KgServiceImpl implements KgService {
     public ResponseVO getExample(DataVO dataVO) {
         String jsonStr = "";
         try {
-            File jsonFile = new File("src\\main\\resources\\kg/target.json");
+            File jsonFile = new File("/root/backendData/target.json");
             FileReader fileReader = new FileReader(jsonFile);
             Reader reader = new InputStreamReader(new FileInputStream(jsonFile), "utf-8");
             int ch = 0;
@@ -52,7 +52,7 @@ public class KgServiceImpl implements KgService {
         JsonArray nodes=new JsonArray();
         JsonArray links=new JsonArray();
         try {
-            proc = Runtime.getRuntime().exec("src\\main\\resources\\kg\\dist\\extraction.exe "+file);
+            proc = Runtime.getRuntime().exec("/root/backendData/extraction "+file);
             BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream(),"utf-8"));
             String line = null;
             Random r=new Random(1);
@@ -166,7 +166,7 @@ public class KgServiceImpl implements KgService {
     public Boolean fuse(String a,String b) throws IOException {
         //如果dic为空，加载字典
         if(dic.size()==0) {
-            BufferedReader buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("src\\main\\resources\\kg\\data\\similarDic.txt")));
+            BufferedReader buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("/root/backendData/similarDic.txt")));
             String strTmp = "";
             while ((strTmp = buffReader.readLine()) != null) {
                 String [] strTmpList=strTmp.split(" ");
@@ -454,7 +454,7 @@ public class KgServiceImpl implements KgService {
 
         //读取生成字典
         if(dic.size()==0) {
-            BufferedReader buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("src\\main\\resources\\kg\\data\\similarDic.txt")));
+            BufferedReader buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("/root/backendData/similarDic.txt")));
             String strTmp = "";
             while ((strTmp = buffReader.readLine()) != null) {
                 String [] strTmpList=strTmp.split(" ");
