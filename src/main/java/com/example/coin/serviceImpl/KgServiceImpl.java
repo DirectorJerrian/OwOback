@@ -187,6 +187,18 @@ public class KgServiceImpl implements KgService {
     //读取知识图谱三元组，融合后返回json字符串
     public ResponseVO getFusion(DataVO dataVO) throws IOException {
 
+        //读取生成字典
+        if(dic.size()==0) {
+            BufferedReader buffReader = new BufferedReader(new InputStreamReader(new FileInputStream("/root/backendData/similarDic.txt")));
+            String strTmp = "";
+            while ((strTmp = buffReader.readLine()) != null) {
+                String [] strTmpList=strTmp.split(" ");
+                ArrayList<String> temp=new ArrayList<>();
+                Collections.addAll(temp,strTmpList);
+                dic.add(temp);
+            }
+        }
+
         //读取内容
         //第一个知识图谱
         String strTmp1 = dataVO.getDataString();
