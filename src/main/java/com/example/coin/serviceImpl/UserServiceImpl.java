@@ -110,6 +110,7 @@ public class UserServiceImpl implements UserService {
                 return ResponseVO.failure("same name");
             }else {
                 userMapper.update(user);
+                user = getUserInfo(userVO.getEmail());
                 return ResponseVO.success(user);
             }
 
@@ -130,6 +131,7 @@ public class UserServiceImpl implements UserService {
                 return ResponseVO.failure("same password");
             }else {
                 userMapper.update(user);
+                user = getUserInfo(userVO.getEmail());
                 return ResponseVO.success(user);
             }
 
