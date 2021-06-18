@@ -99,6 +99,46 @@ public class UserServiceImpl implements UserService {
         return ResponseVO.success(user);
     }
 
+    public ResponseVO modifyName(UserVO userVO){
+        if (userVO==null){
+            return ResponseVO.failure("source is null");
+        }
+        User user = UserConverter.INSTANCE.v2p(userVO);
+        try {
+            User preUser = getUserInfo(userVO.getEmail());
+            if (preUser.getUsername().equals(userVO.getUsername())){
+                return ResponseVO.failure("same name");
+            }else {
+                userMapper.update(user);
+                return ResponseVO.success(user);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.failure("modify failure");
+        }
+    }
+
+    public ResponseVO modifyPassword(UserVO userVO){
+        if (userVO==null){
+            return ResponseVO.failure("source is null");
+        }
+        User user = UserConverter.INSTANCE.v2p(userVO);
+        try {
+            User preUser = getUserInfo(userVO.getEmail());
+            if (preUser.getPassword().equals(userVO.getPassword())){
+                return ResponseVO.failure("same password");
+            }else {
+                userMapper.update(user);
+                return ResponseVO.success(user);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseVO.failure("modify failure");
+        }
+    }
+
     public ResponseVO verifyPwd(LoginVO loginVO) {
         if (loginVO==null){
             return ResponseVO.failure("source is null");
