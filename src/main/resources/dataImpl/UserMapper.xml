@@ -20,5 +20,8 @@
         insert into user(username, password, email)
                values(#{username}, #{password}, #{email})
     </insert>
+    <insert id="update" parameterType="com.example.coin.po.User" useGeneratedKeys="true" keyProperty="id">
+        update user set username=#{username}, password=#{password}, email=#{email} where email=#{email}
+    </insert>
 
 </mapper>

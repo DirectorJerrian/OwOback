@@ -45,4 +45,16 @@ public class UserController {
         }
         return ResponseVO.success(user);
     }
+
+    @PostMapping("/modifyName")
+    @ResponseBody
+    public ResponseVO modifyName(@RequestBody UserVO userVO) {
+        return userService.modifyName(userVO);
+    }
+
+    @PostMapping("/updatePassword")
+    @ResponseBody
+    public ResponseVO updatePassword(@RequestBody UserVO userVO) {
+        return userService.modifyPassword(userVO);
+    }
 }
